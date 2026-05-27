@@ -56,13 +56,14 @@ body{cursor:none;}
 #cur-label{position:fixed;top:0;left:0;pointer-events:none;z-index:99999;font-family:var(--f);font-size:15px;font-weight:500;color:#fff;opacity:0;transform:translate(-50%,-50%);white-space:nowrap;background:#2E4689;border-radius:100px;padding:6px 14px;line-height:1;}
 #cur.pill ~ #cur-label,#cur.copied ~ #cur-label{opacity:1;} #cur.pill,#cur.copied{opacity:0;}
 
-#pg-frame{position:fixed;inset:0;z-index:50;border:none;width:100%;height:100%;opacity:0;pointer-events:none;transition:opacity 0.3s;}
-#pg-frame.visible{opacity:1;pointer-events:all;}
+#pg-frame,#about-frame{position:fixed;top:calc(2.96vh + clamp(18px,1.25vw,24px) + 16px);left:0;right:0;bottom:0;z-index:50;border:none;width:100%;height:100%;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+#pg-frame.visible,#about-frame.visible{opacity:1;pointer-events:all;}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 </head>
 <body>
-<iframe id="pg-frame" src="playground for v5.html"></iframe><div id="cur"></div><span id="cur-label"></span><div id="anim-overlay"></div>
+<iframe id="pg-frame" src="playground for v5.html"></iframe>
+<iframe id="about-frame" src="about.html" style="position:fixed;top:calc(2.96vh + clamp(18px,1.25vw,24px) + 16px);left:0;right:0;bottom:0;z-index:50;border:none;width:100%;height:100%;opacity:0;pointer-events:none;transition:opacity 0.3s;"></iframe><div id="cur"></div><span id="cur-label"></span><div id="anim-overlay"></div>
 <svg style="position:absolute;width:0;height:0;">
   <defs>
     <filter id="goo" x="-50%" y="-50%" width="200%" height="200%">
@@ -92,7 +93,7 @@ body{cursor:none;}
   <a class="nav-logo" href="#" id="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Sixian Chen</a>
   <div class="nav-links">
     <a href="https://drive.google.com/file/d/1cgW7ovfP7m9MkWgwG5d24OVGbs0Zml-Y/view?usp=sharing" target="_blank">Resume</a>
-    <a href="about.html">About</a>
+    <a href="#" id="about-link">About</a>
     <a href="#">Playground</a>
   </div>
 </nav>
@@ -321,22 +322,54 @@ document.addEventListener('click', async e=>{
   }
 
   // Playground nav link
+  const aboutFrame = document.getElementById('about-frame');
+  let aboutOpen = false;
+
+  function openAbout(){
+    aboutOpen = true;
+    aboutFrame.style.opacity='1';
+    aboutFrame.style.pointerEvents='all';
+    mainEl.style.opacity='0';
+    mainEl.style.pointerEvents='none';
+    pnav.style.opacity='0';
+  }
+  function closeAbout(){
+    aboutOpen = false;
+    aboutFrame.style.opacity='0';
+    aboutFrame.style.pointerEvents='none';
+    mainEl.style.opacity='1';
+    mainEl.style.pointerEvents='';
+    pnav.style.opacity='1';
+  }
+
   document.querySelectorAll('.nav-links a').forEach(a => {
     if(a.textContent.trim() === 'Playground'){
       a.href = '#';
       a.addEventListener('click', e => {
         e.preventDefault();
+        if(aboutOpen) closeAbout();
         if(!pgOpen) openPG();
       });
     }
-    if(a.textContent.trim() === 'Resume' || a.textContent.trim() === 'About'){
-      a.addEventListener('click', () => { if(pgOpen) closePG(); });
+    if(a.id === 'about-link'){
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        if(pgOpen) closePG();
+        if(!aboutOpen) openAbout();
+      });
+    }
+    if(a.textContent.trim() === 'Resume'){
+      a.addEventListener('click', () => {
+        if(pgOpen) closePG();
+        if(aboutOpen) closeAbout();
+      });
     }
   });
 
   // Sixian Chen logo also closes PG
   document.getElementById('nav-logo').addEventListener('click', () => {
     if(pgOpen) closePG();
+    if(aboutOpen) closeAbout();
   });
 })();
 </script>
@@ -344,5 +377,16 @@ document.addEventListener('click', async e=>{
 const lenis = new Lenis({duration:1.2,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t))});
 function raf(time){lenis.raf(time);requestAnimationFrame(raf);}
 requestAnimationFrame(raf);
+</script><script>
+if(window.location.hash === '#playground'){
+  window.addEventListener('load', ()=> {
+    setTimeout(()=>{
+      document.getElementById('pg-frame').classList.add('visible');
+      document.querySelector('main').style.opacity='0';
+      document.querySelector('main').style.pointerEvents='none';
+      document.getElementById('pnav').style.opacity='0';
+    }, 1700);
+  });
+}
 </script></body>
 </html>
