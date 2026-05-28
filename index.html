@@ -13,6 +13,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500&display=swap" rel="stylesheet">
 <style>
+  iframe{scrollbar-width:none;}
+  iframe::-webkit-scrollbar{display:none;}
+  html,body{scrollbar-width:none;}
+html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;}
+body{overflow-y:scroll;}
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{--f:"Manrope",sans-serif;--w:760px;--p:max(40px,calc((100vw - var(--w))/2));}
 body{font-family:var(--f);background:#fff;color:#2E4689;-webkit-font-smoothing:antialiased;}
@@ -29,7 +34,7 @@ main{padding:calc(2.96vh + clamp(18px,1.25vw,24px) + 96px) var(--p) 120px;}
 .proj{display:flex;align-items:flex-start;gap:24px;}
 .num{flex-shrink:0;padding-top:6px;}
 .body{flex:1;min-width:0;}
-.img{width:100%;aspect-ratio:16/9;background:#E8E8E8;border-radius:8px;}
+.img{width:100%;aspect-ratio:16/9;background:#E8E8E8;border-radius:8px;overflow:hidden;}
 .meta{margin-top:16px;}
 .title{font-size:16px;font-weight:500;line-height:1.5;letter-spacing:-0.01em;}
 .sub{font-size:15px;font-weight:400;line-height:1.5;color:rgba(46,70,137,.4);margin-top:2px;}
@@ -56,14 +61,15 @@ body{cursor:none;}
 #cur-label{position:fixed;top:0;left:0;pointer-events:none;z-index:99999;font-family:var(--f);font-size:15px;font-weight:500;color:#fff;opacity:0;transform:translate(-50%,-50%);white-space:nowrap;background:#2E4689;border-radius:100px;padding:6px 14px;line-height:1;}
 #cur.pill ~ #cur-label,#cur.copied ~ #cur-label{opacity:1;} #cur.pill,#cur.copied{opacity:0;}
 
-#pg-frame,#about-frame{position:fixed;top:calc(2.96vh + clamp(18px,1.25vw,24px) + 16px);left:0;right:0;bottom:0;z-index:50;border:none;width:100%;height:100%;opacity:0;pointer-events:none;transition:opacity 0.3s;}
-#pg-frame.visible,#about-frame.visible{opacity:1;pointer-events:all;}
+#pg-frame,#about-frame,#aes-frame,#adobe-frame{position:fixed;top:calc(2.96vh + clamp(18px,1.25vw,24px) + 16px);left:0;right:0;bottom:0;z-index:50;border:none;width:100%;height:100%;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+#pg-frame.visible,#about-frame.visible,#aes-frame.visible,#adobe-frame.visible{opacity:1;pointer-events:all;}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 </head>
 <body>
 <iframe id="pg-frame" src="playground for v5.html"></iframe>
-<iframe id="about-frame" src="about.html" style="position:fixed;top:calc(2.96vh + clamp(18px,1.25vw,24px) + 16px);left:0;right:0;bottom:0;z-index:50;border:none;width:100%;height:100%;opacity:0;pointer-events:none;transition:opacity 0.3s;"></iframe><div id="cur"></div><span id="cur-label"></span><div id="anim-overlay"></div>
+<iframe id="kroger-frame" src="kroger.html" style="position:fixed;top:calc(2.96vh + clamp(18px,1.25vw,24px) + 16px);left:0;right:0;bottom:0;z-index:50;border:none;width:100%;height:calc(100vh - 2.96vh - clamp(18px,1.25vw,24px) - 16px);opacity:0;pointer-events:none;transition:opacity 0.3s;"></iframe>
+<iframe id="about-frame" src="about.html" style="position:fixed;top:calc(2.96vh + clamp(18px,1.25vw,24px) + 16px);left:0;right:0;bottom:0;z-index:50;border:none;width:100%;height:calc(100vh - 2.96vh - clamp(18px,1.25vw,24px) - 16px);opacity:0;pointer-events:none;transition:opacity 0.3s;"></iframe><iframe id="aes-frame" src="aes_v2.html" style="position:fixed;top:calc(2.96vh + clamp(18px,1.25vw,24px) + 16px);left:0;right:0;bottom:0;z-index:50;border:none;width:100%;height:calc(100vh - 2.96vh - clamp(18px,1.25vw,24px) - 16px);opacity:0;pointer-events:none;transition:opacity 0.3s;"></iframe><iframe id="adobe-frame" src="adobe.html" style="position:fixed;top:calc(2.96vh + clamp(18px,1.25vw,24px) + 16px);left:0;right:0;bottom:0;z-index:50;border:none;width:100%;height:calc(100vh - 2.96vh - clamp(18px,1.25vw,24px) - 16px);opacity:0;pointer-events:none;transition:opacity 0.3s;"></iframe><div id="cur"></div><span id="cur-label"></span><div id="anim-overlay"></div>
 <svg style="position:absolute;width:0;height:0;">
   <defs>
     <filter id="goo" x="-50%" y="-50%" width="200%" height="200%">
@@ -104,18 +110,27 @@ body{cursor:none;}
   <div class="projects">
     <div class="proj" id="s1">
       <div class="num"><svg width="39" height="43.5" viewBox="0 0 78 87" fill="none"><path d="M22.3828 86.7773C17.8906 86.7773 13.9648 85.8594 10.6055 84.0234C7.24609 82.1484 4.62891 79.5312 2.75391 76.1719C0.917969 72.7734 0 68.7695 0 64.1602V22.6172C0 18.0078 0.917969 14.0234 2.75391 10.6641C4.62891 7.26562 7.24609 4.64844 10.6055 2.8125C13.9648 0.9375 17.8906 0 22.3828 0C26.8359 0 30.7227 0.9375 34.043 2.8125C37.3633 4.64844 39.9414 7.26562 41.7773 10.6641C43.6523 14.0234 44.5898 18.0078 44.5898 22.6172V64.1602C44.5898 68.7695 43.6523 72.7734 41.7773 76.1719C39.9414 79.5312 37.3633 82.1484 34.043 84.0234C30.7227 85.8594 26.8359 86.7773 22.3828 86.7773ZM22.3242 73.1836C23.5352 73.1836 24.5508 72.8906 25.3711 72.3047C26.2305 71.7188 26.875 70.8984 27.3047 69.8438C27.7734 68.75 28.0078 67.4609 28.0078 65.9766V20.7422C28.0078 19.2578 27.7734 17.9883 27.3047 16.9336C26.875 15.8789 26.2305 15.0586 25.3711 14.4727C24.5508 13.8867 23.5352 13.5938 22.3242 13.5938C21.1133 13.5938 20.0781 13.8867 19.2188 14.4727C18.3594 15.0586 17.6953 15.8984 17.2266 16.9922C16.7969 18.0469 16.582 19.2969 16.582 20.7422V65.9766C16.582 67.4609 16.7969 68.75 17.2266 69.8438C17.6953 70.8984 18.3594 71.7188 19.2188 72.3047C20.0781 72.8906 21.1133 73.1836 22.3242 73.1836ZM61.5844 85.6641V17.2852H61.2328L48.6937 27.1289V11.4258L61.5844 1.11328H77.8148V85.6641H61.5844Z" fill="#DADADA"/></svg></div>
-      <div class="body"><div class="img"></div><div class="meta"><p class="title">Project title placeholder one</p><p class="sub">Company · B2C</p></div></div>
+      <div class="body"><div class="img"><img src="aes_hero_blue.png" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"></div><div class="meta"><p class="title">Enhancing Guest User Experience by Closing the Feedback Loop in Outage Reporting @AES</p><p class="sub">Customer Portal · Service Design</p></div></div>
     </div>
     <div class="proj" id="s2">
       <div class="num"><svg width="45.5" height="43.5" viewBox="0 0 91 87" fill="none"><path d="M22.3828 86.7773C17.8906 86.7773 13.9648 85.8594 10.6055 84.0234C7.24609 82.1484 4.62891 79.5312 2.75391 76.1719C0.917969 72.7734 0 68.7695 0 64.1602V22.6172C0 18.0078 0.917969 14.0234 2.75391 10.6641C4.62891 7.26562 7.24609 4.64844 10.6055 2.8125C13.9648 0.9375 17.8906 0 22.3828 0C26.8359 0 30.7227 0.9375 34.043 2.8125C37.3633 4.64844 39.9414 7.26562 41.7773 10.6641C43.6523 14.0234 44.5898 18.0078 44.5898 22.6172V64.1602C44.5898 68.7695 43.6523 72.7734 41.7773 76.1719C39.9414 79.5312 37.3633 82.1484 34.043 84.0234C30.7227 85.8594 26.8359 86.7773 22.3828 86.7773ZM22.3242 73.1836C23.5352 73.1836 24.5508 72.8906 25.3711 72.3047C26.2305 71.7188 26.875 70.8984 27.3047 69.8438C27.7734 68.75 28.0078 67.4609 28.0078 65.9766V20.7422C28.0078 19.2578 27.7734 17.9883 27.3047 16.9336C26.875 15.8789 26.2305 15.0586 25.3711 14.4727C24.5508 13.8867 23.5352 13.5938 22.3242 13.5938C21.1133 13.5938 20.0781 13.8867 19.2188 14.4727C18.3594 15.0586 17.6953 15.8984 17.2266 16.9922C16.7969 18.0469 16.582 19.2969 16.582 20.7422V65.9766C16.582 67.4609 16.7969 68.75 17.2266 69.8438C17.6953 70.8984 18.3594 71.7188 19.2188 72.3047C20.0781 72.8906 21.1133 73.1836 22.3242 73.1836ZM49.2211 85.6641V74.0625L64.1625 49.9219C66.6625 45.9375 68.6352 42.4805 70.0805 39.5508C71.5258 36.6211 72.5414 33.8867 73.1273 31.3477C73.7523 28.7695 74.0648 26.0547 74.0648 23.2031V20.3906C74.0648 18.9453 73.85 17.6953 73.4203 16.6406C73.0297 15.5859 72.4437 14.7656 71.6625 14.1797C70.9203 13.5938 69.9633 13.3008 68.7914 13.3008C67.6195 13.3008 66.643 13.6133 65.8617 14.2383C65.0805 14.8242 64.4945 15.6641 64.1039 16.7578C63.7523 17.8125 63.5766 19.0625 63.5766 20.5078V29.707H48.3422V21.5039C48.3422 17.207 49.143 13.457 50.7445 10.2539C52.3852 7.01172 54.768 4.49219 57.893 2.69531C61.018 0.898437 64.807 0 69.2602 0C73.6742 0 77.4242 0.878906 80.5102 2.63672C83.5961 4.35547 85.9398 6.77734 87.5414 9.90234C89.143 12.9883 89.9437 16.6016 89.9437 20.7422V22.6758C89.9437 26.2305 89.475 29.6875 88.5375 33.0469C87.6391 36.3672 86.2133 39.9023 84.2602 43.6523C82.307 47.4023 79.807 51.6602 76.7602 56.4258L64.0453 76.582L67.4437 66.9727V76.582L64.0453 72.1289H90.2367V85.6641H49.2211Z" fill="#DADADA"/></svg></div>
-      <div class="body"><div class="img"></div><div class="meta"><p class="title">Project title placeholder two</p><p class="sub">Company · B2B</p></div></div>
+      <div class="body"><div class="img"><img src="adobe_hero_blue_v2.png" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"></div><div class="meta"><p class="title">Increase marketers efficiency by providing decision support with AI agent @Adobe</p><p class="sub">B2B · SaaS · Conversational Design</p></div></div>
     </div>
     <div class="proj" id="s3">
       <div class="num"><svg width="47" height="43.5" viewBox="0 0 94 87" fill="none"><path d="M22.3828 86.7773C17.8906 86.7773 13.9648 85.8594 10.6055 84.0234C7.24609 82.1484 4.62891 79.5312 2.75391 76.1719C0.917969 72.7734 0 68.7695 0 64.1602V22.6172C0 18.0078 0.917969 14.0234 2.75391 10.6641C4.62891 7.26562 7.24609 4.64844 10.6055 2.8125C13.9648 0.9375 17.8906 0 22.3828 0C26.8359 0 30.7227 0.9375 34.043 2.8125C37.3633 4.64844 39.9414 7.26562 41.7773 10.6641C43.6523 14.0234 44.5898 18.0078 44.5898 22.6172V64.1602C44.5898 68.7695 43.6523 72.7734 41.7773 76.1719C39.9414 79.5312 37.3633 82.1484 34.043 84.0234C30.7227 85.8594 26.8359 86.7773 22.3828 86.7773ZM22.3242 73.1836C23.5352 73.1836 24.5508 72.8906 25.3711 72.3047C26.2305 71.7188 26.875 70.8984 27.3047 69.8438C27.7734 68.75 28.0078 67.4609 28.0078 65.9766V20.7422C28.0078 19.2578 27.7734 17.9883 27.3047 16.9336C26.875 15.8789 26.2305 15.0586 25.3711 14.4727C24.5508 13.8867 23.5352 13.5938 22.3242 13.5938C21.1133 13.5938 20.0781 13.8867 19.2188 14.4727C18.3594 15.0586 17.6953 15.8984 17.2266 16.9922C16.7969 18.0469 16.582 19.2969 16.582 20.7422V65.9766C16.582 67.4609 16.7969 68.75 17.2266 69.8438C17.6953 70.8984 18.3594 71.7188 19.2188 72.3047C20.0781 72.8906 21.1133 73.1836 22.3242 73.1836ZM71.0766 86.7773C66.5062 86.7773 62.5805 85.918 59.2992 84.1992C56.018 82.4414 53.4984 79.9414 51.7406 76.6992C49.9828 73.457 49.0844 69.5898 49.0453 65.0977V58.7695H64.6898V66.0352C64.7289 67.5586 64.9828 68.8477 65.4516 69.9023C65.9203 70.918 66.5844 71.6992 67.4437 72.2461C68.3422 72.793 69.4164 73.0664 70.6664 73.0664C71.9164 73.0664 72.9711 72.793 73.8305 72.2461C74.7289 71.6992 75.4125 70.918 75.8812 69.9023C76.35 68.8477 76.5844 67.5391 76.5844 65.9766V55.4297C76.5844 53.0469 75.9984 51.25 74.8266 50.0391C73.6547 48.8281 71.9555 48.2227 69.7289 48.2227H63.8695V36.0352H69.4359C70.8422 36.0352 72.0141 35.7812 72.9516 35.2734C73.8891 34.7656 74.5922 34.0039 75.0609 32.9883C75.5687 31.9336 75.8227 30.6836 75.8227 29.2383V19.4531C75.8227 18.0859 75.6078 16.9336 75.1781 15.9961C74.7484 15.0195 74.1234 14.2773 73.3031 13.7695C72.5219 13.2227 71.5648 12.9492 70.432 12.9492C69.2602 12.9492 68.2641 13.2227 67.4437 13.7695C66.6625 14.2773 66.057 15.0195 65.6273 15.9961C65.1977 16.9727 64.9633 18.1445 64.9242 19.5117V27.3633H50.1586V20.1562C50.1977 16.0547 51.018 12.5 52.6195 9.49219C54.2602 6.48438 56.6234 4.16016 59.7094 2.51953C62.7953 0.839844 66.5062 0 70.8422 0C75.1391 0 78.8109 0.800781 81.8578 2.40234C84.9437 4.00391 87.2875 6.28906 88.8891 9.25781C90.5297 12.1875 91.35 15.7031 91.35 19.8047V25.6641C91.35 28.5938 90.9203 31.1719 90.0609 33.3984C89.2016 35.5859 87.9516 37.3633 86.3109 38.7305C84.6703 40.0977 82.6195 40.9961 80.1586 41.4258V41.7773C84.2992 42.2461 87.5023 43.9062 89.768 46.7578C92.0336 49.5703 93.1664 53.457 93.1664 58.418V65.0977C93.1664 69.5508 92.268 73.3984 90.4711 76.6406C88.7133 79.8828 86.1742 82.3828 82.8539 84.1406C79.5727 85.8984 75.6469 86.7773 71.0766 86.7773Z" fill="black" fill-opacity="0.2"/></svg></div>
-      <div class="body"><div class="img"></div><div class="meta"><p class="title">Project title placeholder three</p><p class="sub">Company · Internal tool</p></div></div>
+      <div class="body"><div class="img"><img src="kroger_hero_blue.png" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"></div><div class="meta"><p class="title">Improving Pickup Efficiency by Streamlining the Vendor-to-Associate Handoff Workflow @ Kroger</p><p class="sub">B2B2C · Desktop · Mobile</p></div></div>
     </div>
   </div>
+</div>
 </div></main>
+  <hr style="border:none;border-top:1px solid rgba(46,70,137,0.4);margin:2.96vh 0 2.96vh;">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:2.96vh;padding-left:3.23vw;padding-right:3.23vw;">
+      <span style="font-family:var(--f);font-size:clamp(18px,1.25vw,24px);font-weight:510;letter-spacing:-0.02em;color:rgba(0,0,0,0.2);">@2026 Vibe coded with Claude</span>
+      <div style="display:flex;gap:2.19vw;">
+        <a href="https://www.linkedin.com/in/sixianchen" target="_blank" style="font-family:var(--f);font-size:clamp(18px,1.25vw,24px);font-weight:510;letter-spacing:-0.02em;color:#2E4689;text-decoration:none;">LinkedIn</a>
+        <span id="footer-email" style="font-family:var(--f);font-size:clamp(18px,1.25vw,24px);font-weight:510;letter-spacing:-0.02em;color:#2E4689;cursor:none;">chen_sixian@outlook.com</span>
+      </div>
+    </div>
 
 <script>
 const pnDots = document.querySelectorAll('.pn-dot');
@@ -321,6 +336,25 @@ document.addEventListener('click', async e=>{
     pnav.style.opacity = '1';
   }
 
+  const krogerFrame = document.getElementById('kroger-frame');
+let krogerOpen = false;
+
+function openKroger(){
+  krogerOpen = true;
+  krogerFrame.style.opacity='1';
+  krogerFrame.style.pointerEvents='all';
+  mainEl.style.opacity='0';
+  mainEl.style.pointerEvents='none';
+  pnav.style.opacity='0';
+}
+function closeKroger(){
+  krogerOpen = false;
+  krogerFrame.style.opacity='0';
+  krogerFrame.style.pointerEvents='none';
+  mainEl.style.opacity='1';
+  mainEl.style.pointerEvents='';
+  pnav.style.opacity='1';
+}
   // Playground nav link
   const aboutFrame = document.getElementById('about-frame');
   let aboutOpen = false;
@@ -342,12 +376,70 @@ document.addEventListener('click', async e=>{
     pnav.style.opacity='1';
   }
 
+  const aesFrame = document.getElementById('aes-frame');
+  let aesOpen = false;
+
+  function openAes(){
+    aesOpen = true;
+    aesFrame.style.opacity='1';
+    aesFrame.style.pointerEvents='all';
+    mainEl.style.opacity='0';
+    mainEl.style.pointerEvents='none';
+    pnav.style.opacity='0';
+  }
+  function closeAes(){
+    aesOpen = false;
+    aesFrame.style.opacity='0';
+    aesFrame.style.pointerEvents='none';
+    mainEl.style.opacity='1';
+    mainEl.style.pointerEvents='';
+    pnav.style.opacity='1';
+  }
+
+  document.getElementById('s1').addEventListener('click', () => {
+    if(pgOpen) closePG();
+    if(aboutOpen) closeAbout();
+    if(krogerOpen) closeKroger();
+    if(!aesOpen) openAes();
+  });
+
+  const adobeFrame = document.getElementById('adobe-frame');
+  let adobeOpen = false;
+
+  function openAdobe(){
+    adobeOpen = true;
+    adobeFrame.style.opacity='1';
+    adobeFrame.style.pointerEvents='all';
+    mainEl.style.opacity='0';
+    mainEl.style.pointerEvents='none';
+    pnav.style.opacity='0';
+  }
+  function closeAdobe(){
+    adobeOpen = false;
+    adobeFrame.style.opacity='0';
+    adobeFrame.style.pointerEvents='none';
+    mainEl.style.opacity='1';
+    mainEl.style.pointerEvents='';
+    pnav.style.opacity='1';
+  }
+
+  document.getElementById('s2').addEventListener('click', () => {
+    if(pgOpen) closePG();
+    if(aboutOpen) closeAbout();
+    if(aesOpen) closeAes();
+    if(krogerOpen) closeKroger();
+    if(!adobeOpen) openAdobe();
+  });
+
   document.querySelectorAll('.nav-links a').forEach(a => {
     if(a.textContent.trim() === 'Playground'){
       a.href = '#';
       a.addEventListener('click', e => {
         e.preventDefault();
         if(aboutOpen) closeAbout();
+        if(aesOpen) closeAes();
+        if(adobeOpen) closeAdobe();
+        if(krogerOpen) closeKroger();
         if(!pgOpen) openPG();
       });
     }
@@ -355,6 +447,9 @@ document.addEventListener('click', async e=>{
       a.addEventListener('click', e => {
         e.preventDefault();
         if(pgOpen) closePG();
+        if(aesOpen) closeAes();
+        if(adobeOpen) closeAdobe();
+        if(krogerOpen) closeKroger();
         if(!aboutOpen) openAbout();
       });
     }
@@ -362,14 +457,28 @@ document.addEventListener('click', async e=>{
       a.addEventListener('click', () => {
         if(pgOpen) closePG();
         if(aboutOpen) closeAbout();
+        if(aesOpen) closeAes();
+        if(adobeOpen) closeAdobe();
+        if(krogerOpen) closeKroger();
       });
     }
   });
+
+  document.getElementById('s3').addEventListener('click', () => {
+  if(pgOpen) closePG();
+  if(aboutOpen) closeAbout();
+  if(aesOpen) closeAes();
+  if(adobeOpen) closeAdobe();
+  if(!krogerOpen) openKroger();
+});
 
   // Sixian Chen logo also closes PG
   document.getElementById('nav-logo').addEventListener('click', () => {
     if(pgOpen) closePG();
     if(aboutOpen) closeAbout();
+    if(aesOpen) closeAes();
+    if(adobeOpen) closeAdobe();
+    if(krogerOpen) closeKroger();
   });
 })();
 </script>
