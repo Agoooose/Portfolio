@@ -11,7 +11,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 html,body{scrollbar-width:none;}
 html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;}
@@ -66,6 +66,19 @@ body{cursor:none;}
 #cur-label{position:fixed;top:0;left:0;pointer-events:none;z-index:99999;font-family:var(--f);font-size:15px;font-weight:500;color:#fff;opacity:0;transform:translate(-50%,-50%);white-space:nowrap;background:#2E4689;border-radius:100px;padding:6px 14px;line-height:1;}
 #cur.pill ~ #cur-label,#cur.copied ~ #cur-label{opacity:1;}
 #cur.pill,#cur.copied{opacity:0;}
+
+/* --- content-area styles for this page (per Figma "Portfolio-MCP-Claude-20260722" node 12:1143) ---
+   Figma reference width: 1920px. Body text token: font-size 24px / line-height 40.8px (ratio 1.7).
+   font-size uses clamp() with a vw-preferred value computed to match that exact 1920-width ratio
+   (24/1920 = 1.25vw), independent of kroger.html's older clamp(20px,1.5vw,24px) scheme. */
+.row{display:grid;grid-template-columns:1fr 1fr;align-items:start;column-gap:clamp(24px,3vw,60px);}
+.row-label{color:#727272;padding-right:clamp(24px,3vw,60px);font-size:clamp(16px,1.25vw,24px);font-weight:400;letter-spacing:0;line-height:1.7;}
+.row-subtitle{color:#000;font-size:clamp(16px,1.25vw,24px);font-weight:600;letter-spacing:0;line-height:1.7;margin-bottom:0;}
+.row-body{color:#000;font-size:clamp(16px,1.25vw,24px);font-weight:400;letter-spacing:0;line-height:1.7;}
+.content-block{margin:0;}
+.content-divider{border:none;border-top:1px solid rgba(46,70,137,0.4);margin:36px 0;}
+.content-img{width:100%;display:block;border-radius:8px;}
+.content-video{width:100%;display:block;border-radius:8px;aspect-ratio:16/9;object-fit:cover;}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 </head>
@@ -81,68 +94,123 @@ body{cursor:none;}
 <div id=cur></div><span id=cur-label></span>
 
 <div class="header">
-  <p class="header-title">Improving Pickup Efficiency by Streamlining the Vendor-to-Associate Handoff Workflow @ Kroger</p>
-  <p class="header-meta">B2B2C /<br>Desktop / Mobile</p>
+  <p class="header-title">Enable grocery associates to resolve customer issues on-site @ Kroger</p>
+  <p class="header-meta">B2B2C / Desktop / Mobile</p>
 </div>
 
-<img class="hero-img" src="kroger_hero_blue.png" alt="Kroger project hero">
+<img class="hero-img" src="kroger_hero_projectpage.png" alt="Kroger project hero">
 
 <div class="content">
 
-  <div class="section">
-    <div class="section-row">
-      <p class="section-title">Overview</p>
-      <p class="section-body">Kroger is one of the largest grocery stores in the U.S. It partners with a vendor to provide fast pickup service to customers. I worked on the internal systems to ensure a smooth collaboration between Kroger staff and vendors.</p>
+  <div class="content-block">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap;">
+      <div style="max-width:45%;">
+        <p class="row-label">Overview</p>
+        <p class="row-body">I designed a cross-system, cross-device workflow that empowers store associates to resolve customer order issues on the spot. It led to a 15% drop in refund requests and 6% improvement in customer satisfaction.</p>
+      </div>
+      <div style="display:flex;gap:40px;">
+        <div style="width:240px;">
+          <p class="row-label">Team</p>
+          <p class="row-body">3 Designers, Kroger client team</p>
+        </div>
+        <div style="width:240px;">
+          <p class="row-label">Duration</p>
+          <p class="row-body">3 months</p>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="section">
-    <div class="section-row">
-      <p class="section-title">Problem</p>
-      <p class="section-body">Kroger staff and vendors wanted to collaborate closely to ensure on-time and accurate delivery, while inefficiency communication between multiple internal systems caused errors.</p>
-    </div>
+  <hr class="content-divider">
+
+  <div class="content-block">
+    <div class="row"><p class="row-label">Problem</p><p class="row-body">Customer pickup issues cannot be solved on-site</p></div>
+    <div class="row" style="margin-top:60px;"><p class="row-label">Root Cause</p><p class="row-body">Communication gap between store associates and vendors</p></div>
+    <div class="row" style="margin-top:60px;"><p class="row-label">Constraints</p><p class="row-body">Balance the business partnership model with improved employee and customer experiences.</p></div>
+    <div class="row" style="margin-top:60px;"><p class="row-label">Solution</p><p class="row-body">Display Checkout Order Details Employee Verification for Faster Refunds</p></div>
+
+    <video class="content-video" style="margin-top:200px;" src="kroger_desktop_video.mp4" poster="kroger_hero_projectpage.png" autoplay muted loop playsinline></video>
+    <video class="content-video" style="margin-top:40px;" src="kroger_mobile_video.mp4" autoplay muted loop playsinline></video>
   </div>
 
-  <div class="section">
-    <div class="section-row">
-      <p class="section-title">Constraint</p>
-      <p class="section-body">Design should enable collaboration through necessary data sharing while protecting the commercial confidentiality of both parties.</p>
+  <hr class="content-divider">
+
+  <div class="content-block">
+    <div class="row">
+      <p class="row-label">Research</p>
+      <div>
+        <p class="row-subtitle">Contextual Inquiry</p>
+        <p class="row-body">Define how success of this project is for both customers and employees;<br>Identify design constraints such as limited store labor</p>
+      </div>
     </div>
+    <img class="content-img" style="margin-top:35px;" src="kroger_research.png" alt="Kroger research">
+
+    <div class="row" style="margin-top:80px;">
+      <div></div>
+      <div>
+        <p class="row-subtitle">Competitive Analysis</p>
+        <p class="row-body">Learn about what service competitors are providing; Set industrious benchmark for this project</p>
+      </div>
+    </div>
+    <img class="content-img" style="margin-top:35px;" src="kroger_competitor.png" alt="Kroger competitive analysis">
   </div>
 
-  <div class="section">
-    <div class="section-row">
-      <p class="section-title">Solution</p>
-      <p class="section-body">Confidential data is not directly disclosed to employees; instead, it is shown in aggregated categories to provide sufficient support for decision making.</p>
+  <hr class="content-divider">
+
+  <div class="content-block">
+    <div class="row">
+      <p class="row-label">Design</p>
+      <div>
+        <p class="row-subtitle">Display Checkout Order Details</p>
+        <p class="row-body">Inform associates substitutes, out of stock items and misplacements</p>
+      </div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:40px;">
-      <img src="kroger_design2.png" style="width:100%;display:block;border-radius:8px;aspect-ratio:1;object-fit:cover;">
-      <img src="kroger_design3.png" style="width:100%;display:block;border-radius:8px;aspect-ratio:1;object-fit:cover;">
-      <img src="kroger_design4.png" style="width:100%;display:block;border-radius:8px;aspect-ratio:1;object-fit:cover;">
-      <img src="kroger_design7.png" style="width:100%;display:block;border-radius:8px;aspect-ratio:1;object-fit:cover;">
-      <img src="kroger_design8.png" style="width:100%;display:block;border-radius:8px;aspect-ratio:1;object-fit:cover;">
-      <img src="kroger_design9.png" style="width:100%;display:block;border-radius:8px;aspect-ratio:1;object-fit:cover;">
+    <img class="content-img" style="margin-top:35px;" src="kroger_design_desktop.png" alt="Kroger desktop design">
+
+    <div class="row" style="margin-top:80px;">
+      <div></div>
+      <div>
+        <p class="row-subtitle">Employee verification for faster refunds</p>
+        <p class="row-body">Confirm on-site issues, allow customers to get refunded and re-purchase</p>
+      </div>
     </div>
+    <img class="content-img" style="margin-top:35px;" src="kroger_design_mobile.png" alt="Kroger mobile design">
+
+    <div class="row" style="margin-top:100px;">
+      <div></div>
+      <div>
+        <p class="row-subtitle">Mobile UI Refresh</p>
+        <p class="row-body">Re-organized information architecture and visual hierarchy, designed for outdoor environment and single-handed operation</p>
+      </div>
+    </div>
+    <img class="content-img" style="margin-top:35px;" src="kroger_design_mobilecomparison.png" alt="Kroger mobile before/after comparison">
+
+    <div class="row" style="margin-top:100px;">
+      <div></div>
+      <div>
+        <p class="row-subtitle">Responsive design for desktop vs. mobile</p>
+        <p class="row-body">Design for different users, needs, environment</p>
+      </div>
+    </div>
+    <img class="content-img" style="margin-top:35px;" src="kroger_design_desktopmobilecomparision.png" alt="Kroger desktop vs mobile comparison">
   </div>
 
-  <div class="section">
+  <div class="content-block" style="margin-top:36px;">
     <div class="section-row" style="margin-bottom:24px;">
-      <p class="section-title">Impact</p>
+      <p class="row-label">Impact</p>
       <div></div>
     </div>
     <div style="display:flex;gap:24px;">
       <div style="flex:1;padding:32px;background:#F5F7FC;border-radius:8px;">
-        <p style="font-size:clamp(32px,3vw,48px);font-weight:700;color:#2E4689;letter-spacing:-0.03em;line-height:1.1;margin-bottom:8px;">23%</p>
-        <p style="font-size:clamp(20px,1.5vw,24px);font-weight:400;color:rgba(0,0,0,0.4);">reduction in clarification requests</p>
+        <p style="font-size:clamp(32px,3vw,48px);font-weight:700;color:#2E4689;letter-spacing:-0.03em;line-height:1.1;margin-bottom:8px;">15.3%</p>
+        <p class="row-body">reduction in escalation requests</p>
       </div>
       <div style="flex:1;padding:32px;background:#F5F7FC;border-radius:8px;">
-        <p style="font-size:clamp(32px,3vw,48px);font-weight:700;color:#2E4689;letter-spacing:-0.03em;line-height:1.1;margin-bottom:8px;">19%</p>
-        <p style="font-size:clamp(20px,1.5vw,24px);font-weight:400;color:rgba(0,0,0,0.4);">reduction in escalation rate</p>
+        <p style="font-size:clamp(32px,3vw,48px);font-weight:700;color:#2E4689;letter-spacing:-0.03em;line-height:1.1;margin-bottom:8px;">5.8%</p>
+        <p class="row-body">improvement in customer satisfaction</p>
       </div>
     </div>
   </div>
-
-  <!-- sections 继续添加 -->
 
   <hr style="border:none;border-top:1px solid rgba(46,70,137,0.4);margin:96px 0 2.96vh;">
   <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:2.96vh;">
