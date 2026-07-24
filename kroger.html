@@ -84,10 +84,17 @@ body{cursor:none;}
 .content-img{width:100%;display:block;border-radius:8px;}
 .content-video{width:100%;display:block;border-radius:8px;aspect-ratio:16/9;object-fit:cover;}
 .footer-row{align-items:center;}
+.row-overview-field{width:240px;}
 @media (max-width:768px){
   .footer-row{flex-direction:column;align-items:flex-start;gap:12px;}
   .footer-links{flex-direction:column;align-items:flex-start;gap:12px;}
   .row-overview{grid-template-columns:1fr;row-gap:24px;}
+  .row-overview-meta{flex-direction:column;gap:16px;}
+  .row-overview-field{width:auto;}
+  .header{flex-direction:column;align-items:flex-start;gap:16px;}
+  .header-title{max-width:100%;}
+  .header-meta{text-align:left;}
+  .row{grid-template-columns:1fr;row-gap:8px;}
 }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
@@ -118,12 +125,12 @@ body{cursor:none;}
         <p class="row-label">Overview</p>
         <p class="row-body">I designed a cross-system, cross-device workflow that empowers store associates to resolve customer order issues on the spot. It led to a 15% drop in refund requests and 6% improvement in customer satisfaction.</p>
       </div>
-      <div style="display:flex;gap:40px;">
-        <div style="width:240px;">
+      <div class="row-overview-meta" style="display:flex;gap:40px;">
+        <div class="row-overview-field">
           <p class="row-label">Team</p>
           <p class="row-body">3 Designers, Kroger client team</p>
         </div>
-        <div style="width:240px;">
+        <div class="row-overview-field">
           <p class="row-label">Duration</p>
           <p class="row-body">3 months</p>
         </div>
