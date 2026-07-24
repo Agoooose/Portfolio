@@ -28,6 +28,7 @@ nav{position:fixed;top:2.96vh;z-index:200;}
 .nav-links{right:3.23vw;position:fixed;top:2.96vh;display:flex;gap:2.19vw;z-index:200;}
 nav a{font-family:var(--f);font-size:16px;font-weight:600;line-height:120%;letter-spacing:-0.32px;color:#000;text-decoration:none;}
 nav a:hover{opacity:.5;}
+.footer-link:hover{opacity:.5;}
 
 .header{
   padding:calc(2.96vh + clamp(18px,1.25vw,24px) + 48px) calc(var(--pad)*2) 40px;
@@ -63,6 +64,7 @@ nav a:hover{opacity:.5;}
 body{cursor:none;}
 *{cursor:none!important;}
 #cur{position:fixed;top:0;left:0;width:14px;height:14px;border-radius:50%;background:#2E4689;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width 0.2s,height 0.2s;}
+#cur.large{width:36px;height:36px;}
 #cur-label{position:fixed;top:0;left:0;pointer-events:none;z-index:99999;font-family:var(--f);font-size:15px;font-weight:500;color:#fff;opacity:0;transform:translate(-50%,-50%);white-space:nowrap;background:#2E4689;border-radius:100px;padding:6px 14px;line-height:1;}
 #cur.pill ~ #cur-label,#cur.copied ~ #cur-label{opacity:1;}
 #cur.pill,#cur.copied{opacity:0;}
@@ -221,7 +223,7 @@ body{cursor:none;}
   <div style="display:flex;justify-content:space-between;align-items:center;margin-top:96px;padding-bottom:2.96vh;">
     <span style="font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:-0.48px;color:rgba(0,0,0,0.2);">@2026 Vibe coded with Claude</span>
     <div style="display:flex;gap:2.19vw;">
-      <a href="https://www.linkedin.com/in/sixian-chen-51029125a/" target="_blank" style="font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:-0.48px;color:#000;text-decoration:none;">LinkedIn</a>
+      <a href="https://www.linkedin.com/in/sixian-chen-51029125a/" target="_blank" class="footer-link" style="font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:-0.48px;color:#000;text-decoration:none;">LinkedIn</a>
       <span id="footer-email" style="font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:-0.48px;color:#000;cursor:none;">chen_sixian@outlook.com</span>
     </div>
   </div>
@@ -243,6 +245,11 @@ document.addEventListener('mousemove', e=>{
   cur.style.top=e.clientY+'px';
   curLabel.style.left=e.clientX+'px';
   curLabel.style.top=e.clientY+'px';
+});
+
+document.querySelectorAll('.footer-link').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cur.classList.add('large'));
+  el.addEventListener('mouseleave',()=>cur.classList.remove('large'));
 });
 
 let emailCopied = false;
