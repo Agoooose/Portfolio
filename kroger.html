@@ -83,6 +83,12 @@ body{cursor:none;}
 .content-divider{border:none;border-top:1px solid rgba(46,70,137,0.4);margin:160px 0;}
 .content-img{width:100%;display:block;border-radius:8px;}
 .content-video{width:100%;display:block;border-radius:8px;aspect-ratio:16/9;object-fit:cover;}
+.footer-row{align-items:center;}
+@media (max-width:768px){
+  .footer-row{flex-direction:column;align-items:flex-start;gap:12px;}
+  .footer-links{flex-direction:column;align-items:flex-start;gap:12px;}
+  .row-overview{grid-template-columns:1fr;row-gap:24px;}
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 </head>
@@ -107,7 +113,7 @@ body{cursor:none;}
 <div class="content">
 
   <div class="content-block lead">
-    <div class="row">
+    <div class="row row-overview">
       <div>
         <p class="row-label">Overview</p>
         <p class="row-body">I designed a cross-system, cross-device workflow that empowers store associates to resolve customer order issues on the spot. It led to a 15% drop in refund requests and 6% improvement in customer satisfaction.</p>
@@ -220,9 +226,9 @@ body{cursor:none;}
     </div>
   </div>
 
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:96px;padding-bottom:2.96vh;">
+  <div class="footer-row" style="display:flex;justify-content:space-between;margin-top:96px;padding-bottom:2.96vh;">
     <span style="font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:-0.48px;color:rgba(0,0,0,0.2);">@2026 Vibe coded with Claude</span>
-    <div style="display:flex;gap:2.19vw;">
+    <div class="footer-links" style="display:flex;gap:2.19vw;">
       <a href="https://www.linkedin.com/in/sixian-chen-51029125a/" target="_blank" class="footer-link" style="font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:-0.48px;color:#000;text-decoration:none;">LinkedIn</a>
       <span id="footer-email" style="font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:-0.48px;color:#000;cursor:none;">chen_sixian@outlook.com</span>
     </div>

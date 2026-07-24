@@ -29,6 +29,13 @@ main{padding:calc(2.96vh + 24px + 96px) var(--gutter) 120px;}
 .hero{display:flex;flex-direction:column;gap:50px;margin-bottom:100px;max-width:50%;}
 .hero p{font-size:16px;font-weight:550;line-height:26.4px;letter-spacing:-0.39px;}
 .projects{display:grid;grid-template-columns:repeat(2,1fr);gap:60px;}
+.footer-row{align-items:center;}
+@media (max-width:768px){
+  .projects{grid-template-columns:1fr;}
+  .hero{max-width:none;}
+  .footer-row{flex-direction:column;align-items:flex-start;gap:12px;}
+  .footer-links{flex-direction:column;align-items:flex-start;gap:12px;}
+}
 .proj{display:block;transition:transform .35s cubic-bezier(0.34,1.56,0.64,1);}
 .proj:hover{transform:translateY(6px);}
 .img{width:100%;aspect-ratio:16/9;position:relative;}
@@ -82,9 +89,9 @@ body{cursor:none;}
     </a>
   </div>
 </main>
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:36px;padding-bottom:2.96vh;padding-left:var(--gutter);padding-right:var(--gutter);">
+  <div class="footer-row" style="display:flex;justify-content:space-between;margin-top:36px;padding-bottom:2.96vh;padding-left:var(--gutter);padding-right:var(--gutter);">
     <span style="font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:-0.48px;color:rgba(0,0,0,0.2);">@2026 Vibe coded with Claude</span>
-    <div style="display:flex;gap:2.19vw;">
+    <div class="footer-links" style="display:flex;gap:2.19vw;">
       <a href="https://www.linkedin.com/in/sixian-chen-51029125a/" target="_blank" class="footer-link" style="font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:-0.48px;color:#000;text-decoration:none;">LinkedIn</a>
       <span id="footer-email" style="font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:-0.48px;color:#000;cursor:none;">chen_sixian@outlook.com</span>
     </div>
