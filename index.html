@@ -11,49 +11,177 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sixian Chen — Product Designer, B2B SaaS & AI</title>
+<meta name="description" content="Product designer building B2B SaaS and AI products 0→1. Trained in psychology, now designing for Adobe, Kroger, and AES.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sixian Chen — Product Designer, B2B SaaS & AI">
+<meta property="og:description" content="Product designer building B2B SaaS and AI products 0→1. Trained in psychology, now designing for Adobe, Kroger, and AES.">
+<meta property="og:image" content="avatar.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sixian Chen — Product Designer, B2B SaaS & AI">
+<meta name="twitter:description" content="Product designer building B2B SaaS and AI products 0→1. Trained in psychology, now designing for Adobe, Kroger, and AES.">
+<meta name="twitter:image" content="avatar.png">
+<link rel="icon" type="image/png" href="avatar.png">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..700&display=swap" rel="stylesheet">
 <style>
   html,body{scrollbar-width:none;}
 html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;}
 body{overflow-y:scroll;}
 *{margin:0;padding:0;box-sizing:border-box;}
-:root{--f:"Manrope",sans-serif;--gutter:max(40px, 3.7vw);}
+:root{--f:"Manrope",sans-serif;--gutter:max(40px, 7.8vw);--nav-fs:16px;--nav-h:calc(5.92vh + 19.2px);}
 body{font-family:var(--f);background:#fff;color:#000;-webkit-font-smoothing:antialiased;}
-nav{position:fixed;top:2.96vh;z-index:200;}
-.nav-logo{left:var(--gutter);position:fixed;top:2.96vh;z-index:200;}
-.nav-links{right:var(--gutter);position:fixed;top:2.96vh;display:flex;gap:2.19vw;z-index:200;}
-nav a{font-family:var(--f);font-size:16px;font-weight:600;line-height:120%;letter-spacing:-0.32px;color:#000;text-decoration:none;}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:2.96vh var(--gutter);background:rgba(255,255,255,.55);backdrop-filter:blur(22px) saturate(190%) brightness(1.05);-webkit-backdrop-filter:blur(22px) saturate(190%) brightness(1.05);box-shadow:inset 0 1px 0 rgba(255,255,255,.65),inset 0 -1px 0 rgba(255,255,255,.35),0 1px 24px rgba(0,0,0,.06);overflow:hidden;}
+nav::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.09;mix-blend-mode:overlay;pointer-events:none;}
+.nav-logo,.nav-links{position:relative;z-index:1;}
+.nav-links{display:flex;gap:2.19vw;}
+nav a{font-family:var(--f);font-size:var(--nav-fs);font-weight:600;line-height:120%;letter-spacing:-0.32px;color:#000;text-decoration:none;}
 nav a:hover{opacity:.5;}
 .footer-link:hover{opacity:.5;}
-main{padding:calc(2.96vh + 24px + 96px) var(--gutter) 120px;}
-.hero{display:flex;flex-direction:column;gap:50px;margin-bottom:100px;max-width:50%;}
-.hero p{font-size:16px;font-weight:550;line-height:26.4px;letter-spacing:-0.39px;}
+main{padding:var(--nav-h) var(--gutter) 120px;}
 .projects{display:grid;grid-template-columns:repeat(2,1fr);gap:60px;}
-.footer-row{align-items:center;}
+
+/* "first scroll" = the space below the fixed nav must fill the rest of the first viewport on any device, so
+   the project cards never peek in before the user scrolls. main's padding-top reserves the nav's own height
+   (nav is position:fixed and takes no flow space itself), and .above-fold's min-height covers exactly what's
+   left below it — so centering below is relative to "below the nav", not the full screen. The whole stack
+   (image, then hero text, then previously) is vertically centered in that region via two equal flexible
+   spacers; .fold-spacer-top keeps a small floor so the image never sits flush against the nav. */
+.above-fold{min-height:calc(100vh - var(--nav-h));display:flex;flex-direction:column;margin-bottom:100px;}
+.fold-spacer-top{flex:1 1 0;min-height:96px;}
+.fold-spacer-bottom{flex:1 1 0;min-height:0;}
+
+/* hero-top: goose photo (AI-detection graphics baked into the exported image itself — no CSS-drawn frame/corners/label) + avatar, locked to native aspect ratio */
+.hero-top{display:grid;grid-template-columns:1296fr 425fr;gap:1.875vw;aspect-ratio:1757/395;flex:0 0 auto;}
+.tile{position:relative;border-radius:24px;overflow:hidden;}
+.tile .tile-img{width:100%;height:100%;object-fit:cover;display:block;}
+/* threegoose.png's exported canvas is taller than its true bordered-photo area (there's a "my design journey"
+   tag hanging below the border) — anchor the image by its native width so the border's real bottom edge lands
+   at the frame's bottom (flush with the avatar tile), and let the tag spill past it via overflow:visible.
+   No border-radius here: the rounded corners are already baked into the image. */
+.goose-frame{overflow:visible;}
+.goose-img{position:absolute;top:0;left:0;width:100%;height:auto;display:block;}
+.goose-box{position:absolute;z-index:2;}
+
+/* hover comment bubbles (reused for goose-box + collage-style tiles) */
+.tile-bubble{position:absolute;display:flex;align-items:center;gap:8px;background:#fff;border-radius:13px;box-shadow:0 3px 8px rgba(0,0,0,.15),0 1px 3px rgba(0,0,0,.1);padding:8px 14px 8px 8px;opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:5;max-width:78%;}
+.goose-box .tile-bubble{left:50%;top:calc(100% + 8px);bottom:auto;transform:translateX(-50%);max-width:280px;width:max-content;}
+.tile-bubble.visible{opacity:1;}
+.tile-bubble .bubble-dot{width:24px;height:24px;border-radius:16px 16px 16px 2px;background:#0d99ff;flex-shrink:0;}
+.tile-bubble .bubble-text{font-family:var(--f);font-size:12px;line-height:1.35;color:#000;text-wrap:balance;}
+
+/* first-scroll entrance stagger: avatar, then goose, then hero text, then previously — a light sequencing
+   cue so the four blocks read in order instead of landing all at once. Deliberately subtle/quick (small
+   offset, short duration) since this is a load-time orientation cue, not the scroll-reveal below; it shares
+   that reveal's easing curve so the two still feel like the same visual language. */
+.fx-in{opacity:0;transform:translateY(40px) scale(.97);transition:opacity 1.2s cubic-bezier(0.34,1.56,0.64,1),transform 1.2s cubic-bezier(0.34,1.56,0.64,1);}
+.fx-in.fx-show{opacity:1;transform:translateY(0) scale(1);}
+
+/* hero row: intro text, then "Previously" sticker carousel stacked below it, both left-aligned */
+.hero-row{display:flex;flex-direction:column;align-items:flex-start;gap:36px;flex:0 0 auto;padding-top:36px;}
+.hero{max-width:55%;}
+.hero p{font-size:var(--nav-fs);font-weight:550;line-height:26.4px;letter-spacing:-0.39px;text-wrap:balance;}
+.previously{position:relative;display:flex;align-items:flex-start;flex-shrink:0;padding-right:103px;}
+.previously-label{font-size:var(--nav-fs);font-weight:600;line-height:26.4px;color:#000;white-space:nowrap;}
+.sticker-carousel{position:absolute;right:0;top:50%;transform:translateY(-50%);width:86.7px;height:51.3px;flex-shrink:0;}
+.sticker-carousel img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:left center;opacity:0;transform:scale(.7) rotate(-8deg);pointer-events:none;filter:grayscale(100%);}
+.sticker-carousel img.active{opacity:1;transform:scale(1) rotate(0deg);transition:transform .4s cubic-bezier(0.34,1.56,0.64,1),opacity .25s ease;z-index:2;}
+.sticker-carousel img.leaving{opacity:0;transform:translateX(20px) rotate(6deg);transition:transform .25s ease,opacity .25s ease;z-index:1;}
+
 @media (max-width:768px){
   .projects{grid-template-columns:1fr;}
+  .hero-row{gap:28px;padding-top:28px;}
   .hero{max-width:none;}
-  .footer-row{flex-direction:column;align-items:flex-start;gap:12px;}
-  .footer-links{flex-direction:column;align-items:flex-start;gap:12px;}
+  .hero-top{flex:0 0 auto;grid-template-columns:1fr;gap:14px;}
+  .goose-frame{aspect-ratio:1296/395;}
+  .tile-avatar{aspect-ratio:16/9;}
+  .goose-box{display:none;}
+  .tile-bubble{display:none;}
 }
+/* scroll-reveal: cards float up into place as they enter the viewport (kept on a wrapper so it
+   doesn't fight the hover-lift transition, which also animates transform, on .proj itself) */
+.reveal{opacity:0;transform:translateY(110px) scale(.94);transition:opacity .9s cubic-bezier(0.16,1,0.3,1),transform .9s cubic-bezier(0.16,1,0.3,1);}
+.reveal.in-view{opacity:1;transform:translateY(0) scale(1);}
 .proj{display:block;transition:transform .35s cubic-bezier(0.34,1.56,0.64,1);}
 .proj:hover{transform:translateY(6px);}
-.img{width:100%;aspect-ratio:16/9;position:relative;}
+.img{width:100%;aspect-ratio:16/9;position:relative;border:2px solid #000;border-radius:24px;overflow:hidden;}
 .img::after{content:'';position:absolute;inset:0;background:#fff;opacity:0;transition:opacity .3s ease;pointer-events:none;}
 .proj:hover .img::after{opacity:.3;}
-.meta{margin-top:16px;display:flex;flex-direction:column;gap:4px;}
+.meta{margin-top:16px;display:flex;flex-direction:column;gap:10px;}
 .title{font-size:16px;font-weight:500;line-height:19.2px;letter-spacing:-0.13px;transition:color .25s ease;}
-.sub{font-size:16px;font-weight:400;line-height:24px;color:rgba(46,70,137,.4);transition:color .25s ease;}
-.proj:hover .title,.proj:hover .sub{color:#999;}
+.tags{display:flex;gap:4px;}
+.tag{border:1.5px solid #000;border-radius:99px;padding:0 12px;font-family:var(--f);font-size:15px;font-weight:500;line-height:22.5px;color:#000;white-space:nowrap;transition:color .25s ease,border-color .25s ease;}
+.proj:hover .title,.proj:hover .tag{color:#999;}
+.proj:hover .tag{border-color:#999;}
+
+/* work experience: text sizes scaled down from the Figma 24px spec to the site's 16px system, matching
+   how nav/hero text were already scaled down from their Figma-literal sizes */
+.work-experience{margin-top:100px;}
+.we-heading{font-size:16px;font-weight:550;color:#000;margin-bottom:24px;}
+.we-list{display:flex;flex-direction:column;border-bottom:2px solid #1e1e1e;}
+.we-row{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:16px 0;border-top:2px solid #1e1e1e;text-decoration:none;transition:background-color .2s ease;}
+.we-row:hover{background:#fafafa;}
+.we-left{display:flex;align-items:center;gap:20px;flex-shrink:0;}
+.we-title{position:relative;font-size:16px;font-weight:550;color:#000;white-space:nowrap;}
+.we-title::after{content:'';position:absolute;left:0;bottom:-2px;width:0;height:2px;background:#7bde32;transition:width .22s ease-out;}
+.we-row:hover .we-title::after{width:100%;}
+.we-date{font-size:16px;font-weight:550;color:rgba(48,48,48,.7);white-space:nowrap;}
+.we-body{font-size:16px;font-weight:550;color:rgba(48,48,48,.7);width:47%;}
+
+@media (max-width:768px){
+  .we-row{flex-direction:column;gap:8px;}
+  .we-left{flex-wrap:wrap;}
+  .we-body{width:100%;}
+}
+
+/* footer: goose + sky banner (both b/w via CSS filter, corner radii/borders from Figma), "Let's talk!" +
+   LinkedIn/email buttons overlaid on the sky image, divider, copyright. Widths are percentage-based off the
+   Figma reference (291/1434/44px gap over a ~1769px row), so goose stays square and sky keeps its own
+   aspect ratio at any viewport width, and the two always end up the same height. */
+.new-footer{}
+.ff-banner{display:flex;gap:2.49%;}
+.ff-goose{flex:0 0 16.45%;aspect-ratio:1/1;border-radius:18px;border:3px solid #000;overflow:hidden;position:relative;}
+.ff-goose img{width:100%;height:100%;object-fit:cover;object-position:bottom;display:block;}
+/* border+radius live on the img itself rather than clipping via a bordered wrapper's overflow:hidden —
+   the latter was leaving a slightly rough/aliased edge where the clip met the 4px border at the corners */
+.ff-sky{flex:1 1 auto;aspect-ratio:1434/291;position:relative;}
+.ff-sky>img{width:100%;height:100%;object-fit:cover;filter:grayscale(100%);border-radius:24px;border:4px solid #000;box-sizing:border-box;display:block;}
+.ff-talk{position:absolute;left:3.6%;top:21%;transform:translateY(-50%);font-family:var(--f);font-size:28px;font-weight:600;color:#fff;margin:0;}
+.ff-buttons{position:absolute;left:3.6%;top:81%;transform:translateY(-50%);display:flex;gap:16px;}
+.ff-btn{display:flex;align-items:center;gap:8px;background:#fff;border:2.5px solid #000;border-radius:99px;padding:8px 20px;font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:-0.48px;color:#000;text-decoration:none;white-space:nowrap;}
+.ff-btn-icon{width:18px;height:18px;flex-shrink:0;}
+.ff-divider{height:2px;background:#1e1e1e;margin-top:36px;}
+.ff-copyright{font-family:var(--f);font-size:16px;font-weight:500;color:#000;margin-top:24px;}
+
+@media (max-width:768px){
+  /* the sky banner is a ~5:1 strip — far too short on narrow screens to overlay text on top of it
+     without clipping, so on mobile the heading/buttons move below the image in normal flow instead */
+  .ff-banner{flex-direction:column;gap:16px;}
+  .ff-goose{flex:0 0 auto;width:100%;aspect-ratio:16/9;}
+  .ff-sky{aspect-ratio:auto;display:flex;flex-direction:column;}
+  .ff-sky>img{width:100%;height:auto;aspect-ratio:1434/291;display:block;}
+  .ff-talk,.ff-buttons{position:static;transform:none;left:0;top:0;}
+  .ff-talk{font-size:22px;color:#000;margin:16px 16px 0;}
+  .ff-buttons{flex-direction:column;align-items:flex-start;gap:12px;margin:12px 16px 16px;}
+}
 
 body{cursor:none;}
 *{cursor:none!important;}
-#cur{position:fixed;top:0;left:0;width:14px;height:14px;border-radius:50%;background:#2E4689;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width 0.2s ease,height 0.2s ease;}
+#cur{position:fixed;top:0;left:0;width:14px;height:14px;border-radius:50%;background:#8AFF33;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width 0.2s ease,height 0.2s ease;}
 #cur.large{width:36px;height:36px;}
 
-#cur.pill,#cur.copied{width:auto!important;height:32px!important;border-radius:100px;background:#2E4689;padding:0 14px;display:flex!important;align-items:center;justify-content:center;}
-#cur-label{position:fixed;top:0;left:0;pointer-events:none;z-index:99999;font-family:var(--f);font-size:15px;font-weight:500;color:#fff;opacity:0;transform:translate(-50%,-50%);white-space:nowrap;background:#2E4689;border-radius:100px;padding:6px 14px;line-height:1;}
+#cur.pill,#cur.copied{width:auto!important;height:32px!important;border-radius:100px;background:#8AFF33;padding:0 14px;display:flex!important;align-items:center;justify-content:center;}
+#cur-label{position:fixed;top:0;left:0;pointer-events:none;z-index:99999;font-family:var(--f);font-size:15px;font-weight:500;color:#000;opacity:0;transform:translate(-50%,-50%);white-space:nowrap;background:#8AFF33;border-radius:100px;padding:6px 14px;line-height:1;}
 #cur.pill ~ #cur-label,#cur.copied ~ #cur-label{opacity:1;} #cur.pill,#cur.copied{opacity:0;}
+
+/* pixel-block cursor trail: solid chain of square blocks trailing the dot */
+.trail-block{position:fixed;top:0;left:0;background:#8AFF33;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);}
+
+/* restore the native cursor for touch devices and anyone who's asked the OS to reduce motion */
+@media (prefers-reduced-motion: reduce), (pointer: coarse){
+  body{cursor:auto;}
+  *{cursor:auto!important;}
+  #cur,#cur-label,.trail-block{display:none;}
+}
 
 </style>
 <meta name="view-transition" content="same-origin">
@@ -65,36 +193,105 @@ body{cursor:none;}
 <nav>
   <a class="nav-logo" href="#" id="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Sixian Chen</a>
   <div class="nav-links">
-    <a href="https://drive.google.com/file/d/1cgW7ovfP7m9MkWgwG5d24OVGbs0Zml-Y/view?usp=sharing" target="_blank">Resume</a>
+    <a href="https://drive.google.com/file/d/1cgW7ovfP7m9MkWgwG5d24OVGbs0Zml-Y/view?usp=sharing" target="_blank" rel="noopener noreferrer">Resume</a>
     <a href="about.html" id="about-link">About</a>
   </div>
 </nav>
 <main>
-  <div class="hero">
-    <p id="hero-text">Hello,<br>I’m Sixian (“si-shen”) <img style="height:1em;vertical-align:middle" src="si.png"> <img style="height:1em;vertical-align:middle" src="xian.png"><br>I trained in psychology to understand people, now I build B2B SaaS and AI products 0→1</p>
-    <p id="hero-text2">Based in Austin, TX. Open to relocation.<br><span id="email-item">chen_sixian@outlook.com</span> <img style="height:1em;vertical-align:middle" src="click.png"></p>
+  <div class="above-fold">
+  <div class="fold-spacer-top"></div>
+  <div class="hero-top">
+    <div class="tile goose-frame fx-in">
+      <img class="goose-img" src="threegoose.png" alt="">
+      <div class="goose-box" data-bubble="I studied cognitive science and research methodology" style="left:24.31%;top:43.42%;width:8.18%;height:24.74%;"><div class="tile-bubble"><span class="bubble-dot"></span><span class="bubble-text"></span></div></div>
+      <div class="goose-box" data-bubble="I moved into exploratory UX research, focusing on product market fit and user mental model" style="left:57.17%;top:18.86%;width:9.62%;height:33.25%;"><div class="tile-bubble"><span class="bubble-dot"></span><span class="bubble-text"></span></div></div>
+      <div class="goose-box" data-bubble="I realized I wanted to shape experience directly, so I pivoted to design" style="left:84.58%;top:11.58%;width:11.41%;height:22.98%;"><div class="tile-bubble"><span class="bubble-dot"></span><span class="bubble-text"></span></div></div>
+    </div>
+    <div class="tile tile-avatar fx-in"><img class="tile-img" src="avatar.png" alt=""></div>
   </div>
+
+  <div class="hero-row">
+    <div class="hero fx-in">
+      <p id="hero-text">Hello, I’m Sixian (“si-shen”). I trained in psychology to understand people, now I build B2B SaaS and AI products 0→1.</p>
+    </div>
+    <div class="previously fx-in">
+      <span class="previously-label">Previously</span>
+      <div class="sticker-carousel" id="sticker-carousel">
+        <img src="bcg_sticker.png" alt="BCG">
+        <img src="adobe_sticker.png" alt="Adobe">
+        <img src="kroger_sticker.png" alt="Kroger">
+        <img src="aes_sticker.png" alt="AES">
+      </div>
+    </div>
+  </div>
+  <div class="fold-spacer-bottom"></div>
+  </div>
+
   <div class="projects">
-    <a class="proj" href="adobe.html" style="text-decoration:none;color:inherit;">
-      <div class="img"><img src="index_adobe_hero.png" style="width:100%;height:100%;object-fit:cover;"></div>
-      <div class="meta"><p class="title">AI Agent - Help marketers understand and leverage customer data @Adobe</p><p class="sub">B2B · SaaS · 0→1</p></div>
-    </a>
-    <a class="proj" href="kroger.html" style="text-decoration:none;color:inherit;">
-      <div class="img"><img src="index_kroger_hero.png" style="width:100%;height:100%;object-fit:cover;"></div>
-      <div class="meta"><p class="title">Enable grocery associates to resolve customer issues on-site @Kroger</p><p class="sub">B2B · Service Design</p></div>
-    </a>
-    <a class="proj" href="aes_v2.html" style="text-decoration:none;color:inherit;">
-      <div class="img"><img src="index_aes_hero.png" style="width:100%;height:100%;object-fit:cover;"></div>
-      <div class="meta"><p class="title">Redesigning outage map to provide more clarity in reporting workflows @AES</p><p class="sub">Customer Portal · Utilities</p></div>
-    </a>
+    <div class="reveal">
+      <a class="proj" href="adobe.html" style="text-decoration:none;color:inherit;">
+        <div class="img"><img src="index_adobe_hero.png" style="width:100%;height:100%;object-fit:cover;"></div>
+        <div class="meta"><p class="title">AI Agent - Help marketers understand and leverage customer data @Adobe</p><div class="tags"><span class="tag">B2B</span><span class="tag">SaaS</span><span class="tag">0→1</span></div></div>
+      </a>
+    </div>
+    <div class="reveal">
+      <a class="proj" href="kroger.html" style="text-decoration:none;color:inherit;">
+        <div class="img"><img src="index_kroger_hero.png" style="width:100%;height:100%;object-fit:cover;"></div>
+        <div class="meta"><p class="title">Enable grocery associates to resolve customer issues on-site @Kroger</p><div class="tags"><span class="tag">B2B</span><span class="tag">Service Design</span></div></div>
+      </a>
+    </div>
+    <div class="reveal">
+      <a class="proj" href="aes_v2.html" style="text-decoration:none;color:inherit;">
+        <div class="img"><img src="index_aes_hero.png" style="width:100%;height:100%;object-fit:cover;"></div>
+        <div class="meta"><p class="title">Redesigning outage map to provide more clarity in reporting workflows @AES</p><div class="tags"><span class="tag">Customer Portal</span><span class="tag">Utilities</span></div></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="work-experience">
+    <p class="we-heading">Work Experience</p>
+    <div class="we-list">
+      <a class="we-row" href="https://cloudcred.io" target="_blank" rel="noopener noreferrer">
+        <div class="we-left"><span class="we-title">Product Designer, Cloudcred</span><span class="we-date">Aug 2026 - Present</span></div>
+        <p class="we-body">Leveraged AI to create a design system from 0→1 based on MVP screens, saving the team over 40+ hours</p>
+      </a>
+      <a class="we-row" href="https://sportlingo.ai" target="_blank" rel="noopener noreferrer">
+        <div class="we-left"><span class="we-title">Product Designer, NextPlay</span><span class="we-date">June 2026 - Present</span></div>
+        <p class="we-body">Designed workflows for both mobile and desktop experience for an education platform</p>
+      </a>
+      <a class="we-row" href="https://www.iu.edu" target="_blank" rel="noopener noreferrer">
+        <div class="we-left"><span class="we-title">UX Designer, Indiana University</span><span class="we-date">March 2025 - May 2026</span></div>
+        <p class="we-body">Reshaped the IA and homepage design of the Undergraduate Education website, leading to 20% increase in conversion</p>
+      </a>
+      <a class="we-row" href="https://www.aes.com" target="_blank" rel="noopener noreferrer">
+        <div class="we-left"><span class="we-title">Experience Designer, AES</span><span class="we-date">May - August 2025</span></div>
+        <p class="we-body">Redesigned the customer portal of 960K users, shortening key workflow by 35%</p>
+      </a>
+      <a class="we-row" href="https://www.bcg.com" target="_blank" rel="noopener noreferrer">
+        <div class="we-left"><span class="we-title">UX Researcher, BCG</span><span class="we-date">January - June 2023</span></div>
+        <p class="we-body">Conducted 10+ interviews with client internal teams, identifying three opportunities to boost team collaboration and efficiency</p>
+      </a>
+      <a class="we-row" href="https://www.hcrsurvey.com" target="_blank" rel="noopener noreferrer">
+        <div class="we-left"><span class="we-title">UX Researcher, HCR</span><span class="we-date">June - September 2022</span></div>
+        <p class="we-body">Leveraged survey analysis, voice of customer (VOC) results and sales data of 40K users, providing suggestion on future product strategy</p>
+      </a>
+    </div>
   </div>
 </main>
-  <div class="footer-row" style="display:flex;justify-content:space-between;margin-top:36px;padding-bottom:2.96vh;padding-left:var(--gutter);padding-right:var(--gutter);">
-    <span style="font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:-0.48px;color:rgba(0,0,0,0.2);">@2026 Vibe coded with Claude</span>
-    <div class="footer-links" style="display:flex;gap:2.19vw;">
-      <a href="https://www.linkedin.com/in/sixian-chen-51029125a/" target="_blank" class="footer-link" style="font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:-0.48px;color:#000;text-decoration:none;">LinkedIn</a>
-      <span id="footer-email" style="font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:-0.48px;color:#000;cursor:none;">chen_sixian@outlook.com</span>
+  <div class="new-footer" style="padding:0 var(--gutter) 2.96vh;margin-top:36px;">
+    <div class="ff-banner">
+      <div class="ff-goose"><img src="goosefooter.png" alt=""></div>
+      <div class="ff-sky">
+        <img src="skyfooter.png" alt="">
+        <p class="ff-talk">Let's talk!</p>
+        <div class="ff-buttons">
+          <a href="https://www.linkedin.com/in/sixian-chen-51029125a/" target="_blank" rel="noopener noreferrer" class="footer-link ff-btn"><img class="ff-btn-icon" src="linkedin-icon.svg" alt="">LinkedIn</a>
+          <span id="footer-email" class="ff-btn" style="cursor:none;"><img class="ff-btn-icon" src="send-icon.svg" alt="">chen_sixian@outlook.com</span>
+        </div>
+      </div>
     </div>
+    <div class="ff-divider"></div>
+    <p class="ff-copyright">@2026 This website is vibe coded with Claude and hosted on Github.</p>
   </div>
 
 <script>
@@ -109,29 +306,143 @@ document.addEventListener('mousemove', e=>{
 document.addEventListener('mouseleave',()=>cur.style.opacity='0');
 document.addEventListener('mouseenter',()=>cur.style.opacity='1');
 
-document.querySelectorAll('.img, .meta, nav a, .footer-link').forEach(el=>{
+// project card titles: keep the last 3 words glued together so the last line is never a 1-2 word orphan
+document.querySelectorAll('.title').forEach(el=>{
+  const words = el.textContent.trim().split(/\s+/);
+  if(words.length > 3){
+    const head = words.slice(0, -3).join(' ');
+    const tail = words.slice(-3).join(' ');
+    el.textContent = head + ' ' + tail;
+  }
+});
+
+document.querySelectorAll('.img, .meta, nav a, .footer-link, .goose-box[data-bubble], .we-row').forEach(el=>{
   el.addEventListener('mouseenter',()=>cur.classList.add('large'));
   el.addEventListener('mouseleave',()=>cur.classList.remove('large'));
 });
 
+// goose detection-box hover bubbles: typewriter reveal
+let typeTimer = null;
+document.querySelectorAll('.goose-box[data-bubble]').forEach(tile=>{
+  const bubble = tile.querySelector('.tile-bubble');
+  const bubbleText = bubble.querySelector('.bubble-text');
+  tile.addEventListener('mouseenter', ()=>{
+    const text = tile.dataset.bubble;
+    bubbleText.textContent = '';
+    clearInterval(typeTimer);
+    let i = 0;
+    bubble.classList.add('visible');
+    typeTimer = setInterval(()=>{
+      i++;
+      bubbleText.textContent = text.slice(0, i);
+      if(i >= text.length) clearInterval(typeTimer);
+    }, 28);
+  });
+  tile.addEventListener('mouseleave', ()=>{
+    bubble.classList.remove('visible');
+    clearInterval(typeTimer);
+  });
+});
+
+// pixel-block cursor trail: a solid, tight chain of squares following the dot (no scatter/drift)
+(function(){
+  const trailCount = 14;
+  const blocks = [], pos = [];
+  for(let i=0;i<trailCount;i++){
+    const el = document.createElement('div');
+    el.className = 'trail-block';
+    const size = 11 - i*0.5;
+    el.style.width = el.style.height = size+'px';
+    el.style.opacity = (0.9 - i*0.03).toFixed(2);
+    document.body.appendChild(el);
+    blocks.push(el);
+    pos.push({x:-100,y:-100});
+  }
+  let mouseX=-100, mouseY=-100;
+  document.addEventListener('mousemove', e=>{ mouseX=e.clientX; mouseY=e.clientY; });
+  let lastT = null;
+  (function animateTrail(t){
+    const dt = lastT===null ? 16.7 : Math.min(t - lastT, 48);
+    lastT = t;
+    const factor = 1 - Math.pow(1 - 0.3, dt/16.7); // frame-rate independent: ~30%/16.7ms catch-up
+    let targetX = mouseX, targetY = mouseY;
+    pos.forEach((p,i)=>{
+      p.x += (targetX - p.x) * factor;
+      p.y += (targetY - p.y) * factor;
+      blocks[i].style.left = Math.round(p.x/4)*4 + 'px';
+      blocks[i].style.top = Math.round(p.y/4)*4 + 'px';
+      targetX = p.x; targetY = p.y;
+    });
+    requestAnimationFrame(animateTrail);
+  })();
+})();
+
+// first-scroll entrance stagger: avatar -> goose -> hero text -> previously, 150ms apart
+(function(){
+  const seq = [
+    document.querySelector('.tile-avatar'),
+    document.querySelector('.goose-frame'),
+    document.querySelector('.hero'),
+    document.querySelector('.previously'),
+  ];
+  requestAnimationFrame(()=>{
+    seq.forEach((el,i)=>{
+      if(!el) return;
+      setTimeout(()=> el.classList.add('fx-show'), i*240);
+    });
+  });
+})();
+
+// project cards: float up into place on scroll
+(function(){
+  const revealObserver = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.15});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{
+    el.style.transitionDelay = (i*120)+'ms';
+    revealObserver.observe(el);
+  });
+})();
+
+// "Previously" sticker carousel — peel-and-slap-on cycle
+(function(){
+  const stickers = document.querySelectorAll('#sticker-carousel img');
+  let idx = 0;
+  stickers[0].classList.add('active');
+  setInterval(()=>{
+    const activeSticker = stickers[idx];
+    activeSticker.classList.remove('active');
+    activeSticker.classList.add('leaving');
+    idx = (idx + 1) % stickers.length;
+    const next = stickers[idx];
+    next.classList.add('active');
+    setTimeout(()=> activeSticker.classList.remove('leaving'), 300);
+  }, 1500);
+})();
+
 // email copy
 let emailCopied = false;
 document.addEventListener('mouseover', e=>{
-  const t = e.target.closest('#email-item, #footer-email');
+  const t = e.target.closest('#footer-email');
   if(t && !emailCopied){
     cur.classList.add('pill');
     curLabel.textContent='copy';
   }
 });
 document.addEventListener('mouseout', e=>{
-  const t = e.target.closest('#email-item, #footer-email');
+  const t = e.target.closest('#footer-email');
   if(t && !emailCopied){
     cur.classList.remove('pill');
     curLabel.textContent='';
   }
 });
 document.addEventListener('click', async e=>{
-  const t = e.target.closest('#email-item, #footer-email');
+  const t = e.target.closest('#footer-email');
   if(!t || emailCopied) return;
   try{ await navigator.clipboard.writeText('chen_sixian@outlook.com'); }catch(err){
     const ta=document.createElement('textarea');
