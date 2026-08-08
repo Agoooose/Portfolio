@@ -38,6 +38,7 @@ nav a{font-family:var(--f);font-size:var(--nav-fs);font-weight:600;line-height:1
 nav a:hover{opacity:.5;}
 .footer-link:hover{opacity:.5;}
 main{padding:var(--nav-h) var(--gutter) 120px;}
+.projects-heading{font-size:16px;font-weight:550;color:#000;margin-bottom:24px;}
 .projects{display:grid;grid-template-columns:repeat(2,1fr);gap:60px;}
 
 /* "first scroll" = the space below the fixed nav must fill the rest of the first viewport on any device, so
@@ -46,7 +47,7 @@ main{padding:var(--nav-h) var(--gutter) 120px;}
    left below it — so centering below is relative to "below the nav", not the full screen. The whole stack
    (image, then hero text, then previously) is vertically centered in that region via two equal flexible
    spacers; .fold-spacer-top keeps a small floor so the image never sits flush against the nav. */
-.above-fold{min-height:calc(100vh - var(--nav-h));display:flex;flex-direction:column;margin-bottom:100px;}
+.above-fold{min-height:calc(100vh - var(--nav-h));display:flex;flex-direction:column;margin-bottom:48px;}
 .fold-spacer-top{flex:1 1 0;min-height:96px;}
 .fold-spacer-bottom{flex:1 1 0;min-height:0;}
 
@@ -115,7 +116,7 @@ main{padding:var(--nav-h) var(--gutter) 120px;}
 
 /* work experience: text sizes scaled down from the Figma 24px spec to the site's 16px system, matching
    how nav/hero text were already scaled down from their Figma-literal sizes */
-.work-experience{margin-top:100px;}
+.work-experience{margin-top:132px;}
 .we-heading{font-size:16px;font-weight:550;color:#000;margin-bottom:24px;}
 .we-list{display:flex;flex-direction:column;border-bottom:2px solid #1e1e1e;}
 .we-row{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:16px 0;border-top:2px solid #1e1e1e;text-decoration:none;transition:background-color .2s ease;}
@@ -227,6 +228,8 @@ body{cursor:none;}
   <div class="fold-spacer-bottom"></div>
   </div>
 
+  <div class="projects-section">
+  <p class="projects-heading reveal">Projects</p>
   <div class="projects">
     <div class="reveal">
       <a class="proj" href="adobe.html" style="text-decoration:none;color:inherit;">
@@ -247,8 +250,10 @@ body{cursor:none;}
       </a>
     </div>
   </div>
+  </div>
 
   <div class="work-experience">
+    <div class="reveal">
     <p class="we-heading">Work Experience</p>
     <div class="we-list">
       <a class="we-row" href="https://cloudcred.io" target="_blank" rel="noopener noreferrer">
@@ -276,9 +281,11 @@ body{cursor:none;}
         <p class="we-body">Leveraged survey analysis, voice of customer (VOC) results and sales data of 40K users, providing suggestion on future product strategy</p>
       </a>
     </div>
+    </div>
   </div>
 </main>
   <div class="new-footer" style="padding:0 var(--gutter) 2.96vh;margin-top:36px;">
+    <div class="reveal">
     <div class="ff-banner">
       <div class="ff-goose"><img src="goosefooter.png" alt=""></div>
       <div class="ff-sky">
@@ -292,6 +299,7 @@ body{cursor:none;}
     </div>
     <div class="ff-divider"></div>
     <p class="ff-copyright">@2026 This website is vibe coded with Claude and hosted on Github.</p>
+    </div>
   </div>
 
 <script>
@@ -393,7 +401,9 @@ document.querySelectorAll('.goose-box[data-bubble]').forEach(tile=>{
   });
 })();
 
-// project cards: float up into place on scroll
+// float-up-into-place on scroll, shared by the projects, work experience, and footer sections —
+// delay resets to 0 at the start of each section so a section's cascade always feels snappy,
+// instead of accumulating one giant delay across the whole page
 (function(){
   const revealObserver = new IntersectionObserver(entries=>{
     entries.forEach(entry=>{
@@ -403,9 +413,11 @@ document.querySelectorAll('.goose-box[data-bubble]').forEach(tile=>{
       }
     });
   }, {threshold:0.15});
-  document.querySelectorAll('.reveal').forEach((el,i)=>{
-    el.style.transitionDelay = (i*120)+'ms';
-    revealObserver.observe(el);
+  document.querySelectorAll('.projects-section, .work-experience, .new-footer').forEach(section=>{
+    section.querySelectorAll('.reveal').forEach((el,i)=>{
+      el.style.transitionDelay = (i*120)+'ms';
+      revealObserver.observe(el);
+    });
   });
 })();
 
