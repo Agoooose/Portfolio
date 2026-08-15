@@ -11,69 +11,113 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Outage Reporting — Sixian Chen</title>
+<link rel="icon" type="image/png" href="favicon_goose_tight.png">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..700&display=swap" rel="stylesheet">
 <style>
-  html,body{scrollbar-width:none;}
+html,body{scrollbar-width:none;}
 html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;}
 body{overflow-y:scroll;}
-#pnav{position:fixed;right:3.23vw;top:50%;transform:translateY(-50%);width:2px;height:120px;background:rgba(46,70,137,0.15);border-radius:2px;z-index:100;}
-#pnav-fill{width:100%;height:0%;background:#2E4689;border-radius:2px;transition:height 0.1s;}
 *{margin:0;padding:0;box-sizing:border-box;}
-:root{--f:"Manrope",sans-serif;--pad:3.9vw;--c:#2E4689;}
-body{font-family:var(--f);background:#fff;-webkit-font-smoothing:antialiased;overscroll-behavior:none;}
+:root{--f:"Manrope",sans-serif;--gutter:max(40px, 7.8vw);--nav-fs:16px;--nav-h:calc(5.92vh + 19.2px);}
+body{font-family:var(--f);background:#fff;color:#000;-webkit-font-smoothing:antialiased;overscroll-behavior:none;}
 
-nav{position:fixed;top:2.96vh;z-index:200;}
-.nav-logo{left:3.23vw;position:fixed;top:2.96vh;z-index:200;}
-.nav-links{right:3.23vw;position:fixed;top:2.96vh;display:flex;gap:2.19vw;z-index:200;}
-nav a{font-family:var(--f);font-size:16px;font-weight:600;line-height:120%;letter-spacing:-0.32px;color:#000;text-decoration:none;}
+.reveal{opacity:0;transform:translateY(110px) scale(.94);transition:opacity .9s cubic-bezier(0.16,1,0.3,1),transform .9s cubic-bezier(0.16,1,0.3,1);}
+.reveal.in-view{opacity:1;transform:translateY(0) scale(1);}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:2.96vh var(--gutter);background:rgba(255,255,255,.55);backdrop-filter:blur(22px) saturate(190%) brightness(1.05);-webkit-backdrop-filter:blur(22px) saturate(190%) brightness(1.05);overflow:hidden;}
+nav::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.09;mix-blend-mode:overlay;pointer-events:none;}
+.nav-logo,.nav-links{position:relative;z-index:1;}
+.nav-logo{display:flex;align-items:center;gap:8px;}
+.nav-logo-icon{width:44px;height:44px;border-radius:50%;object-fit:cover;display:block;}
+.nav-links{display:flex;gap:2.19vw;}
+nav a{font-family:var(--f);font-size:var(--nav-fs);font-weight:600;line-height:120%;letter-spacing:-0.32px;color:#000;text-decoration:none;}
 nav a:hover{opacity:.5;}
-.footer-row{align-items:center;}
 .footer-link:hover{opacity:.5;}
 
-.header{
-  padding:calc(2.96vh + clamp(18px,1.25vw,24px) + 48px) calc(var(--pad)*2) 40px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:clamp(24px,4vw,80px);
-}
-.header-title{
-  font-size:24px;
-  font-weight:450;
-  line-height:1.3;
-  letter-spacing:0;
-  color:#000;
-  max-width:60%;
-}
-.header-meta{
-  font-size:clamp(13px,1vw,16px);
-  font-weight:450;
-  line-height:1.6;
-  color:rgba(0,0,0,0.4);
-  text-align:right;
-  flex-shrink:0;
-}
-.hero-img{width:calc(100% - var(--pad)*4);max-width:1774px;margin:0 calc(var(--pad)*2) 80px;display:block;}
+#pnav{position:fixed;right:3.23vw;top:50%;transform:translateY(-50%);width:2px;height:120px;background:rgba(46,70,137,0.15);border-radius:2px;z-index:100;}
+#pnav-fill{width:100%;height:0%;background:#000;border-radius:2px;transition:height 0.1s;}
 
-.content{padding:80px calc(var(--pad)*2) 0;max-width:1400px;margin:0 auto;}
-.section{margin-bottom:96px;}
-.section-row{display:grid;grid-template-columns:1fr 1fr;align-items:start;margin-bottom:8px;}
-.section-title{padding-right:clamp(24px,3vw,60px);color:#000;font-size:clamp(16px,1.25vw,24px);font-weight:600;letter-spacing:0;line-height:1.7;}
-.section-body{font-size:clamp(16px,0.3vw,17px);font-weight:400;line-height:1.7;color:#000;letter-spacing:0;}
-.video-wrap{margin-bottom:40px;}
-.video-inner{overflow:hidden;border-radius:8px;}
-.video-inner video{width:calc(100% + 40px);margin:-20px -20px;display:block;}
-.video-caption{font-size:clamp(16px,1.2vw,19px);font-weight:400;color:#000;margin-top:10px;text-align:center;}
-.cards{display:flex;gap:24px;}
-.card{flex:1;padding:32px;background:#F5F7FC;border-radius:8px;}
-.card-num{font-size:clamp(32px,3vw,48px);font-weight:700;color:#2E4689;letter-spacing:-0.03em;line-height:1.1;margin-bottom:8px;}
-.card-desc{font-size:clamp(20px,1.5vw,24px);font-weight:400;color:rgba(0,0,0,0.4);}
+.header{padding:var(--nav-h) var(--gutter) 0;}
+.title-zone{min-height:clamp(220px,26vw,380px);display:flex;align-items:center;justify-content:space-between;gap:24px;}
+.header-title{font-size:clamp(22px,1.85vw,32px);font-weight:500;line-height:1.3;letter-spacing:0;color:#000;max-width:min(900px,70%);}
+.tags{display:flex;gap:4px;flex-shrink:0;}
+.tag{border:1.5px solid #000;border-radius:99px;padding:0 12px;font-family:var(--f);font-size:15px;font-weight:500;line-height:22.5px;color:#000;white-space:nowrap;}
+
+.context-row{display:flex;gap:clamp(24px,2.78vw,48px);}
+.context-col{flex:0 0 auto;display:flex;flex-direction:column;gap:12px;}
+.context-col:last-child{max-width:280px;}
+.context-label{font-size:16px;font-weight:500;color:#000;line-height:1.2;}
+.context-value{font-size:16px;font-weight:500;color:#000;opacity:.5;line-height:1.2;}
+
+.hero-img{width:calc(100% - var(--gutter)*2);margin:80px var(--gutter) 96px;display:block;border-radius:4px;}
+
+.overview-section{padding:0 var(--gutter) 0;}
+.overview-row{display:grid;grid-template-columns:1fr 1fr;align-items:start;margin-bottom:96px;}
+.overview-row:last-child{margin-bottom:0;}
+.overview-label{padding-right:clamp(24px,3vw,60px);color:#000;font-size:clamp(16px,1.25vw,24px);font-weight:600;letter-spacing:0;line-height:1.7;}
+.overview-body{font-size:clamp(16px,0.3vw,17px);font-weight:400;line-height:1.7;color:#000;letter-spacing:0;}
+@media (max-width:700px){
+  .overview-row{grid-template-columns:1fr;gap:8px;}
+}
+
+.metrics-row{display:grid;grid-template-columns:1fr 1fr;align-items:start;column-gap:clamp(24px,3vw,60px);padding:0 var(--gutter) 96px;}
+.metrics-title{padding-right:clamp(24px,3vw,60px);color:#000;font-size:clamp(16px,1.25vw,24px);font-weight:600;letter-spacing:0;line-height:1.7;}
+.metrics-content{display:flex;gap:clamp(32px,4vw,64px);text-align:center;}
+.metric-num{display:inline-block;font-size:clamp(28px,3vw,40px);font-weight:500;color:#000;letter-spacing:-0.02em;line-height:1.1;margin-bottom:8px;}
+.metric-desc{font-size:16px;font-weight:400;color:rgba(48,48,48,.7);}
+@media (max-width:700px){
+  .metrics-row{grid-template-columns:1fr;gap:8px;}
+  .metrics-content{flex-direction:column;gap:32px;}
+}
+
+.video-section{width:100%;padding:24px var(--gutter) 96px;display:flex;flex-direction:column;align-items:center;gap:64px;}
+.video-card{width:50%;}
+.video-card .video-inner{overflow:hidden;border-radius:4px;border:2.5px solid #000;box-sizing:border-box;}
+.video-card .video-inner video{width:calc(100% + 40px);margin:-20px -20px;display:block;}
+.video-card .video-caption{margin-top:16px;text-align:center;font-size:16px;font-weight:400;color:rgba(48,48,48,.7);}
+@media (max-width:700px){
+  .video-section{padding:24px var(--gutter) 64px;gap:32px;}
+  .video-card{width:88%;}
+}
+
+.research-section{display:grid;grid-template-columns:1fr 1fr;column-gap:clamp(24px,3vw,60px);padding:96px var(--gutter) 96px;}
+.research-title{grid-column:1;align-self:start;padding-right:clamp(24px,3vw,60px);color:#000;font-size:clamp(16px,1.25vw,24px);font-weight:600;letter-spacing:0;line-height:1.7;}
+.research-content{grid-column:2;text-align:left;}
+.research-body{font-size:clamp(16px,0.3vw,17px);font-weight:400;line-height:1.7;color:#000;letter-spacing:0;margin-bottom:16px;}
+.research-body:last-child{margin-bottom:0;}
+@media (max-width:700px){
+  .research-section{grid-template-columns:1fr;}
+  .research-content{grid-column:1;}
+}
+
+/* footer — copied from index.html */
+.ff-banner{display:flex;gap:2.49%;}
+.ff-goose{flex:0 0 16.45%;aspect-ratio:1/1;border-radius:18px;border:3px solid #000;overflow:hidden;position:relative;}
+.ff-goose img{width:100%;height:100%;object-fit:cover;object-position:bottom;display:block;}
+.ff-sky{flex:1 1 auto;aspect-ratio:1434/291;position:relative;}
+.ff-sky>img{width:100%;height:100%;object-fit:cover;filter:grayscale(100%);border-radius:24px;border:4px solid #000;box-sizing:border-box;display:block;}
+.ff-talk{position:absolute;left:3.6%;top:21%;transform:translateY(-50%);font-family:var(--f);font-size:28px;font-weight:600;color:#fff;margin:0;}
+.ff-buttons{position:absolute;left:3.6%;top:81%;transform:translateY(-50%);display:flex;gap:16px;}
+.ff-btn{display:flex;align-items:center;gap:8px;background:#fff;border:2.5px solid #000;border-radius:99px;padding:8px 20px;font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:-0.48px;color:#000;text-decoration:none;white-space:nowrap;}
+.ff-btn-icon{width:18px;height:18px;flex-shrink:0;}
+.ff-divider{height:2px;background:#1e1e1e;margin-top:36px;}
+.ff-copyright{font-family:var(--f);font-size:16px;font-weight:500;color:#000;margin-top:24px;}
+@media (max-width:700px){
+  .ff-banner{flex-direction:column;gap:16px;}
+  .ff-goose{flex:0 0 auto;width:100%;aspect-ratio:16/9;}
+  .ff-sky{aspect-ratio:auto;display:flex;flex-direction:column;}
+  .ff-sky>img{width:100%;height:auto;aspect-ratio:1434/291;display:block;}
+  .ff-talk,.ff-buttons{position:static;transform:none;left:0;top:0;}
+  .ff-talk{font-size:22px;color:#000;margin:16px 16px 0;}
+  .ff-buttons{flex-direction:column;align-items:flex-start;gap:12px;margin:12px 16px 16px;}
+}
 
 body{cursor:none;}
 *{cursor:none!important;}
-#cur{position:fixed;top:0;left:0;width:14px;height:14px;border-radius:50%;background:#2E4689;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width 0.2s,height 0.2s;}
+#cur{position:fixed;top:0;left:0;width:14px;height:14px;border-radius:50%;background:#000;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width 0.2s,height 0.2s;}
 #cur.large{width:36px;height:36px;}
-#cur-label{position:fixed;top:0;left:0;pointer-events:none;z-index:99999;font-family:var(--f);font-size:15px;font-weight:500;color:#fff;opacity:0;transform:translate(-50%,-50%);white-space:nowrap;background:#2E4689;border-radius:100px;padding:6px 14px;line-height:1;}
+#cur-label{position:fixed;top:0;left:0;pointer-events:none;z-index:99999;font-family:var(--f);font-size:15px;font-weight:500;color:#fff;opacity:0;transform:translate(-50%,-50%);white-space:nowrap;background:#000;border-radius:100px;padding:6px 14px;line-height:1;}
 #cur.pill ~ #cur-label,#cur.copied ~ #cur-label{opacity:1;}
 #cur.pill,#cur.copied{opacity:0;}
 </style>
@@ -81,82 +125,104 @@ body{cursor:none;}
 </head>
 <body>
 <nav>
-  <a class="nav-logo" href="index.html">Sixian Chen</a>
+  <a class="nav-logo" href="index.html"><img src="favicon_goose.png" alt="" class="nav-logo-icon">Sixian Chen</a>
   <div class="nav-links">
-    <a href="https://drive.google.com/file/d/1cgW7ovfP7m9MkWgwG5d24OVGbs0Zml-Y/view?usp=sharing" target="_blank">Resume</a>
+    <a href="https://drive.google.com/file/d/1cgW7ovfP7m9MkWgwG5d24OVGbs0Zml-Y/view?usp=sharing" target="_blank" rel="noopener noreferrer">Resume</a>
     <a href="about.html">About</a>
   </div>
 </nav>
-  <div id="pnav"><div id="pnav-fill"></div></div>
+<div id="pnav"><div id="pnav-fill"></div></div>
 <div id=cur></div><span id=cur-label></span>
 
-
-
 <div class="header">
-  <p class="header-title">Enhancing Guest User Experience by Closing the Feedback Loop in Outage Reporting @AES</p>
-  <p class="header-meta">Customer Portal /<br>Service Design</p>
+  <div class="title-zone reveal">
+    <p class="header-title">Enhancing Guest User Experience by Closing the Feedback Loop in Outage Reporting @AES</p>
+    <div class="tags"><span class="tag">Customer Portal</span><span class="tag">Utility</span></div>
+  </div>
+  <div class="context-row reveal">
+    <div class="context-col">
+      <p class="context-label">Timeline</p>
+      <p class="context-value">4 weeks</p>
+    </div>
+    <div class="context-col">
+      <p class="context-label">Role</p>
+      <p class="context-value">Solo designer</p>
+    </div>
+    <div class="context-col">
+      <p class="context-label">Team</p>
+      <p class="context-value">1 Product Owner, 1 Developer, 1 Customer Insight Researcher</p>
+    </div>
+  </div>
 </div>
 
-<img class="hero-img" src="index_aes_hero.png" alt="AES project hero">
+<div class="hero-section">
+  <img class="hero-img reveal" src="index_aes_hero.png" alt="AES project hero">
+</div>
 
+<div class="overview-section">
+  <div class="overview-row reveal">
+    <p class="overview-label">Overview</p>
+    <p class="overview-body">AES Indiana is an energy company serving over 500,000 residents and businesses in the capital city of Indiana. The customer portal allows users to pay bills and report outages. I was responsible for redesigning the outage reporting workflow and UI to increase user satisfaction.</p>
+  </div>
+  <div class="overview-row reveal">
+    <p class="overview-label">Challenge</p>
+    <p class="overview-body">1. Technical constraints: backend slowness made instant report acknowledgement not possible.<br>2. Operational limits: power restoration could not be sped up anymore due to limited engineer capacity and storm severity.</p>
+  </div>
+  <div class="overview-row reveal">
+    <p class="overview-label">Solution</p>
+    <p class="overview-body"></p>
+  </div>
+</div>
 
-<div class="content">
+<div class="video-section">
+  <div class="video-card">
+    <div class="video-inner"><video muted loop playsinline preload="none" data-src="address report.mp4"></video></div>
+    <p class="video-caption">Report acknowledgment (unauthenticated)</p>
+  </div>
+  <div class="video-card">
+    <div class="video-inner"><video muted loop playsinline preload="none" data-src="login.mp4"></video></div>
+    <p class="video-caption">Report acknowledgment (authenticated)</p>
+  </div>
+  <div class="video-card">
+    <div class="video-inner"><video muted loop playsinline preload="none" data-src="search.mp4"></video></div>
+    <p class="video-caption">Search for outage status on the map</p>
+  </div>
+</div>
 
-  <div class="section">
-    <div class="section-row">
-      <p class="section-title">Overview</p>
-      <p class="section-body">AES Indiana is an energy company serving over 500,000 residents and businesses in the capital city of Indiana. The customer portal allows users to pay bills and report outages. I was responsible for redesigning the outage reporting workflow and UI to increase user satisfaction.</p>
+<div class="metrics-row">
+  <p class="metrics-title">Impact</p>
+  <div class="metrics-content">
+    <div class="metric reveal">
+      <p class="metric-num" data-value="63" data-prefix="+" data-suffix="%">+0%</p>
+      <p class="metric-desc">Satisfaction (2.2→3.4)</p>
+    </div>
+    <div class="metric reveal">
+      <p class="metric-num" data-value="45" data-prefix="-" data-suffix="%">-0%</p>
+      <p class="metric-desc">Rage click rate</p>
     </div>
   </div>
+</div>
 
-  <div class="section">
-    <div class="section-row">
-      <p class="section-title">Challenge</p>
-      <p class="section-body">1. Technical constraints: backend slowness made instant report acknowledgement not possible.<br>2. Operational limits: power restoration could not be sped up anymore due to limited engineer capacity and storm severity.</p>
-    </div>
+<hr style="border:none;border-top:1px solid rgba(0,0,0,.12);margin:160px 0;">
+
+<div class="research-section">
+  <p class="research-title">01 Context</p>
+  <div class="research-content">
+    <p class="research-body">Frequent storms during spring and summer in mid-west often lead to massive power outages. Electricity companies have an outage map that allows users to report issues and check restoration status.</p>
   </div>
+</div>
 
-  <div class="section">
-    <div class="section-row">
-      <p class="section-title">Solution</p>
-      <p class="section-body"></p>
-    </div>
-    <div class="video-wrap"><div class="video-inner"><video autoplay muted loop playsinline src="address report.mp4"></video></div><p class="video-caption">Report acknowledgment (unauthenticated)</p></div>
-    <div class="video-wrap"><div class="video-inner"><video autoplay muted loop playsinline src="login.mp4"></video></div><p class="video-caption">Report acknowledgment (authenticated)</p></div>
-    <div class="video-wrap"><div class="video-inner"><video autoplay muted loop playsinline src="search.mp4"></video></div><p class="video-caption">Search for outage status on the map</p></div>
+<div class="research-section">
+  <p class="research-title">02 Problem</p>
+  <div class="research-content">
+    <p class="research-body">Users' reports will not be updated to the map until 15 minutes later due to backend system constraints. As a result, users are very worried if the outage is known by the company and if there are engineers working on the problem.</p>
   </div>
+</div>
 
-  <div class="section">
-    <div class="section-row">
-      <p class="section-title">Impact</p>
-      <div class="cards">
-        <div class="card"><p class="card-num">+63%</p><p class="card-desc">Satisfaction (2.2→3.4)</p></div>
-        <div class="card"><p class="card-num">-45%</p><p class="card-desc">Rage click rate</p></div>
-      </div>
-    </div>
-  </div>
-
-  <hr style="border:none;border-top:1px solid rgba(46,70,137,0.4);margin:160px 0;">
-
-  <div class="section">
-    <div class="section-row">
-      <p class="section-title">01 Context</p>
-      <p class="section-body">Frequent storms during spring and summer in mid-west often lead to massive power outages. Electricity companies have an outage map that allows users to report issues and check restoration status.</p>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-row">
-      <p class="section-title">02 Problem</p>
-      <p class="section-body">Users' reports will not be updated to the map until 15 minutes later due to backend system constraints. As a result, users are very worried if the outage is known by the company and if there are engineers working on the problem.</p>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-row">
-      <p class="section-title">03 How transparent should we be about how the system works?</p>
-      <p class="section-body">Through iterations, I learnt that my design should reveal part of the system behind the scenes to help customers understand the work involved, set realistic expectations, and then improve the overall experience.</p>
-    </div>
+<div class="research-section">
+  <p class="research-title">03 How transparent should we be about how the system works?</p>
+  <div class="research-content">
+    <p class="research-body">Through iterations, I learnt that my design should reveal part of the system behind the scenes to help customers understand the work involved, set realistic expectations, and then improve the overall experience.</p>
     <div style="display:flex;gap:24px;margin-top:24px;">
       <img src="system delay.png" style="width:calc(50% - 12px);border-radius:8px;display:block;">
       <img src="active crew.png" style="width:calc(50% - 12px);border-radius:8px;display:block;">
@@ -165,39 +231,112 @@ body{cursor:none;}
       <img src="report flow static.png" style="width:120%;margin-left:-10%;display:block;">
     </div>
   </div>
+</div>
 
-  <div class="section">
-    <div class="section-row">
-      <p class="section-title">04 Do users need to log in to report outages?</p>
-      <p class="section-body">I conducted competitive analysis and user research to understand this problem. It turned out that removing the guest user option can cause really big trouble as some users don't know the account number or passwords during power outages.</p>
-    </div>
-    <div class="section-row" style="margin-top:24px;"><p></p><img src="login analysis.png" style="width:100%;display:block;border-radius:8px;"></div>
-    <div class="section-row" style="margin-top:24px;">
-      <p></p>
-      <p class="section-body">So my solution is two-step: customers are allowed to report the outage with simply their address if they're in a rush, but they can always log in to get real-time repair status and monitor multiple addresses.</p>
-    </div>
+<div class="research-section">
+  <p class="research-title">04 Do users need to log in to report outages?</p>
+  <div class="research-content">
+    <p class="research-body">I conducted competitive analysis and user research to understand this problem. It turned out that removing the guest user option can cause really big trouble as some users don't know the account number or passwords during power outages.</p>
+    <img src="login analysis.png" style="width:100%;display:block;border-radius:8px;margin-top:24px;">
+    <p class="research-body" style="margin-top:24px;">So my solution is two-step: customers are allowed to report the outage with simply their address if they're in a rush, but they can always log in to get real-time repair status and monitor multiple addresses.</p>
     <img src="report_flow_static_all_white.png" style="width:100%;display:block;margin-top:24px;border-radius:8px;">
   </div>
+</div>
 
+<hr style="border:none;border-top:1px solid rgba(0,0,0,.12);margin:160px 0;">
 
-  <hr style="border:none;border-top:1px solid rgba(46,70,137,0.4);margin:160px 0;">
-
-  <div class="section">
-    <div class="section-row">
-      <p class="section-title">Behind the scene: You got to drive changes</p>
-      <p class="section-body">I identified this issue while conducting a UX audit for another project. I discussed it with my supervisor, the Product Owner, who seconded my thoughts and encouraged me to advocate for the project.<br><br>I proactively reached out to the researcher and developer team through 1:1 meetings. I highlighted the project's UX value and how it fit with their current priorities, successfully rallying their support.</p>
-    </div>
-    <div class="section-row" style="margin-top:24px;"><p></p><img src="team_white.png" style="width:100%;display:block;border-radius:8px;"></div>
-  </div>
-
-  <div class="footer-row" style="display:flex;justify-content:space-between;margin-top:2.96vh;padding-bottom:2.96vh;">
-    <span style="font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:-0.48px;color:rgba(0,0,0,0.2);">@2026 Vibe coded with Claude</span>
-    <div class="footer-links" style="display:flex;gap:2.19vw;">
-      <a href="https://www.linkedin.com/in/sixian-chen-51029125a/" target="_blank" class="footer-link" style="font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:-0.48px;color:#000;text-decoration:none;">LinkedIn</a>
-      <span id="footer-email" style="font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:-0.48px;color:#000;cursor:none;">chen_sixian@outlook.com</span>
-    </div>
+<div class="research-section">
+  <p class="research-title">Behind the scene: You got to drive changes</p>
+  <div class="research-content">
+    <p class="research-body">I identified this issue while conducting a UX audit for another project. I discussed it with my supervisor, the Product Owner, who seconded my thoughts and encouraged me to advocate for the project.<br><br>I proactively reached out to the researcher and developer team through 1:1 meetings. I highlighted the project's UX value and how it fit with their current priorities, successfully rallying their support.</p>
+    <img src="team_white.png" style="width:100%;display:block;border-radius:8px;margin-top:24px;">
   </div>
 </div>
+
+<div class="new-footer" style="padding:0 var(--gutter) 2.96vh;margin-top:80px;">
+  <div class="reveal">
+    <div class="ff-banner">
+      <div class="ff-goose"><img src="goosefooter.png" alt=""></div>
+      <div class="ff-sky">
+        <img src="skyfooter.png" alt="">
+        <p class="ff-talk">Let's talk!</p>
+        <div class="ff-buttons">
+          <a href="https://www.linkedin.com/in/sixian-chen-51029125a/" target="_blank" rel="noopener noreferrer" class="footer-link ff-btn"><img class="ff-btn-icon" src="linkedin-icon.svg" alt="">LinkedIn</a>
+          <span id="footer-email" class="ff-btn" style="cursor:none;"><img class="ff-btn-icon" src="send-icon.svg" alt="">chen_sixian@outlook.com</span>
+        </div>
+      </div>
+    </div>
+    <div class="ff-divider"></div>
+    <p class="ff-copyright">@2026 This website is vibe coded with Claude and hosted on Github.</p>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.header-title, .research-subtitle').forEach(el=>{
+  const words = el.textContent.trim().split(/\s+/);
+  if(words.length > 3){
+    const head = words.slice(0, -3).join(' ');
+    const tail = words.slice(-3).join(' ');
+    el.textContent = head + ' ' + tail;
+  }
+});
+</script>
+<script>
+(function(){
+  function animateCount(el){
+    const target = parseFloat(el.dataset.value);
+    const decimals = el.dataset.decimals ? parseInt(el.dataset.decimals) : 0;
+    const suffix = el.dataset.suffix || '';
+    const prefix = el.dataset.prefix || '';
+    const duration = 1400;
+    const start = performance.now();
+    function tick(now){
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = prefix + (target * eased).toFixed(decimals) + suffix;
+      if(p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  const revealObserver = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        if(entry.target.classList.contains('metric')){
+          const num = entry.target.querySelector('.metric-num');
+          if(num) animateCount(num);
+        }
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.15});
+  document.querySelectorAll('.header, .hero-section, .overview-section, .metrics-row, .new-footer').forEach(section=>{
+    section.querySelectorAll('.reveal').forEach((el,i)=>{
+      el.style.transitionDelay = (i*120)+'ms';
+      revealObserver.observe(el);
+    });
+  });
+
+  const videos = document.querySelectorAll('.video-card video');
+  if(videos.length){
+    const videoObserver = new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        const v = entry.target;
+        if(entry.isIntersecting){
+          if(!v.src){
+            v.src = v.dataset.src;
+            v.load();
+          }
+          v.play().catch(()=>{});
+        } else {
+          v.pause();
+        }
+      });
+    }, {rootMargin:'200px'});
+    videos.forEach(v=>videoObserver.observe(v));
+  }
+})();
+</script>
 <script>
 const lenis = new Lenis({duration:1.2,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),overscroll:false});
 function raf(time){lenis.raf(time);requestAnimationFrame(raf);}
@@ -216,7 +355,7 @@ document.addEventListener('mousemove', e=>{
   curLabel.style.top=e.clientY+'px';
 });
 
-document.querySelectorAll('.footer-link').forEach(el=>{
+document.querySelectorAll('.footer-link, nav a, .overview-link').forEach(el=>{
   el.addEventListener('mouseenter',()=>cur.classList.add('large'));
   el.addEventListener('mouseleave',()=>cur.classList.remove('large'));
 });
@@ -241,5 +380,6 @@ document.addEventListener('click', async e=>{
   curLabel.textContent='copied to clipboard';
   setTimeout(()=>{ emailCopied=false; cur.classList.remove('copied'); curLabel.textContent=''; },2000);
 });
-</script></body>
+</script>
+</body>
 </html>
