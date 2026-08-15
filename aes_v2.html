@@ -203,7 +203,7 @@ body{cursor:none;}
   </div>
 </div>
 
-<hr style="border:none;border-top:1px solid rgba(0,0,0,.12);margin:160px 0;">
+<hr style="border:none;border-top:1px solid rgba(0,0,0,.12);margin:64px var(--gutter);">
 
 <div class="research-section">
   <p class="research-title">01 Context</p>
@@ -223,13 +223,13 @@ body{cursor:none;}
   <p class="research-title">03 How transparent should we be about how the system works?</p>
   <div class="research-content">
     <p class="research-body">Through iterations, I learnt that my design should reveal part of the system behind the scenes to help customers understand the work involved, set realistic expectations, and then improve the overall experience.</p>
-    <div style="display:flex;gap:24px;margin-top:24px;">
-      <img src="system delay.png" style="width:calc(50% - 12px);border-radius:8px;display:block;">
-      <img src="active crew.png" style="width:calc(50% - 12px);border-radius:8px;display:block;">
-    </div>
-    <div style="overflow:hidden;margin-top:24px;border-radius:8px;">
-      <img src="report flow static.png" style="width:120%;margin-left:-10%;display:block;">
-    </div>
+  </div>
+  <div style="grid-column:1/-1;display:flex;gap:24px;margin-top:24px;">
+    <img src="system delay.png" style="width:calc(50% - 12px);border-radius:8px;display:block;">
+    <img src="active crew.png" style="width:calc(50% - 12px);border-radius:8px;display:block;">
+  </div>
+  <div style="grid-column:1/-1;overflow:hidden;margin-top:24px;border-radius:8px;">
+    <img src="report flow static.png" style="width:120%;margin-left:-10%;display:block;">
   </div>
 </div>
 
@@ -239,11 +239,11 @@ body{cursor:none;}
     <p class="research-body">I conducted competitive analysis and user research to understand this problem. It turned out that removing the guest user option can cause really big trouble as some users don't know the account number or passwords during power outages.</p>
     <img src="login analysis.png" style="width:100%;display:block;border-radius:8px;margin-top:24px;">
     <p class="research-body" style="margin-top:24px;">So my solution is two-step: customers are allowed to report the outage with simply their address if they're in a rush, but they can always log in to get real-time repair status and monitor multiple addresses.</p>
-    <img src="report_flow_static_all_white.png" style="width:100%;display:block;margin-top:24px;border-radius:8px;">
   </div>
+  <img src="report_flow_static_all_white.png" style="grid-column:1/-1;width:100%;display:block;margin-top:24px;border-radius:8px;">
 </div>
 
-<hr style="border:none;border-top:1px solid rgba(0,0,0,.12);margin:160px 0;">
+<hr style="border:none;border-top:1px solid rgba(0,0,0,.12);margin:64px var(--gutter);">
 
 <div class="research-section">
   <p class="research-title">Behind the scene: You got to drive changes</p>
