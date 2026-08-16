@@ -11,69 +11,211 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Agent — Sixian Chen</title>
+<link rel="icon" type="image/png" href="favicon_goose_tight.png">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..700&display=swap" rel="stylesheet">
 <style>
 html,body{scrollbar-width:none;}
 html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;}
 body{overflow-y:scroll;}
-#pnav{position:fixed;right:3.23vw;top:50%;transform:translateY(-50%);width:2px;height:120px;background:rgba(46,70,137,0.15);border-radius:2px;z-index:100;}
-#pnav-fill{width:100%;height:0%;background:#2E4689;border-radius:2px;transition:height 0.1s;}
 *{margin:0;padding:0;box-sizing:border-box;}
-:root{--f:"Manrope",sans-serif;--pad:3.9vw;--c:#2E4689;}
-body{font-family:var(--f);background:#fff;-webkit-font-smoothing:antialiased;overscroll-behavior:none;}
+:root{--f:"Manrope",sans-serif;--gutter:max(40px, 7.8vw);--nav-fs:16px;--nav-h:calc(4.46vh + 19.2px);}
+body{font-family:var(--f);background:#fff;color:#000;-webkit-font-smoothing:antialiased;overscroll-behavior:none;}
 
-nav{position:fixed;top:2.96vh;z-index:200;}
-.nav-logo{left:3.23vw;position:fixed;top:2.96vh;z-index:200;}
-.nav-links{right:3.23vw;position:fixed;top:2.96vh;display:flex;gap:2.19vw;z-index:200;}
-nav a{font-family:var(--f);font-size:16px;font-weight:600;line-height:120%;letter-spacing:-0.32px;color:#000;text-decoration:none;}
+.reveal{opacity:0;transform:translateY(110px) scale(.94);transition:opacity .9s cubic-bezier(0.16,1,0.3,1),transform .9s cubic-bezier(0.16,1,0.3,1);}
+.reveal.in-view{opacity:1;transform:translateY(0) scale(1);}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:2.96vh var(--gutter) 1.5vh;background:rgba(255,255,255,.55);backdrop-filter:blur(22px) saturate(190%) brightness(1.05);-webkit-backdrop-filter:blur(22px) saturate(190%) brightness(1.05);overflow:hidden;}
+nav::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.09;mix-blend-mode:overlay;pointer-events:none;}
+.nav-logo,.nav-links{position:relative;z-index:1;}
+.nav-logo{display:flex;align-items:center;gap:8px;}
+.nav-logo-icon{width:44px;height:44px;border-radius:50%;object-fit:cover;display:block;}
+.nav-links{display:flex;gap:2.19vw;}
+nav a{font-family:var(--f);font-size:var(--nav-fs);font-weight:600;line-height:120%;letter-spacing:-0.32px;color:#000;text-decoration:none;}
 nav a:hover{opacity:.5;}
-.footer-row{align-items:center;}
 .footer-link:hover{opacity:.5;}
 
-.header{
-  padding:calc(2.96vh + clamp(18px,1.25vw,24px) + 48px) calc(var(--pad)*2) 40px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:clamp(24px,4vw,80px);
-}
-.header-title{
-  font-size:24px;
-  font-weight:450;
-  line-height:1.3;
-  letter-spacing:0;
-  color:#000;
-  max-width:60%;
-}
-.header-meta{
-  font-size:clamp(13px,1vw,16px);
-  font-weight:450;
-  line-height:1.6;
-  color:rgba(0,0,0,0.4);
-  text-align:right;
-  flex-shrink:0;
-}
-.hero-img{width:calc(100% - var(--pad)*4);max-width:1774px;margin:0 calc(var(--pad)*2) 80px;display:block;border-radius:8px;}
+#pnav{position:fixed;right:3.23vw;top:50%;transform:translateY(-50%);width:2px;height:120px;background:rgba(46,70,137,0.15);border-radius:2px;z-index:100;}
+#pnav-fill{width:100%;height:0%;background:#000;border-radius:2px;transition:height 0.1s;}
 
-.content{padding:80px calc(var(--pad)*2) 0;max-width:1400px;margin:0 auto;}
-.section{margin-bottom:96px;}
-.section-row{display:grid;grid-template-columns:1fr 1fr;align-items:start;margin-bottom:8px;}
-.section-title{padding-right:clamp(24px,3vw,60px);color:#000;font-size:clamp(16px,1.25vw,24px);font-weight:600;letter-spacing:0;line-height:1.7;}
-.section-body{font-size:clamp(16px,0.3vw,17px);font-weight:400;line-height:1.7;color:#000;letter-spacing:0;}
-.video-wrap{margin-bottom:40px;}
-.video-inner{overflow:hidden;border-radius:8px;}
-.video-inner video{width:calc(100% + 40px);margin:-20px -20px;display:block;}
-.video-caption{font-size:clamp(16px,1.2vw,19px);font-weight:400;color:#000;margin-top:10px;text-align:center;}
-.cards{display:flex;gap:24px;}
-.card{flex:1;padding:32px;background:#F5F7FC;border-radius:8px;}
-.card-num{font-size:clamp(32px,3vw,48px);font-weight:700;color:#2E4689;letter-spacing:-0.03em;line-height:1.1;margin-bottom:8px;}
-.card-desc{font-size:clamp(20px,1.5vw,24px);font-weight:400;color:rgba(0,0,0,0.4);}
+.header{padding:var(--nav-h) var(--gutter) 0;}
+.title-zone{min-height:clamp(220px,26vw,380px);display:flex;align-items:center;justify-content:space-between;gap:24px;}
+.header-title{font-size:clamp(22px,1.85vw,32px);font-weight:500;line-height:1.3;letter-spacing:0;color:#000;max-width:min(900px,70%);}
+.header-title strong{font-weight:700;}
+.tags{display:flex;gap:4px;flex-shrink:0;}
+.tag{border:1.5px solid #000;border-radius:99px;padding:0 12px;font-family:var(--f);font-size:15px;font-weight:500;line-height:22.5px;color:#000;white-space:nowrap;}
+
+.toc-row{padding:64px var(--gutter) 16px;background:#fff;}
+.toc-row .reveal{display:flex;align-items:center;flex-wrap:wrap;gap:16px;}
+.toc-label{flex:0 0 auto;white-space:nowrap;}
+.toc-tabs{display:flex;flex-wrap:wrap;gap:8px;}
+.toc-tab{text-decoration:none;transition:background-color .2s,color .2s;}
+.toc-tab:hover{background:#000;color:#fff;}
+
+.section-divider{display:flex;align-items:center;gap:24px;padding:0 var(--gutter);margin:64px 0;}
+.section-divider .divider-line{flex:1 1 auto;height:1px;background:rgba(0,0,0,.12);}
+.section-divider img{flex:0 0 auto;width:112px;height:112px;display:block;}
+
+.context-row{display:flex;gap:clamp(24px,2.78vw,48px);}
+.context-col{flex:0 0 auto;display:flex;flex-direction:column;gap:12px;}
+.context-col:last-child{max-width:280px;}
+.context-label{font-size:16px;font-weight:500;color:#000;line-height:1.2;}
+.context-value{font-size:16px;font-weight:500;color:#000;opacity:.5;line-height:1.2;}
+
+.hero-img{width:calc(100% - var(--gutter)*2);margin:80px var(--gutter) 96px;display:block;border-radius:4px;}
+
+.overview-section{
+  display:grid;
+  grid-template-columns:1fr 66.666%;
+  grid-template-areas:"title row1" ". row2";
+  column-gap:clamp(24px,3vw,60px);
+  padding:0 var(--gutter) 0;
+}
+.overview-title{grid-area:title;align-self:start;padding-top:24px;font-size:clamp(16px,1.2vw,20px);font-weight:400;color:rgba(0,0,0,.65);}
+.overview-row{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;padding:24px 0;border-bottom:1px solid rgba(0,0,0,.12);}
+.overview-row:nth-of-type(1){grid-area:row1;}
+.overview-row:nth-of-type(2){grid-area:row2;}
+.overview-label{flex:0 0 auto;font-size:clamp(20px,1.5vw,26px);font-weight:500;color:#000;}
+.overview-body{flex:0 1 35em;font-size:16px;font-weight:400;color:rgba(48,48,48,.7);}
+.overview-link{color:inherit;text-decoration:underline;text-underline-offset:2px;}
+.num-marker{color:#000;}
+@media (max-width:700px){
+  .overview-section{grid-template-columns:1fr;grid-template-areas:"title" "row1" "row2";}
+  .overview-row{flex-direction:column;align-items:flex-start;gap:8px;}
+}
+
+.metrics-row{display:grid;grid-template-columns:1fr 66.666%;column-gap:clamp(24px,3vw,60px);padding:36px var(--gutter) 96px;}
+.metrics-inner{grid-column:2;display:flex;justify-content:flex-end;}
+.metrics-content{flex:0 1 35em;display:flex;gap:clamp(32px,4vw,64px);text-align:center;}
+.metric-num{display:inline-block;font-size:clamp(28px,3vw,40px);font-weight:500;color:#000;letter-spacing:-0.02em;line-height:1.1;margin-bottom:8px;}
+.metric-desc{font-size:16px;font-weight:400;color:rgba(48,48,48,.7);}
+@media (max-width:700px){
+  .metrics-row{grid-template-columns:1fr;}
+  .metrics-inner{grid-column:1;}
+  .metrics-content{flex-direction:column;gap:32px;}
+}
+
+.placeholder-section{width:100%;padding:96px 0;background:#FAFAFA;display:flex;align-items:center;justify-content:center;}
+.placeholder-video{width:50%;aspect-ratio:2186/1360;display:block;border-radius:4px;border:2.5px solid #000;box-sizing:border-box;background:#eee;}
+@media (max-width:700px){
+  .placeholder-video{width:88%;}
+}
+
+.research-section{display:grid;grid-template-columns:1fr 66.666%;column-gap:clamp(24px,3vw,60px);padding:140px var(--gutter) 140px;}
+.research-title{grid-column:1;align-self:start;font-size:clamp(16px,1.2vw,20px);font-weight:400;color:rgba(0,0,0,.65);}
+.title-pill{display:inline-block;width:fit-content;border:1.5px solid #000;border-radius:99px;padding:0 12px;font-size:15px;font-weight:500;line-height:22.5px;color:#000;white-space:nowrap;}
+.overview-title.title-pill{padding-top:0;margin-top:24px;}
+.research-content{grid-column:2;text-align:left;}
+.research-subtitle{font-size:18px;font-weight:600;color:#000;margin-bottom:16px;}
+.research-body{font-size:16px;font-weight:400;color:rgba(48,48,48,.7);margin-bottom:16px;}
+.research-body:last-child{margin-bottom:0;}
+.research-list{font-size:16px;font-weight:400;color:rgba(48,48,48,.7);margin:0 0 16px;padding-left:0;list-style:none;}
+.research-list li{margin-bottom:4px;line-height:1.6;}
+.research-list .num-marker{margin-right:4px;}
+.research-list li:last-child{margin-bottom:0;}
+.research-img{display:block;width:100%;margin-top:16px;}
+
+/* ---- fake Notion embed mockup ---- */
+.notion-embed{width:100%;height:480px;background:#fff;border:1px solid rgba(55,53,47,.09);border-radius:10px;box-shadow:0 2px 24px rgba(0,0,0,.06);overflow:hidden;display:flex;flex-direction:column;margin-top:24px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;}
+.n-topbar{flex:0 0 auto;height:45px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;border-bottom:1px solid rgba(55,53,47,.09);font-size:14px;color:#37352F;}
+.n-crumbs{display:flex;align-items:center;gap:6px;color:rgba(55,53,47,.6);overflow:hidden;white-space:nowrap;}
+.n-crumbs .n-crumb-icon{font-size:15px;}
+.n-crumbs .n-crumb-title{color:#37352F;font-weight:500;overflow:hidden;text-overflow:ellipsis;}
+.n-topbar-right{display:flex;align-items:center;gap:14px;color:rgba(55,53,47,.5);flex:0 0 auto;}
+.n-edited{font-size:12.5px;white-space:nowrap;}
+.n-icon-btn{width:22px;height:22px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:default;}
+.n-share{border:none;background:transparent;color:rgba(55,53,47,.6);font-size:13.5px;padding:5px 8px;border-radius:5px;cursor:default;}
+.n-scroll{flex:1 1 auto;overflow-y:auto;}
+.n-scroll::-webkit-scrollbar{width:10px;}
+.n-scroll::-webkit-scrollbar-thumb{background:rgba(55,53,47,.15);border-radius:8px;border:3px solid #fff;}
+.n-page{max-width:708px;margin:0 auto;padding:56px 72px 120px;}
+.n-icon{font-size:64px;line-height:1;margin-bottom:8px;}
+.n-title{font-size:38px;font-weight:700;color:#37352F;letter-spacing:-.01em;line-height:1.2;margin:0 0 20px;}
+.n-callout{display:flex;gap:10px;background:#F1F1EF;border-radius:6px;padding:14px 16px;margin:4px 0 24px;font-size:15px;color:#37352F;line-height:1.5;}
+.n-callout .n-callout-icon{font-size:17px;flex:0 0 auto;}
+h2.n-h{font-size:22px;font-weight:600;color:#37352F;margin:34px 0 8px;letter-spacing:-.005em;}
+h3.n-h{font-size:18px;font-weight:600;color:#37352F;margin:22px 0 6px;}
+ul.n-list,ol.n-list{margin:4px 0;padding-left:26px;}
+ul.n-list li,ol.n-list li{font-size:16px;line-height:1.75;color:#37352F;}
+ul.n-list li::marker{color:rgba(55,53,47,.4);}
+.n-todo{display:flex;align-items:flex-start;gap:8px;font-size:16px;line-height:1.75;color:#37352F;padding:2px 0;}
+.n-todo input{margin-top:5px;width:16px;height:16px;accent-color:#37352F;flex:0 0 auto;}
+.n-todo.done{color:rgba(55,53,47,.4);text-decoration:line-through;}
+details.n-toggle{margin:2px 0;}
+details.n-toggle > summary{list-style:none;cursor:default;display:flex;align-items:center;gap:6px;font-size:16px;font-weight:600;color:#37352F;padding:3px 2px;border-radius:4px;}
+details.n-toggle > summary::-webkit-details-marker{display:none;}
+details.n-toggle > summary::before{content:"";width:0;height:0;border-left:5px solid rgba(55,53,47,.5);border-top:4px solid transparent;border-bottom:4px solid transparent;transition:transform .15s ease;flex:0 0 auto;}
+details.n-toggle[open] > summary::before{transform:rotate(90deg);}
+details.n-toggle .n-toggle-body{padding:6px 0 6px 20px;}
+details.n-toggle .n-toggle-body ul.n-list{margin:0;}
+
+/* ---- fake LinkedIn post mockup ---- */
+.li-post{width:100%;max-width:552px;margin:0;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:8px;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;}
+.li-header{display:flex;align-items:flex-start;gap:8px;padding:12px 16px 0;}
+.li-avatar-link{flex:0 0 auto;display:block;}
+.li-avatar{width:48px;height:48px;border-radius:50%;object-fit:cover;flex:0 0 auto;background:#eee;display:block;}
+.li-header-text{flex:1 1 auto;min-width:0;}
+.li-name-link{text-decoration:none;}
+.li-name-link:hover .li-name{text-decoration:underline;}
+.li-name{font-size:14px;font-weight:600;color:rgba(0,0,0,.9);line-height:1.3;}
+.li-name .li-degree{font-weight:400;color:rgba(0,0,0,.6);}
+.li-headline{font-size:12px;color:rgba(0,0,0,.6);line-height:1.3;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;}
+.li-meta{display:flex;align-items:center;gap:4px;font-size:12px;color:rgba(0,0,0,.6);margin-top:2px;}
+.li-meta .li-dot{opacity:.6;}
+.li-follow-link{flex:0 0 auto;text-decoration:none;}
+.li-follow{background:none;border:none;font-size:14px;font-weight:600;color:#0a66c2;cursor:pointer;padding:4px 0;font-family:inherit;}
+.li-more{flex:0 0 auto;width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:rgba(0,0,0,.6);font-size:18px;}
+.li-body{padding:12px 16px;font-size:14px;line-height:1.4;color:rgba(0,0,0,.9);white-space:pre-line;}
+.li-stats{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;font-size:12px;color:rgba(0,0,0,.6);}
+.li-reactions{display:flex;align-items:center;gap:4px;}
+.li-reaction-icons{display:flex;}
+.li-reaction-icons img{width:16px;height:16px;border-radius:50%;display:block;margin-left:-4px;}
+.li-reaction-icons img:first-child{margin-left:0;}
+.li-stats-right{display:flex;gap:4px;}
+.li-divider{height:1px;background:rgba(0,0,0,.08);margin:0 16px;}
+.li-actions{display:flex;padding:4px 8px;}
+.li-action{flex:1 1 0;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 0;font-size:14px;font-weight:600;color:rgba(0,0,0,.6);border-radius:8px;}
+.li-action svg{width:20px;height:20px;flex:0 0 auto;}
+
+.research-full-section{width:100%;min-height:100vh;background:#FAFAFA;display:grid;grid-template-columns:1fr 66.666%;column-gap:clamp(24px,3vw,60px);align-items:start;padding:140px var(--gutter);}
+#research{background:#fff;min-height:0;padding:100px var(--gutter);}
+#design-solution{padding:180px var(--gutter);}
+#design-handoff{padding:180px var(--gutter);}
+@media (max-width:700px){
+  .research-full-section{grid-template-columns:1fr;padding:96px var(--gutter);}
+}
+@media (max-width:700px){
+  .research-section{grid-template-columns:1fr;}
+  .research-content{grid-column:1;}
+}
+
+/* footer — copied from index.html */
+.ff-banner{display:flex;gap:2.49%;}
+.ff-goose{flex:0 0 16.45%;aspect-ratio:1/1;border-radius:18px;border:3px solid #000;overflow:hidden;position:relative;}
+.ff-goose img{width:100%;height:100%;object-fit:cover;object-position:bottom;display:block;}
+.ff-sky{flex:1 1 auto;aspect-ratio:1434/291;position:relative;}
+.ff-sky>img{width:100%;height:100%;object-fit:cover;filter:grayscale(100%);border-radius:24px;border:4px solid #000;box-sizing:border-box;display:block;}
+.ff-talk{position:absolute;left:3.6%;top:21%;transform:translateY(-50%);font-family:var(--f);font-size:28px;font-weight:600;color:#fff;margin:0;}
+.ff-buttons{position:absolute;left:3.6%;top:81%;transform:translateY(-50%);display:flex;gap:16px;}
+.ff-btn{display:flex;align-items:center;gap:8px;background:#fff;border:2.5px solid #000;border-radius:99px;padding:8px 20px;font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:-0.48px;color:#000;text-decoration:none;white-space:nowrap;}
+.ff-btn-icon{width:18px;height:18px;flex-shrink:0;}
+.ff-divider{height:1px;background:#1e1e1e;margin-top:36px;}
+.ff-copyright{font-family:var(--f);font-size:14px;font-weight:500;color:#000;margin-top:24px;}
+@media (max-width:700px){
+  .ff-banner{flex-direction:column;gap:16px;}
+  .ff-goose{flex:0 0 auto;width:100%;aspect-ratio:16/9;}
+  .ff-sky{aspect-ratio:auto;display:flex;flex-direction:column;}
+  .ff-sky>img{width:100%;height:auto;aspect-ratio:1434/291;display:block;}
+  .ff-talk,.ff-buttons{position:static;transform:none;left:0;top:0;}
+  .ff-talk{font-size:22px;color:#000;margin:16px 16px 0;}
+  .ff-buttons{flex-direction:column;align-items:flex-start;gap:12px;margin:12px 16px 16px;}
+}
 
 body{cursor:none;}
 *{cursor:none!important;}
-#cur{position:fixed;top:0;left:0;width:14px;height:14px;border-radius:50%;background:#2E4689;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width 0.2s,height 0.2s;}
+#cur{position:fixed;top:0;left:0;width:14px;height:14px;border-radius:50%;background:#000;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width 0.2s,height 0.2s;}
 #cur.large{width:36px;height:36px;}
-#cur-label{position:fixed;top:0;left:0;pointer-events:none;z-index:99999;font-family:var(--f);font-size:15px;font-weight:500;color:#fff;opacity:0;transform:translate(-50%,-50%);white-space:nowrap;background:#2E4689;border-radius:100px;padding:6px 14px;line-height:1;}
+#cur-label{position:fixed;top:0;left:0;pointer-events:none;z-index:99999;font-family:var(--f);font-size:15px;font-weight:500;color:#fff;opacity:0;transform:translate(-50%,-50%);white-space:nowrap;background:#000;border-radius:100px;padding:6px 14px;line-height:1;}
 #cur.pill ~ #cur-label,#cur.copied ~ #cur-label{opacity:1;}
 #cur.pill,#cur.copied{opacity:0;}
 </style>
@@ -81,191 +223,398 @@ body{cursor:none;}
 </head>
 <body>
 <nav>
-  <a class="nav-logo" href="index.html">Sixian Chen</a>
+  <a class="nav-logo" href="index.html"><img src="favicon_goose.png" alt="" class="nav-logo-icon">Sixian Chen</a>
   <div class="nav-links">
-    <a href="https://drive.google.com/file/d/1cgW7ovfP7m9MkWgwG5d24OVGbs0Zml-Y/view?usp=sharing" target="_blank">Resume</a>
+    <a href="https://drive.google.com/file/d/1cgW7ovfP7m9MkWgwG5d24OVGbs0Zml-Y/view?usp=sharing" target="_blank" rel="noopener noreferrer">Resume</a>
     <a href="about.html">About</a>
   </div>
 </nav>
-  <div id="pnav"><div id="pnav-fill"></div></div>
+<div id="pnav"><div id="pnav-fill"></div></div>
 <div id=cur></div><span id=cur-label></span>
 
 <div class="header">
-  <p class="header-title">Increase marketers efficiency by providing decision support with AI agent @Adobe</p>
-  <p class="header-meta">B2B / SaaS /<br>Conversational Design</p>
+  <div class="title-zone reveal">
+    <p class="header-title">AI Agent - Help marketers understand and leverage customer data @Adobe</p>
+    <div class="tags"><span class="tag">B2B</span><span class="tag">SaaS</span><span class="tag">0→1</span></div>
+  </div>
+  <div class="context-row reveal">
+    <div class="context-col">
+      <p class="context-label">Timeline</p>
+      <p class="context-value">3 months</p>
+    </div>
+    <div class="context-col">
+      <p class="context-label">Role</p>
+      <p class="context-value">Product Designer</p>
+    </div>
+    <div class="context-col">
+      <p class="context-label">Team</p>
+      <p class="context-value">Student design team, worked with Adobe's designer, PM, researcher and AI engineer</p>
+    </div>
+  </div>
 </div>
 
-<img class="hero-img" src="index_adobe_hero.png" alt="Adobe project hero">
+<div class="hero-section">
+  <img class="hero-img reveal" src="adobe_hero_grey2.png" alt="Project hero">
+</div>
 
-<div class="content">
+<div class="overview-section">
+  <p class="overview-title title-pill reveal">Project Overview</p>
+  <div class="overview-row reveal">
+    <p class="overview-label">Problem</p>
+    <p class="overview-body"><a class="overview-link" href="https://experienceleague.adobe.com/en/docs/experience-platform/rtcdp/segmentation/audience-builder" target="_blank" rel="noopener noreferrer">Adobe Audience Builder</a> helps users build a selected customer dataset, deciding who receives the campaign message. However, <span class="num-marker">❶</span> it is tedious to translate customer persona into data fields, and <span class="num-marker">❷</span> not all marketers have the data background to interpret the results of the prediction model.</p>
+  </div>
+  <div class="overview-row reveal">
+    <p class="overview-label">Solution</p>
+    <p class="overview-body">Designed an AI tool that allows user to build datasets in natural language and provides model interpretation support in progressive disclosure and visualization.</p>
+  </div>
+</div>
 
-  <div class="section">
-    <div class="section-row">
-      <p class="section-title">Overview</p>
-      <p class="section-body">Adobe released its AI agents in the Adobe Experience Platform (AEP), which is a B2B software help marketers unify customer data and support campaign launch. I worked on one of the AI agent that helps marketers build campaign audiences.</p>
+<div class="metrics-row">
+  <div class="metrics-inner">
+    <div class="metrics-content">
+      <div class="metric reveal">
+        <p class="metric-num" data-value="63" data-prefix="-" data-suffix="%">-0%</p>
+        <p class="metric-desc">time to complete the task</p>
+      </div>
+      <div class="metric reveal">
+        <p class="metric-num" data-value="4.5" data-decimals="1" data-suffix="/5">0.0/5</p>
+        <p class="metric-desc">user confidence score</p>
+      </div>
     </div>
   </div>
+</div>
 
-  <div class="section">
-    <div class="section-row">
-      <p class="section-title">Challenge</p>
-      <p class="section-body">Users experienced decision fatigue when interacting with the audience agent because the conversation often went very long and included too much data terminology.</p>
+<div class="placeholder-section">
+  <video class="placeholder-video" muted loop playsinline preload="none" data-src="adobe_video_20260813.mp4"></video>
+</div>
+
+<div class="toc-row">
+  <div class="reveal">
+    <p class="context-label toc-label">Jump to where you're interested in most -&gt;</p>
+    <div class="toc-tabs">
+      <a href="#context" class="tag toc-tab">Context</a>
+      <a href="#the-ask" class="tag toc-tab">The Ask</a>
+      <a href="#research" class="tag toc-tab">Research</a>
+      <a href="#design-solution" class="tag toc-tab">Design Solution</a>
+      <a href="#design-handoff" class="tag toc-tab">Design Handoff</a>
+      <a href="#take-away" class="tag toc-tab">Take Away</a>
     </div>
   </div>
+</div>
 
-  <div style="margin:0 calc(var(--pad)*-2) 96px;">
+<div class="research-section" id="context">
+  <p class="research-title title-pill">Context</p>
+  <div class="research-content">
+    <p class="research-subtitle">Imagine you're a marketing manager at Marriott</p>
+    <p class="research-body">You're sending upgrade promo emails to guests who already booked a standard room. From that group, you want to narrow down to the ones more likely to pay, based on customer data.</p>
+    <p class="research-body">This could take you hours. First<span class="num-marker">❶</span>, you need to translate "who booked a standard room" into concrete data fields → booking dates within a certain range, booked directly through the hotel website, opted into email, and so on. You're likely to get lost in different data field names. 🫨</p>
+    <img class="research-img" src="adobe_before1.png" alt="">
+    <p class="research-body" style="margin:32px 0;">Then you run a data model that's supposed to help identify customers who are more likely to pay for the upgrade. <span class="num-marker">❷</span>Now you're staring at visualizations packed with terminology you don't fully understand. 🤯</p>
+    <img class="research-img" src="adobe_before2.png" alt="">
+  </div>
+</div>
 
-    <div id="sol-bar" style="position:sticky;top:0;z-index:10;background:#fff;display:grid;grid-template-columns:1fr 1fr;padding:0 calc(var(--pad)*2);padding-top:calc(2.96vh + clamp(18px,1.25vw,24px) + 16px);height:calc(80px + 2.96vh + clamp(18px,1.25vw,24px) + 16px);align-items:end;padding-bottom:16px;">
-      <p class="section-title" style="padding-right:0;">Solution</p>
-      <p id="bar-subtitle" style="font-size:clamp(20px,1.5vw,24px);font-weight:400;color:rgba(46,70,137,0.4);transition:opacity 0.4s ease;">Goal-orientated Conversation</p>
-    </div>
+<div class="research-section" id="the-ask">
+  <p class="research-title title-pill">The Ask</p>
+  <div class="research-content">
+    <p class="research-subtitle">Design an AI builder tool that lets users build this dataset using natural language, improving efficiency</p>
+  </div>
+</div>
 
-    <div class="sol-block" data-subtitle="Goal-orientated Conversation">
-      <div style="display:grid;grid-template-columns:1fr 1fr;padding:16px calc(var(--pad)*2) 32px;">
-        <div></div>
-        <p class="section-body">At the start of the conversation, AI agent asks user what the project is about and what audience they're going to build together. Once receiving user's input, AI agent translates the goal in canvas view to let users know their needs are well translated, and help users focus on this goal throughout the conversation.</p>
-      </div>
-      <video src="Goal_orientated_Conversation.mp4" style="width:calc((100% - var(--pad)*4)*0.8);margin:0 auto;display:block;border-radius:8px;" autoplay loop muted playsinline></video>
-      <div style="display:grid;grid-template-columns:1fr 1fr;padding:40px calc(var(--pad)*2);">
-        <div></div>
-        <p class="section-body">To assure it's a goal-orientated journey, the AI agent would first fill this "audience description" card before it moves on to other cards. This also makes sure that the data propensity model at the back-end get the basic input to provide insights.</p>
-      </div>
-      <img class="sol-last-media" src="goal_orientated_white.png" style="width:calc(100% - var(--pad)*4);margin:0 calc(var(--pad)*2);display:block;border-radius:8px;">
-    </div>
+<div class="research-full-section" id="research">
+  <p class="research-title title-pill">Research</p>
+  <div class="research-content">
+    <p class="research-subtitle">I interviewed five marketing teams from different industries and company sizes</p>
+    <p class="research-body">I learned four things through interviews</p>
+    <ul class="research-list">
+      <li><span class="num-marker">❶</span> The user journey of a success workflow</li>
+      <li><span class="num-marker">❷</span> Edge cases to consider for AI agent responses</li>
+      <li><span class="num-marker">❸</span> Users' data skill level and scaffolds they need</li>
+      <li><span class="num-marker">❹</span> User mental model and top needs when running a marketing campaign</li>
+    </ul>
 
-    <div class="sol-block" data-subtitle="Canvas with Clear Steps" style="margin-top:80px;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;padding:16px calc(var(--pad)*2) 32px;">
-        <div></div>
-        <div>
-          <p class="sol-inline-subtitle" style="font-size:clamp(20px,1.5vw,24px);font-weight:400;color:rgba(46,70,137,0.4);margin-bottom:8px;transition:opacity 0.4s ease;">Canvas with Clear Steps</p>
+    <div class="notion-embed">
+      <div class="n-topbar">
+        <div class="n-crumbs">
+          <span class="n-crumb-icon">🎙️</span>
+          <span class="n-crumb-title">[Company]-[Participant]-Marketing Team Interview &amp; Cognitive Walkthrough</span>
+        </div>
+        <div class="n-topbar-right">
+          <span class="n-edited">Edited 2 days ago</span>
+          <span class="n-icon-btn">💬</span>
+          <button class="n-share">Share</button>
+          <span class="n-icon-btn">⋯</span>
         </div>
       </div>
-      <video src="Canvas_with_clear_steps.mp4" style="width:calc((100% - var(--pad)*4)*0.8);margin:0 auto;display:block;border-radius:8px;" autoplay loop muted playsinline></video>
-      <div style="display:grid;grid-template-columns:1fr 1fr;padding:40px calc(var(--pad)*2);">
-        <div></div>
-        <p class="section-body">Before, the canvas goes with the conversation in real-time. Every time the user or the agent brings up one new task, there appears a new item card in the canvas, like a growing tree. This adds to the feeling of uncertainty as users don't know when it will end.<br><br>I converted the canvas to a pre-built template with clear steps to follow, based on the input the AI model needs to recommend an audience. Users are very clear what they are required to do and where the end point is in this work flow.</p>
-      </div>
-      <img src="Canvas_with_steps_before_after_white.png" style="width:calc(100% - var(--pad)*4);margin:0 calc(var(--pad)*2);display:block;border-radius:8px;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;padding:40px calc(var(--pad)*2);">
-        <div></div>
-        <p class="section-body">In this template, users first describe the project they're working on, and the AI agent will transcribe their input to item cards on the canvas. Sometimes users don't have or forget to mention about what the KPI is or what destinations they want, AI agent will take the initiative to ask for more clarify, which helps to build trust.</p>
-      </div>
-      <img class="sol-last-media" src="step2_default_white.png" style="width:calc((100% - var(--pad)*4)*0.5);margin:0 calc(var(--pad)*2);display:block;border-radius:8px;">
-    </div>
 
-    <div class="sol-block" data-subtitle="Recommendation Card" style="margin-top:80px;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;padding:16px calc(var(--pad)*2) 32px;">
-        <div></div>
-        <div>
-          <p class="sol-inline-subtitle" style="font-size:clamp(20px,1.5vw,24px);font-weight:400;color:rgba(46,70,137,0.4);margin-bottom:8px;transition:opacity 0.4s ease;">Recommendation Card</p>
-          <p class="section-body">With sufficient input from users, AI agent is able to generate recommendations through data training model. Users will compare the options, make iterations and make decisions based on the model results.</p>
+      <div class="n-scroll" data-lenis-prevent>
+        <div class="n-page">
+          <div class="n-icon">🎙️</div>
+          <h1 class="n-title">[Company]-[Participant]-Marketing Team Interview &amp; Cognitive Walkthrough</h1>
+
+          <div class="n-callout">
+            <span class="n-callout-icon">💡</span>
+            <div>
+              <strong>Goal:</strong>
+              <ol style="margin:4px 0 0;padding-left:20px;">
+                <li>Understand how marketers currently build campaign audiences today, and where the process breaks down</li>
+                <li>Understand user mental model in building data sets and their top priority needs<sup>1</sup></li>
+              </ol>
+            </div>
+          </div>
+
+          <h2 class="n-h">Before you start</h2>
+          <div class="n-todo done"><input type="checkbox" checked disabled><span>Confirm 30 min, recording consent</span></div>
+          <div class="n-todo done"><input type="checkbox" checked disabled><span>Send agenda ahead of time</span></div>
+          <div class="n-todo done"><input type="checkbox" checked disabled><span>Have follow-up prompts ready</span></div>
+
+          <h2 class="n-h">Walkthrough questions</h2>
+          <ul class="n-list">
+            <li>Could you give a brief overview about your role, your team and your background in data analysis?</li>
+            <li>Could you walk me through how you decide and build your audience dataset in your last campaign?</li>
+          </ul>
+
+          <h2 class="n-h">Possible follow-up questions</h2>
+
+          <details class="n-toggle" open>
+            <summary>Input</summary>
+            <div class="n-toggle-body">
+              <ul class="n-list">
+                <li>What categories of campaigns do you usually work on?</li>
+                <li>What decisions are made by executives before you start working on audiences?</li>
+                <li>Would you have multiple KPIs for one campaign?</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="n-toggle">
+            <summary>Output</summary>
+            <div class="n-toggle-body">
+              <ul class="n-list">
+                <li>How long does it take to onboard a new colleague on interpreting the model results?</li>
+                <li>How often and on what occasion do you reach out to the data team for support?</li>
+                <li>What are the biggest pain points in understanding model results?</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="n-toggle">
+            <summary>Decision making</summary>
+            <div class="n-toggle-body">
+              <ul class="n-list">
+                <li>How do you decide one audience is better than another? What are the critical information you need?</li>
+                <li>Who makes the final decision? How's the timeline look like?</li>
+              </ul>
+            </div>
+          </details>
+
+          <h2 class="n-h">Wrap-up</h2>
+          <ul class="n-list">
+            <li>What would a better workflow sound like to you?</li>
+            <li>Anything we didn't ask about that we should have?</li>
+            <li>Who else on your team should we talk to?</li>
+          </ul>
         </div>
       </div>
-      <video src="card.mp4" style="width:calc((100% - var(--pad)*4)*0.8);margin:0 auto;display:block;border-radius:8px;" autoplay loop muted playsinline></video>
-      <div style="display:grid;grid-template-columns:1fr 1fr;padding:40px calc(var(--pad)*2);">
-        <div></div>
-        <p class="section-body">Although the propensity score is the most objective and accurate metric, most marketers can be very confused about what the score indicates: likelihood to purchase, or model fit score?<br><br>The new recommendation card reflects the design principle that in human-AI interaction, users should be given full autonomy in decision-making. Instead of presenting a "propensity score", I chose to present two most important metrics in plain words to facilitate decisions.</p>
-      </div>
-      <img src="card_before_after_white.png" style="width:calc((100% - var(--pad)*4)*0.8);margin:0 calc(var(--pad)*2);display:block;border-radius:8px;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;padding:40px calc(var(--pad)*2) 0;">
-        <div></div>
-        <img src="card_easy_white.png" style="width:100%;display:block;border-radius:8px;">
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;padding:40px calc(var(--pad)*2);">
-        <div></div>
-        <p class="section-body">Through user research, I also learnt that this simplified recommendation card can be insufficient for (a) expert users with data background, (b) final check before launch. So I designed this card to be expandable for better user segmentation.</p>
-      </div>
-      <img class="sol-last-media" src="card_expand_white.png" style="width:calc((100% - var(--pad)*4)*0.8);margin:0 calc(var(--pad)*2);display:block;border-radius:8px;">
     </div>
 
+    <p class="research-body" style="margin-top:32px;">I mapped out the end-to-end workflow, and identified the key pain point to solve in each stage,</p>
+    <ul class="research-list" style="list-style:disc;padding-left:20px;">
+      <li>The journey is divided by the data model because it takes hours to run</li>
+      <li>In the <span style="background:#45BF6B;color:#fff;font-weight:500;">input phase</span>, the key user task is to set up all data constraints for the data model. The design focus of the AI agent is to make sure it covers all edge cases, not just the typical success use case.</li>
+      <li>In the <span style="background:#2E9DFB;color:#fff;font-weight:500;">output phase</span>, the key user task is to interpret model results and make decisions. The design focus of the AI agent is to break down the complexity of the results.</li>
+    </ul>
+    <img class="research-img" src="adobe_journey_map.png" alt="" style="margin-top:32px;border-radius:4px;">
+
+    <p class="research-subtitle" style="margin-top:96px;">Creating an AI agent from 0 -&gt; 1 involves multiple big decisions. I sneak peeked the competitors to move faster.</p>
+    <p class="research-body">I researched the entry and layout of competitive products, and decided on going with the second pattern because the workflow requires larger space for complex output and users want to track their progress.</p>
+    <img class="research-img" src="adobe_competitive.png" alt="" style="margin-top:16px;border-radius:4px;">
   </div>
+</div>
 
-  <hr style="border:none;border-top:1px solid rgba(46,70,137,0.4);margin:160px 0;">
+<div class="section-divider">
+  <div class="divider-line"></div>
+  <img src="goose_paint.png" alt="">
+  <div class="divider-line"></div>
+</div>
 
-  <div class="section">
-    <div class="section-row">
-      <p class="section-title">Research</p>
-      <p class="section-body">Given the constraints of an industry-sponsored project, direct access to enterprise users was limited. I addressed this challenge by exploring the problem from two complementary directions, as shown in the figure.</p>
-    </div>
-    <img src="Process_white.png" style="width:calc(100% - var(--pad)*4);margin:40px calc(var(--pad)*2) 0;display:block;border-radius:8px;">
-
-    <div class="section-row" style="margin-top:80px;">
-      <p class="section-title"></p>
-      <p class="section-body">I created this "fatigue map" to highlight where users feel exhausted during the journey, which is a synthesis of research insights.</p>
-    </div>
-    <img src="fatigue_map_white.jpg" style="width:calc(100% - var(--pad)*4);margin:40px calc(var(--pad)*2) 0;display:block;border-radius:8px;">
-
-    <div class="section-row" style="margin-top:80px;">
-      <p class="section-title"></p>
-      <p class="section-body">I also created a signature use case that reflects marketers' mental models, which emphasizes the iterative nature of their workflow.</p>
-    </div>
-    <img src="use_case_white.png" style="width:calc(100% - var(--pad)*4);margin:40px calc(var(--pad)*2) 0;display:block;border-radius:8px;">
+<div class="research-section" id="design-solution">
+  <p class="research-title title-pill">Design Solution</p>
+  <div class="research-content">
+    <p class="research-subtitle">Chatbox + templated canvas: talk, track and predict</p>
+    <p class="research-body">With this design pattern of a chatbox and a canvas, I brainstormed with my <span style="text-decoration:underline;text-underline-offset:2px;">two fellow designers</span> and finally decided on a templated canvas where users can see what's going to happen upon landing on this agent page, which helps address a common fear of "jumping into a rabbit hole" among our time-strapped marketers.</p>
   </div>
+  <div style="grid-column:1/-1;background:#E6E6E6;padding:48px 0;margin-top:48px;display:flex;justify-content:center;">
+    <img src="adobe_design_solution_1.png" alt="" style="width:80%;display:block;border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.08);">
+  </div>
+  <div class="research-content" style="margin-top:240px;">
+    <p class="research-subtitle">Input phase: use clarification questions for ambiguous input</p>
+    <p class="research-body">I collaborated with our <span style="text-decoration:underline;text-underline-offset:2px;">Adobe AI Engineer</span> to determine what information is essential for the data model to generate reliable results and avoid a "rubbish in, rubbish out" experience.</p>
+  </div>
+  <img src="adobe_design_solution_input_1.png" alt="" style="grid-column:1/-1;width:100%;display:block;margin-top:48px;">
+  <img src="adobe_design_solution_input_2.png" alt="" style="grid-column:1/-1;width:100%;display:block;margin-top:16px;">
+  <div class="research-content" style="margin-top:240px;">
+    <p class="research-subtitle">Output phase: progressive disclosure of model results</p>
+    <p class="research-body">Raw results from the data model are confusing, but they don't have to be. I categorized the numbers and translated them into a format that can be easily comprehended.</p>
+    <ul class="research-list">
+      <li><span class="num-marker">❶</span> Convert and label numbers to reduce noise</li>
+      <li><span class="num-marker">❷</span> Add context information</li>
+      <li><span class="num-marker">❸</span> Tuck information that isn't essential to decision-making deeper into an expandable card</li>
+    </ul>
+  </div>
+  <div style="grid-column:1/-1;background:#E6E6E6;padding:24px;margin-top:48px;display:flex;justify-content:space-between;gap:24px;">
+    <img src="adobe_design_solution_card_1_before.png" alt="" style="width:calc(50% - 12px);display:block;">
+    <img src="adobe_design_solution_card_1_after.png" alt="" style="width:calc(50% - 12px);display:block;">
+  </div>
+  <div style="grid-column:1/-1;background:#E6E6E6;padding:24px;margin-top:24px;display:flex;justify-content:space-between;gap:24px;">
+    <img src="adobe_design_solution_card_2_before.png" alt="" style="width:calc(50% - 12px);display:block;">
+    <img src="adobe_design_solution_card_2_after.png" alt="" style="width:calc(50% - 12px);display:block;">
+  </div>
+  <img src="adobe_design_solution_card_3.png" alt="" style="grid-column:1/-1;width:100%;display:block;margin-top:24px;">
+</div>
 
-  <hr style="border:none;border-top:1px solid rgba(46,70,137,0.4);margin:160px 0;">
+<div class="research-full-section" id="design-handoff">
+  <p class="research-title title-pill">Design Handoff</p>
+  <div class="research-content">
+    <p class="research-subtitle">Design file organized by workflows, plus a Loom video</p>
+    <p class="research-body">Like most designers, my own design file is, of course, a collage of all the iterations and discarded ideas. But I always tidy up the work that's ready to ship into a separate file for developers, for clarity. And I always find that attaching an async video first saves a lot of meeting time.</p>
+  </div>
+  <div style="grid-column:1/-1;position:relative;margin-top:48px;">
+    <img src="adobe_handoff_figma_file.png" alt="" style="width:100%;display:block;">
+    <img src="adobe_loom_avatar.png" alt="" style="position:absolute;left:40px;bottom:24px;width:160px;height:160px;border-radius:50%;object-fit:cover;box-shadow:0 4px 12px rgba(0,0,0,.25);">
+  </div>
+  <div class="research-content" style="margin-top:96px;">
+    <p class="research-subtitle">Contribute to the Adobe Spectrum design system</p>
+    <p class="research-body">All UI is designed with Adobe Spectrum's tokens, including color, typography, spacing, and grid. For new UI elements I created for this project, I built them as reusable components and templates for scalability.</p>
+  </div>
+  <img src="adobe_design_handoff_components.png" alt="" style="grid-column:1/-1;width:100%;display:block;margin-top:48px;">
+  <p class="research-title title-pill" id="take-away" style="margin-top:96px;">Take Away</p>
+  <div class="research-content" style="margin-top:96px;">
+    <div class="li-post">
+      <div class="li-header">
+        <a class="li-avatar-link" href="https://www.linkedin.com/in/sixian-chen-51029125a/" target="_blank" rel="noopener noreferrer"><img class="li-avatar" src="avatar.png" alt=""></a>
+        <div class="li-header-text">
+          <a class="li-name-link" href="https://www.linkedin.com/in/sixian-chen-51029125a/" target="_blank" rel="noopener noreferrer"><p class="li-name">Sixian Chen <span class="li-degree">· 1st</span></p></a>
+          <p class="li-headline">Product Designer | AI UX, B2B, Internal Tools, Complex Systems | MS HCI/d at Indiana University</p>
+          <p class="li-meta"><span>2d</span><span class="li-dot">·</span><span>🌐</span></p>
+        </div>
+        <a class="li-follow-link" href="https://www.linkedin.com/in/sixian-chen-51029125a/" target="_blank" rel="noopener noreferrer"><button class="li-follow">+ Connect</button></a>
+        <div class="li-more">⋯</div>
+      </div>
 
-  <div class="section">
-    <div class="section-row">
-      <p class="section-title">Design Iteration</p>
-      <div>
-        <p class="section-body">Design principle — those are strategies derived from research and sketches, which support finer-grained design decisions in later phases.</p>
-        <img src="design_principle_white.png" style="width:100%;margin-top:40px;display:block;border-radius:8px;">
+      <div class="li-body">This was my first time designing an AI agent, and it reshaped how I think about design.
+
+<strong>I spent most of my time designing around edge cases</strong>
+Traditional UX design starts with the primary flow and treats everything else as an edge case. Designing for AI reverses that. The model will misread intent, return a low confidence result, or simply get it wrong, and that isn't the exception, it's the baseline condition I had to design around. The real work wasn't polishing the ideal path. It was asking, again and again, what the interface should do when the model is uncertain, or wrong.
+
+<strong>Engineering constraints shaped as many decisions as user needs did</strong>
+This was also the project where I sat closest to engineering. User needs used to be the main constraint on my design decisions. Here, what the model could reliably do mattered just as much. I spent real time learning the model's capabilities so I could tell which features were worth building and which needed a fallback state, before a single screen got designed. Understanding the system became part of designing for it.</div>
+
+      <div class="li-stats">
+        <div class="li-reactions">
+          <div class="li-reaction-icons"><img src="li_reaction_1.png" alt="Like"><img src="li_reaction_4.png" alt="Love"></div>
+          <span>Sixian Chen and 42 others</span>
+        </div>
+        <div class="li-stats-right">
+          <span>12 comments</span>
+        </div>
+      </div>
+
+      <div class="li-divider"></div>
+
+      <div class="li-actions">
+        <div class="li-action">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 22V11M2 13v7a2 2 0 002 2h13.5a2 2 0 002-1.7l1.4-8A2 2 0 0018.9 10H14V5a3 3 0 00-3-3l-1 5-3.5 5H2z"/></svg>
+          Like
+        </div>
+        <div class="li-action">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+          Comment
+        </div>
+        <div class="li-action">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M17 1l4 4-4 4M3 11V9a4 4 0 014-4h14M7 23l-4-4 4-4M21 13v2a4 4 0 01-4 4H3"/></svg>
+          Repost
+        </div>
+        <div class="li-action">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          Send
+        </div>
       </div>
     </div>
-
-    <div class="section-row" style="margin-top:80px;">
-      <p class="section-title"></p>
-      <p class="section-body">I dropped this branch feature because it made users explicitly manage decision paths, which conflicted with the proactive principle.</p>
-    </div>
-    <img src="discarded_white.png" style="width:calc(100% - var(--pad)*4);margin:40px calc(var(--pad)*2) 0;display:block;border-radius:8px;">
   </div>
+</div>
 
-  <div class="footer-row" style="display:flex;justify-content:space-between;margin-top:96px;padding-bottom:2.96vh;">
-    <span style="font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:-0.48px;color:rgba(0,0,0,0.2);">@2026 Vibe coded with Claude</span>
-    <div class="footer-links" style="display:flex;gap:2.19vw;">
-      <a href="https://www.linkedin.com/in/sixian-chen-51029125a/" target="_blank" class="footer-link" style="font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:-0.48px;color:#000;text-decoration:none;">LinkedIn</a>
-      <span id="footer-email" style="font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:-0.48px;color:#000;cursor:none;">chen_sixian@outlook.com</span>
-    </div>
-  </div>
+<div class="new-footer" style="padding:0 var(--gutter) 2.96vh;margin-top:80px;">
+  <div class="ff-divider"></div>
+  <p class="ff-copyright">@2026 This website is vibe coded with Claude and hosted on Github.</p>
 </div>
 
 <script>
-const barSubtitle = document.getElementById('bar-subtitle');
-const solBlocks = Array.from(document.querySelectorAll('.sol-block'));
-const solInlineSubtitles = Array.from(document.querySelectorAll('.sol-inline-subtitle'));
-const BAR_H = 80;
-function updateSol() {
-  let activeIdx = -1;
-  solBlocks.forEach((block, i) => {
-    if (i === 0) {
-      if (block.getBoundingClientRect().top < BAR_H) activeIdx = 0;
-    } else {
-      const sub = block.querySelector('.sol-inline-subtitle');
-      if (sub && sub.getBoundingClientRect().top < BAR_H) activeIdx = i;
+document.querySelectorAll('.header-title, .research-subtitle').forEach(el=>{
+  const words = el.textContent.trim().split(/\s+/);
+  if(words.length > 3){
+    const head = words.slice(0, -3).join(' ');
+    const tail = words.slice(-3).join(' ');
+    el.textContent = head + ' ' + tail;
+  }
+});
+</script>
+<script>
+(function(){
+  function animateCount(el){
+    const target = parseFloat(el.dataset.value);
+    const decimals = el.dataset.decimals ? parseInt(el.dataset.decimals) : 0;
+    const suffix = el.dataset.suffix || '';
+    const prefix = el.dataset.prefix || '';
+    const duration = 1400;
+    const start = performance.now();
+    function tick(now){
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = prefix + (target * eased).toFixed(decimals) + suffix;
+      if(p < 1) requestAnimationFrame(tick);
     }
-  });
-  if (activeIdx === -1) {
-    barSubtitle.style.opacity = '1';
-    barSubtitle.textContent = 'Goal-orientated Conversation';
-    solInlineSubtitles.forEach(el => el.style.opacity = '1');
-    return;
+    requestAnimationFrame(tick);
   }
-  const lastMedia = solBlocks[activeIdx].querySelector('.sol-last-media');
-  const onLastMedia = lastMedia && lastMedia.getBoundingClientRect().top < BAR_H;
-  if (onLastMedia) {
-    barSubtitle.style.opacity = '0';
-    solInlineSubtitles.forEach(el => el.style.opacity = '1');
-  } else {
-    barSubtitle.textContent = solBlocks[activeIdx].dataset.subtitle;
-    barSubtitle.style.opacity = '1';
-    solInlineSubtitles.forEach(el => {
-      el.style.opacity = el.textContent.trim() === solBlocks[activeIdx].dataset.subtitle ? '0' : '1';
+  const revealObserver = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        if(entry.target.classList.contains('metric')){
+          const num = entry.target.querySelector('.metric-num');
+          if(num) animateCount(num);
+        }
+        revealObserver.unobserve(entry.target);
+      }
     });
-  }
-}
-window.addEventListener('scroll', updateSol, { passive: true });
-updateSol();
+  }, {threshold:0.15});
+  document.querySelectorAll('.header, .hero-section, .overview-section, .metrics-row, .toc-row').forEach(section=>{
+    section.querySelectorAll('.reveal').forEach((el,i)=>{
+      el.style.transitionDelay = (i*120)+'ms';
+      revealObserver.observe(el);
+    });
+  });
 
+  const video = document.querySelector('.placeholder-video');
+  if(video){
+    const videoObserver = new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          if(!video.src){
+            video.src = video.dataset.src;
+            video.load();
+          }
+          video.play().catch(()=>{});
+        } else {
+          video.pause();
+        }
+      });
+    }, {rootMargin:'200px'});
+    videoObserver.observe(video);
+  }
+})();
+</script>
+<script>
 const lenis = new Lenis({duration:1.2,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),overscroll:false});
 function raf(time){lenis.raf(time);requestAnimationFrame(raf);}
 requestAnimationFrame(raf);
@@ -283,7 +632,7 @@ document.addEventListener('mousemove', e=>{
   curLabel.style.top=e.clientY+'px';
 });
 
-document.querySelectorAll('.footer-link').forEach(el=>{
+document.querySelectorAll('.footer-link, nav a, .overview-link').forEach(el=>{
   el.addEventListener('mouseenter',()=>cur.classList.add('large'));
   el.addEventListener('mouseleave',()=>cur.classList.remove('large'));
 });
