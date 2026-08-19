@@ -21,7 +21,7 @@
 <meta name="twitter:title" content="Sixian Chen — Product Designer, B2B SaaS & AI">
 <meta name="twitter:description" content="Product designer building B2B SaaS and AI products 0→1. Trained in psychology, now designing for Adobe, Kroger, and AES.">
 <meta name="twitter:image" content="avatar.png">
-<link rel="icon" type="image/png" href="favicon_goose_tight.png">
+<link rel="icon" type="image/png" href="avatar.png">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..700&display=swap" rel="stylesheet">
 <style>
   html,body{scrollbar-width:none;}
@@ -30,11 +30,9 @@ body{overflow-y:scroll;}
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{--f:"Manrope",sans-serif;--gutter:max(40px, 7.8vw);--nav-fs:16px;--nav-h:calc(5.92vh + 19.2px);}
 body{font-family:var(--f);background:#fff;color:#000;-webkit-font-smoothing:antialiased;}
-nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:2.96vh var(--gutter);background:rgba(255,255,255,.55);backdrop-filter:blur(22px) saturate(190%) brightness(1.05);-webkit-backdrop-filter:blur(22px) saturate(190%) brightness(1.05);overflow:hidden;}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:2.96vh var(--gutter);background:rgba(255,255,255,.55);backdrop-filter:blur(22px) saturate(190%) brightness(1.05);-webkit-backdrop-filter:blur(22px) saturate(190%) brightness(1.05);box-shadow:inset 0 1px 0 rgba(255,255,255,.65),inset 0 -1px 0 rgba(255,255,255,.35),0 1px 24px rgba(0,0,0,.06);overflow:hidden;}
 nav::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.09;mix-blend-mode:overlay;pointer-events:none;}
 .nav-logo,.nav-links{position:relative;z-index:1;}
-.nav-logo{display:flex;align-items:center;gap:8px;}
-.nav-logo-icon{width:44px;height:44px;border-radius:50%;object-fit:cover;display:block;}
 .nav-links{display:flex;gap:2.19vw;}
 nav a{font-family:var(--f);font-size:var(--nav-fs);font-weight:600;line-height:120%;letter-spacing:-0.32px;color:#000;text-decoration:none;}
 nav a:hover{opacity:.5;}
@@ -442,7 +440,7 @@ body{cursor:none;}
 <div id="cur"></div><span id="cur-label"></span>
 
 <nav>
-  <a class="nav-logo" href="#" id="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;"><img src="favicon_goose.png" alt="" class="nav-logo-icon">Sixian Chen</a>
+  <a class="nav-logo" href="#" id="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Sixian Chen</a>
   <div class="nav-links">
     <a href="https://drive.google.com/file/d/1cgW7ovfP7m9MkWgwG5d24OVGbs0Zml-Y/view?usp=sharing" target="_blank" rel="noopener noreferrer">Resume</a>
     <a href="about.html" id="about-link">About</a>
@@ -894,13 +892,9 @@ body{cursor:none;}
     <div class="reveal">
     <p class="we-heading">Work Experience</p>
     <div class="we-list">
-      <a class="we-row" href="https://cloudcred.io" target="_blank" rel="noopener noreferrer">
-        <div class="we-left"><span class="we-title">Product Designer, Cloudcred</span><span class="we-date">Aug 2026 - Present</span></div>
-        <p class="we-body">Leveraged AI to create a design system from 0→1 based on MVP screens, saving the team over 40+ hours</p>
-      </a>
       <a class="we-row" href="https://sportlingo.ai" target="_blank" rel="noopener noreferrer">
         <div class="we-left"><span class="we-title">Product Designer, NextPlay</span><span class="we-date">June 2026 - Present</span></div>
-        <p class="we-body">Designed workflows for both mobile and desktop experience for an education platform</p>
+        <p class="we-body">Leveraged AI to create a design system from 0→1 based on MVP screens, saving the team 40+ hours, and designed workflows for both mobile and desktop experience for an education platform</p>
       </a>
       <a class="we-row" href="https://www.iu.edu" target="_blank" rel="noopener noreferrer">
         <div class="we-left"><span class="we-title">UX Designer, Indiana University</span><span class="we-date">March 2025 - May 2026</span></div>
