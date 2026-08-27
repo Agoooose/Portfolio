@@ -32,7 +32,10 @@ body{font-family:var(--f);background:#fff;color:#000;-webkit-font-smoothing:anti
 .reveal{opacity:0;transform:translateY(110px) scale(.94);transition:opacity .9s cubic-bezier(0.16,1,0.3,1),transform .9s cubic-bezier(0.16,1,0.3,1);}
 .reveal.in-view{opacity:1;transform:translateY(0) scale(1);}
 
-nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:2.96vh var(--gutter) 1.5vh;background:rgba(255,255,255,.55);backdrop-filter:blur(22px) saturate(190%) brightness(1.05);-webkit-backdrop-filter:blur(22px) saturate(190%) brightness(1.05);overflow:hidden;}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:2.96vh var(--gutter) 1.5vh calc(var(--gutter) - 52px);background:rgba(255,255,255,.55);backdrop-filter:blur(22px) saturate(190%) brightness(1.05);-webkit-backdrop-filter:blur(22px) saturate(190%) brightness(1.05);overflow:hidden;}
+@media (max-width:700px){
+  nav{padding-left:var(--gutter);}
+}
 nav::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.09;mix-blend-mode:overlay;pointer-events:none;}
 .nav-logo,.nav-links{position:relative;z-index:1;}
 .nav-logo{display:flex;align-items:center;gap:8px;}
@@ -71,13 +74,20 @@ nav a:hover{opacity:.5;}
 
 .next-project-link{text-decoration:none;color:inherit;}
 .next-project-link .research-content{align-self:start;}
-.next-project-link .np-row{display:flex;align-items:flex-start;justify-content:flex-end;gap:16px;}
-.next-project-link .np-text{flex:0 1 380px;min-width:0;}
+.next-project-link .np-card{display:flex;align-items:stretch;gap:32px;background:#FAFAFA;border-radius:12px;overflow:hidden;}
+.next-project-link .np-card-left{flex:0 0 340px;display:flex;flex-direction:column;justify-content:space-between;padding:40px 0 40px 40px;}
 .next-project-link .np-tags{display:flex;gap:4px;}
-.next-project-link .np-image{width:240px;flex-shrink:0;aspect-ratio:4/3;object-fit:cover;border-radius:8px;display:block;}
+.next-project-link .np-readmore{display:flex;align-items:center;gap:12px;font-family:var(--f);font-size:15px;font-weight:600;color:#000;margin-top:32px;}
+.next-project-link .np-readmore-btn{width:40px;height:40px;border-radius:50%;background:#97BDCF;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .15s ease-out;}
+.next-project-link .np-card:hover .np-readmore-btn{transform:scale(1.12);}
+.next-project-link .np-readmore-btn svg{width:14px;height:14px;}
+.next-project-link .np-card-right{flex:1 1 auto;display:flex;min-width:0;}
+.next-project-link .np-card-right img{width:100%;height:100%;object-fit:cover;display:block;border-radius:0 12px 12px 0;}
 @media (max-width:700px){
-  .next-project-link .np-row{flex-direction:column;align-items:flex-start;}
-  .next-project-link .np-image{width:100%;}
+  .next-project-link .np-card{flex-direction:column;}
+  .next-project-link .np-card-left{flex:1 1 auto;padding:24px 24px 0;}
+  .next-project-link .np-card-right{justify-content:center;}
+  .next-project-link .np-card-right img{width:100%;height:auto;border-radius:0 0 12px 12px;}
 }
 
 .footer-contact{display:flex;flex-direction:column;align-items:flex-start;gap:6px;font-family:var(--f);font-size:14px;font-weight:500;color:#000;}
@@ -598,12 +608,20 @@ This was also the project where I sat closest to engineering. User needs used to
 <a class="research-section next-project-link" href="kroger.html" onclick="gtag('event','project_click',{project_name:'kroger'});" style="padding:180px var(--gutter);">
   <p class="header-title" style="grid-column:1;align-self:start;">Next Project</p>
   <div class="research-content">
-    <div class="np-row">
-      <div class="np-text">
-        <p class="research-subtitle">Enable grocery associates to resolve customer issues on-site @Kroger</p>
-        <div class="np-tags"><span class="tag">B2B</span><span class="tag">Service Design</span></div>
+    <div class="np-card">
+      <div class="np-card-left">
+        <div>
+          <p class="research-subtitle">Enable grocery associates to resolve customer issues on-site @Kroger</p>
+          <div class="np-tags"><span class="tag">B2B</span><span class="tag">Service Design</span></div>
+        </div>
+        <div class="np-readmore">
+          <span>Read More</span>
+          <span class="np-readmore-btn"><svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 6H10M10 6L6.5 2.5M10 6L6.5 9.5" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
       </div>
-      <img class="np-image" src="kroger_hero_projectpage.png" alt="Enable grocery associates @Kroger">
+      <div class="np-card-right">
+        <img src="kroger_next_project.png" alt="Enable grocery associates @Kroger">
+      </div>
     </div>
   </div>
 </a>
