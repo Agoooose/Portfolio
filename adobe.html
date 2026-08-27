@@ -11,7 +11,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Agent — Sixian Chen</title>
+<title>Adobe AI Agent / Sixian Chen</title>
 <meta property="og:title" content="AI Agent — Sixian Chen">
 <meta property="og:description" content="Product designer building B2B SaaS and AI products 0→1. Trained in psychology, now designing for Adobe, Kroger, and AES.">
 <meta property="og:image" content="adobe_hero_grey2.png">
@@ -69,6 +69,22 @@ nav a:hover{opacity:.5;}
 .context-label{font-size:16px;font-weight:500;color:#000;line-height:1.2;}
 .context-value{font-size:16px;font-weight:500;color:#000;opacity:.5;line-height:1.2;}
 
+.next-project-link{text-decoration:none;color:inherit;}
+.next-project-link .research-content{align-self:start;}
+.next-project-link .np-row{display:flex;align-items:flex-start;justify-content:flex-end;gap:16px;}
+.next-project-link .np-text{flex:0 1 380px;min-width:0;}
+.next-project-link .np-tags{display:flex;gap:4px;}
+.next-project-link .np-image{width:240px;flex-shrink:0;aspect-ratio:4/3;object-fit:cover;border-radius:8px;display:block;}
+@media (max-width:700px){
+  .next-project-link .np-row{flex-direction:column;align-items:flex-start;}
+  .next-project-link .np-image{width:100%;}
+}
+
+.footer-contact{display:flex;flex-direction:column;align-items:flex-start;gap:6px;font-family:var(--f);font-size:14px;font-weight:500;color:#000;}
+.footer-contact .footer-link{display:inline-flex;align-items:center;gap:4px;color:#000;text-decoration:underline;text-underline-offset:2px;}
+.footer-contact .footer-link svg{width:12px;height:12px;flex-shrink:0;}
+.footer-contact #footer-email{cursor:none;}
+
 .hero-img{width:calc(100% - var(--gutter)*2);margin:80px var(--gutter) 96px;display:block;border-radius:4px;}
 
 .overview-section{
@@ -113,6 +129,7 @@ nav a:hover{opacity:.5;}
 .title-pill{display:inline-block;width:fit-content;border:1.5px solid #000;border-radius:99px;padding:0 12px;font-size:15px;font-weight:500;line-height:22.5px;color:#000;white-space:nowrap;}
 .overview-title.title-pill{padding-top:0;margin-top:24px;}
 .research-content{grid-column:2;text-align:left;}
+.research-img-inline{grid-column:2;width:100%;display:block;margin-top:48px;}
 .research-subtitle{font-size:18px;font-weight:600;color:#000;margin-bottom:16px;}
 .research-body{font-size:16px;font-weight:400;color:rgba(48,48,48,.7);margin-bottom:16px;}
 .research-body:last-child{margin-bottom:0;}
@@ -187,6 +204,7 @@ details.n-toggle .n-toggle-body ul.n-list{margin:0;}
 .research-full-section{width:100%;min-height:100vh;background:#FAFAFA;display:grid;grid-template-columns:1fr 66.666%;column-gap:clamp(24px,3vw,60px);align-items:start;padding:140px var(--gutter);}
 #research{background:#fff;min-height:0;padding:100px var(--gutter);}
 #design-solution{padding:180px var(--gutter);}
+#design-decisions{padding:180px var(--gutter);}
 #design-handoff{padding:180px var(--gutter);}
 @media (max-width:700px){
   .research-full-section{grid-template-columns:1fr;padding:96px var(--gutter);}
@@ -194,6 +212,7 @@ details.n-toggle .n-toggle-body ul.n-list{margin:0;}
 @media (max-width:700px){
   .research-section{grid-template-columns:1fr;}
   .research-content{grid-column:1;}
+  .research-img-inline{grid-column:1;}
 }
 
 /* footer — copied from index.html */
@@ -207,7 +226,7 @@ details.n-toggle .n-toggle-body ul.n-list{margin:0;}
 .ff-btn{display:flex;align-items:center;gap:8px;background:#fff;border:2.5px solid #000;border-radius:99px;padding:8px 20px;font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:-0.48px;color:#000;text-decoration:none;white-space:nowrap;}
 .ff-btn-icon{width:18px;height:18px;flex-shrink:0;}
 .ff-divider{height:1px;background:#1e1e1e;margin-top:36px;}
-.ff-copyright{font-family:var(--f);font-size:14px;font-weight:500;color:#000;margin-top:24px;}
+.ff-copyright{font-family:var(--f);font-size:11px;font-weight:400;line-height:1.4;color:rgba(0,0,0,.4);margin-top:24px;}
 @media (max-width:700px){
   .ff-banner{flex-direction:column;gap:16px;}
   .ff-goose{flex:0 0 auto;width:100%;aspect-ratio:16/9;}
@@ -232,8 +251,8 @@ body{cursor:none;}
 <nav>
   <a class="nav-logo" href="index.html"><img src="favicon_goose.png" alt="" class="nav-logo-icon">Sixian Chen</a>
   <div class="nav-links">
-    <a href="https://drive.google.com/file/d/1cgW7ovfP7m9MkWgwG5d24OVGbs0Zml-Y/view?usp=sharing" target="_blank" rel="noopener noreferrer">Resume</a>
-    <a href="about.html">About</a>
+    <a href="https://drive.google.com/file/d/1cgW7ovfP7m9MkWgwG5d24OVGbs0Zml-Y/view?usp=sharing" target="_blank" rel="noopener noreferrer" onclick="gtag('event','resume_click');">Resume</a>
+    <a href="about.html" id="about-link">About</a>
   </div>
 </nav>
 <div id="pnav"><div id="pnav-fill"></div></div>
@@ -303,6 +322,7 @@ body{cursor:none;}
       <a href="#the-ask" class="tag toc-tab">The Ask</a>
       <a href="#research" class="tag toc-tab">Research</a>
       <a href="#design-solution" class="tag toc-tab">Design Solution</a>
+      <a href="#design-decisions" class="tag toc-tab">Design Decisions</a>
       <a href="#design-handoff" class="tag toc-tab">Design Handoff</a>
       <a href="#take-away" class="tag toc-tab">Take Away</a>
     </div>
@@ -448,13 +468,37 @@ body{cursor:none;}
 <div class="research-section" id="design-solution">
   <p class="research-title title-pill">Design Solution</p>
   <div class="research-content">
-    <p class="research-subtitle">Chatbox + templated canvas: talk, track and predict</p>
+    <p class="research-subtitle">Chat + templated canvas: talk, track and predict</p>
     <p class="research-body">With this design pattern of a chatbox and a canvas, I brainstormed with my <span style="text-decoration:underline;text-underline-offset:2px;">two fellow designers</span> and finally decided on a templated canvas where users can see what's going to happen upon landing on this agent page, which helps address a common fear of "jumping into a rabbit hole" among our time-strapped marketers.</p>
   </div>
   <div style="grid-column:1/-1;background:#E6E6E6;padding:48px 0;margin-top:48px;display:flex;justify-content:center;">
     <img src="adobe_design_solution_1.png" alt="" style="width:80%;display:block;border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.08);">
   </div>
   <div class="research-content" style="margin-top:240px;">
+    <p class="research-subtitle">Entry Point</p>
+    <p class="research-body">The workflow starts with an overview of the campaign or a PRD file. Users can view the AI's interpretation of their input on the canvas and correct it if there's any gap.</p>
+  </div>
+  <img src="adobe_design_solution_entry_point.png" alt="" class="research-img-inline">
+  <div class="research-content" style="margin-top:240px;">
+    <p class="research-subtitle">Confirm generated data fields and run the model</p>
+    <p class="research-body">From manually inputting those data fields to simply reviewing and revising them, users save much time in preparation for running the data model.</p>
+  </div>
+  <img src="adobe_design_solution_data_fields.png" alt="" class="research-img-inline">
+  <div class="research-content" style="margin-top:240px;">
+    <p class="research-subtitle">Review and compare model results</p>
+    <p class="research-body">The in-conversation visualization card helps users understand model results and make decisions. Users can leverage the canvas to track their thinking process.</p>
+  </div>
+  <img src="adobe_design_solution_results.png" alt="" class="research-img-inline">
+  <div class="research-content" style="margin-top:240px;">
+    <p class="research-subtitle">Finally, decide and publish</p>
+    <p class="research-body">Users can archive any audiences they don't like to reduce cognitive workload. Once everything's locked, users hit the primary CTA on the top right to move forward.</p>
+  </div>
+  <img src="adobe_design_solution_publish.png" alt="" class="research-img-inline">
+</div>
+
+<div class="research-section" id="design-decisions">
+  <p class="research-title title-pill">Design Decisions</p>
+  <div class="research-content">
     <p class="research-subtitle">Input phase: use clarification questions for ambiguous input</p>
     <p class="research-body">I collaborated with our <span style="text-decoration:underline;text-underline-offset:2px;">Adobe AI Engineer</span> to determine what information is essential for the data model to generate reliable results and avoid a "rubbish in, rubbish out" experience.</p>
   </div>
@@ -551,7 +595,24 @@ This was also the project where I sat closest to engineering. User needs used to
   </div>
 </div>
 
+<a class="research-section next-project-link" href="kroger.html" onclick="gtag('event','project_click',{project_name:'kroger'});" style="padding:180px var(--gutter);">
+  <p class="header-title" style="grid-column:1;align-self:start;">Next Project</p>
+  <div class="research-content">
+    <div class="np-row">
+      <div class="np-text">
+        <p class="research-subtitle">Enable grocery associates to resolve customer issues on-site @Kroger</p>
+        <div class="np-tags"><span class="tag">B2B</span><span class="tag">Service Design</span></div>
+      </div>
+      <img class="np-image" src="kroger_hero_projectpage.png" alt="Enable grocery associates @Kroger">
+    </div>
+  </div>
+</a>
+
 <div class="new-footer" style="padding:0 var(--gutter) 2.96vh;margin-top:80px;">
+  <div class="footer-contact">
+    <span id="footer-email">chen_sixian@outlook.com</span>
+    <a class="footer-link" href="https://www.linkedin.com/in/sixian-chen-51029125a/" target="_blank" rel="noopener noreferrer" onclick="gtag('event','contact_click',{method:'linkedin'});">LinkedIn<svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 10L10 2M10 2H3M10 2V9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  </div>
   <div class="ff-divider"></div>
   <p class="ff-copyright">@2026 This website is vibe coded with Claude and hosted on Github.</p>
 </div>
