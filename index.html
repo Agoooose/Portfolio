@@ -7,7 +7,12 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-XDP66K582R');
+  gtag('config', 'G-XDP66K582R', {
+    // /index.html and / serve the same homepage but were logging as two
+    // separate pagePaths in GA4, splitting the traffic data — normalize
+    // both to '/' so they roll up as one page.
+    page_path: window.location.pathname === '/index.html' ? '/' : window.location.pathname
+  });
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,9 +45,9 @@ nav a{font-family:var(--f);font-size:var(--nav-fs);font-weight:600;line-height:1
 .nav-links a{display:inline-block;padding:10px 8px;margin:-10px -8px;}
 nav a:hover{opacity:.5;}
 .footer-link:hover{opacity:.5;}
-:root{--side-w:19vw;--side-pad:16px;--footer-h:38px;}
+:root{--side-w:clamp(200px, 19vw, 300px);--side-pad:16px;--footer-h:38px;}
 .page-layout{display:flex;align-items:flex-start;}
-.side-panel{position:fixed;left:0;top:var(--nav-h);bottom:var(--footer-h);width:var(--side-w);min-width:200px;max-width:300px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;gap:24px;padding:36px var(--side-pad) 12px;border-right:1px solid rgba(0,0,0,.1);background:#fff;overflow-y:auto;z-index:50;}
+.side-panel{position:fixed;left:0;top:var(--nav-h);bottom:var(--footer-h);width:var(--side-w);box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;gap:24px;padding:36px var(--side-pad) 12px;border-right:1px solid rgba(0,0,0,.1);background:#fff;overflow-y:auto;z-index:50;}
 .side-panel-top{display:flex;flex-direction:column;gap:16px;}
 .side-photo{width:50%;aspect-ratio:1;border-radius:0;overflow:hidden;background:#f4f4f4;}
 .side-photo img{width:100%;height:100%;object-fit:cover;display:block;}
@@ -59,10 +64,29 @@ nav a:hover{opacity:.5;}
 .content-footer{position:fixed;left:0;right:0;bottom:0;height:var(--footer-h);z-index:60;display:flex;align-items:center;background:#fff;padding:0 var(--gutter) 0 var(--side-pad);border-top:1px solid rgba(0,0,0,.1);box-sizing:border-box;}
 .content-footer-text{font-size:11px;line-height:1.4;color:rgba(0,0,0,.4);}
 .content-area{flex:1 1 auto;min-width:0;margin-left:var(--side-w);padding:var(--nav-h) 0 var(--footer-h);}
-@media (max-width:900px){
-  .side-panel{position:static;width:100%;max-width:none;min-width:0;border-right:none;border-bottom:1px solid rgba(0,0,0,.1);padding:32px var(--gutter);}
+/* phone-only: tablet and desktop stay on the same two-column design above this,
+   only the phone width gets the stacked single-column layout */
+@media (max-width:600px){
+  .page-layout{flex-direction:column;}
+  /* nav's logo used --side-pad (16px) to align with the desktop sidebar's own padding;
+     on mobile the sidebar collapses into the --gutter-based content flow, so nav has to
+     switch to --gutter too or its logo no longer lines up with anything below it */
+  nav{padding-left:var(--gutter);}
+  /* static position drops the fixed-layout top:var(--nav-h) offset that keeps content clear of
+     the fixed nav, so it has to be added back into the padding here instead */
+  .side-panel{position:static;width:100%;max-width:none;min-width:0;border-right:none;border-bottom:1px solid rgba(0,0,0,.1);padding:calc(var(--nav-h) + 32px) var(--gutter) 32px;}
   .side-photo{width:120px;}
-  .content-area{margin-left:0;}
+  .content-area{margin-left:0;padding-bottom:0;}
+  /* footer stops floating over content and becomes the last stacked block: nav -> profile+contact -> content -> footer */
+  .content-footer{position:static;height:auto;padding:16px var(--gutter);}
+  /* desktop spacing rhythm (132px/120px/14vh) was tuned for a roomier two-column layout;
+     tightened here so mobile doesn't feel like mostly empty space between short sections */
+  .work-experience{margin-top:64px;}
+  .project-scroll{padding:64px 0;}
+  .scroll-text-section{padding:8vh var(--gutter);}
+  /* 12px was sized for the narrow desktop sidebar column; at full mobile width next to
+     16px work-experience text it reads as too-small rather than intentionally secondary */
+  .side-bio{font-size:16px;}
 }
 .projects-heading{display:inline-block;width:fit-content;border:1.5px solid #000;border-radius:99px;padding:0 12px;font-size:15px;font-weight:500;line-height:22.5px;color:#000;margin-bottom:24px;}
 
@@ -97,7 +121,7 @@ nav a:hover{opacity:.5;}
    opening header (title+tags row, then a Timeline/Role/Team row below). Background color is a
    placeholder per project for now, swapped later. currentColor on the tag borders means .on-dark
    only needs to flip the section's own color, not every child rule. */
-.project-scroll{width:100%;min-height:100vh;padding:120px 0;display:flex;align-items:center;justify-content:center;color:#000;background:#fff;border-bottom:1px solid rgba(0,0,0,.1);box-sizing:border-box;text-decoration:none;}
+.project-scroll{width:100%;min-height:100vh;min-height:100dvh;padding:120px 0;display:flex;align-items:center;justify-content:center;color:#000;background:#fff;border-bottom:1px solid rgba(0,0,0,.1);box-sizing:border-box;text-decoration:none;}
 .project-scroll.on-dark{color:#fff;border-bottom-color:rgba(255,255,255,.15);}
 .project-scroll-inner{max-width:1400px;margin:0 auto;padding:0 var(--gutter);width:100%;}
 .ps-title-zone{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;}
@@ -166,7 +190,7 @@ body{cursor:none;}
 <nav>
   <a class="nav-logo" href="#" id="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;"><img src="favicon_goose.png" alt="Sixian Chen" class="nav-logo-icon"></a>
   <div class="nav-links">
-    <a href="https://drive.google.com/file/d/1cgW7ovfP7m9MkWgwG5d24OVGbs0Zml-Y/view?usp=sharing" target="_blank" rel="noopener noreferrer">Resume</a>
+    <a href="https://drive.google.com/file/d/1cgW7ovfP7m9MkWgwG5d24OVGbs0Zml-Y/view?usp=sharing" target="_blank" rel="noopener noreferrer" onclick="gtag('event','resume_click');">Resume</a>
     <a href="about.html" id="about-link">About</a>
   </div>
 </nav>
@@ -191,7 +215,7 @@ body{cursor:none;}
         <span id="footer-email" class="side-contact-value" style="cursor:none;">chen_sixian@outlook.com</span>
       </div>
       <div class="side-contact-row">
-        <a class="footer-link side-contact-link" href="https://www.linkedin.com/in/sixian-chen-51029125a/" target="_blank" rel="noopener noreferrer">LinkedIn<svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 10L10 2M10 2H3M10 2V9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a class="footer-link side-contact-link" href="https://www.linkedin.com/in/sixian-chen-51029125a/" target="_blank" rel="noopener noreferrer" onclick="gtag('event','contact_click',{method:'linkedin'});">LinkedIn<svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 10L10 2M10 2H3M10 2V9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </div>
     </div>
   </aside>
@@ -201,7 +225,7 @@ body{cursor:none;}
     <p class="scroll-text" id="scrollText"><span class="stx-word">I</span> <span class="stx-word">translate</span> <span class="stx-word">business</span> <span class="stx-word">goals</span> <svg class="stx-word stx-icon stx-icon-spin" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M206 154C206 237.947 182.719 306 154 306C125.281 306 102 237.947 102 154C102 70.0527 125.281 2 154 2C182.719 2 206 70.0527 206 154Z" stroke="currentColor" stroke-width="7"/><path d="M154 206C70.0527 206 2 182.719 2 154C2 125.281 70.0527 102 154 102C237.947 102 306 125.281 306 154C306 182.719 237.947 206 154 206Z" stroke="currentColor" stroke-width="7"/></svg> <span class="stx-word">into</span> <span class="stx-word">data-driven</span> <span class="stx-word">design</span> <span class="stx-word">that</span> <span class="stx-word">just</span> <span class="stx-word">feels</span> <span class="stx-word">right</span> <span class="stx-word">to</span> <span class="stx-word">use</span> <svg class="stx-word stx-icon" viewBox="0 0 168 168" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M70.875 30.1875V56.4375M97.125 30.1875V56.4375M149.625 84C149.625 120.244 120.244 149.625 84 149.625C47.7563 149.625 18.375 120.244 18.375 84M161.438 84C161.438 126.768 126.768 161.438 84 161.438C41.2325 161.438 6.5625 126.768 6.5625 84C6.5625 41.2325 41.2325 6.5625 84 6.5625C126.768 6.5625 161.438 41.2325 161.438 84Z" stroke="currentColor" stroke-width="5"/></svg></p>
   </div>
 
-  <a class="project-scroll" href="adobe.html">
+  <a class="project-scroll" href="adobe.html" onclick="gtag('event','project_click',{project_name:'adobe'});">
     <div class="project-scroll-inner">
       <div class="ps-title-zone">
         <p class="ps-header-title">AI Agent - Help marketers understand and leverage customer data @Adobe</p>
@@ -216,7 +240,7 @@ body{cursor:none;}
     </div>
   </a>
 
-  <a class="project-scroll" href="kroger.html">
+  <a class="project-scroll" href="kroger.html" onclick="gtag('event','project_click',{project_name:'kroger'});">
     <div class="project-scroll-inner">
       <div class="ps-title-zone">
         <p class="ps-header-title">Enable grocery associates to resolve customer issues on-site @Kroger</p>
@@ -231,7 +255,7 @@ body{cursor:none;}
     </div>
   </a>
 
-  <a class="project-scroll" href="aes_v2.html">
+  <a class="project-scroll" href="aes_v2.html" onclick="gtag('event','project_click',{project_name:'aes'});">
     <div class="project-scroll-inner">
       <div class="ps-title-zone">
         <p class="ps-header-title">Redesigning outage map to provide more clarity in reporting workflows @AES</p>
@@ -243,6 +267,21 @@ body{cursor:none;}
         <div class="ps-context-col"><p class="ps-context-label">Team</p><p class="ps-context-value">1 Product Owner, 1 Developer, 1 Customer Insight Researcher</p></div>
       </div>
       <img class="ps-image" src="index_aes_hero.png" alt="Redesigning outage map @AES">
+    </div>
+  </a>
+
+  <a class="project-scroll" href="iu.html" onclick="gtag('event','project_click',{project_name:'iu'});">
+    <div class="project-scroll-inner">
+      <div class="ps-title-zone">
+        <p class="ps-header-title">Improving Sign-up Conversion for Indiana University</p>
+        <div class="ps-tags"><span class="ps-tag">Website</span><span class="ps-tag">Conversion</span></div>
+      </div>
+      <div class="ps-context-row">
+        <div class="ps-context-col"><p class="ps-context-label">Timeline</p><p class="ps-context-value">1 week</p></div>
+        <div class="ps-context-col"><p class="ps-context-label">Role</p><p class="ps-context-value">Solo Designer</p></div>
+        <div class="ps-context-col"><p class="ps-context-label">Team</p><p class="ps-context-value">Solo Designer, Content Writer</p></div>
+      </div>
+      <img class="ps-image" src="iu_hero.png" alt="Improving Sign-up Conversion for Indiana University">
     </div>
   </a>
 
