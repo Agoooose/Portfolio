@@ -11,237 +11,490 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..700&display=swap" rel="stylesheet">
 <style>
 html,body{scrollbar-width:none;}
 html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;}
 body{overflow-y:scroll;}
 #pnav{position:fixed;right:3.23vw;top:50%;transform:translateY(-50%);width:2px;height:120px;background:rgba(46,70,137,0.15);border-radius:2px;z-index:100;}
-#pnav-fill{width:100%;height:0%;background:#2E4689;border-radius:2px;transition:height 0.1s;}
+#pnav-fill{width:100%;height:0%;background:#000;border-radius:2px;transition:height 0.1s;}
 
 *{margin:0;padding:0;box-sizing:border-box;}
-:root{--f:"Manrope",sans-serif;--pad:3.9vw;--c:#2E4689;}
+:root{--f:"Manrope",sans-serif;--pad:3.9vw;--c:#2E4689;--gutter:max(40px, 7.8vw);--nav-h:calc(4.46vh + 19.2px);}
 body{font-family:var(--f);background:#fff;-webkit-font-smoothing:antialiased;overscroll-behavior:none;}
 
-nav{position:fixed;top:2.96vh;z-index:200;}
-.nav-logo{left:3.23vw;position:fixed;top:2.96vh;z-index:200;}
-.nav-links{right:3.23vw;position:fixed;top:2.96vh;display:flex;gap:2.19vw;z-index:200;}
+.reveal{opacity:0;transform:translateY(110px) scale(.94);transition:opacity .9s cubic-bezier(0.16,1,0.3,1),transform .9s cubic-bezier(0.16,1,0.3,1);}
+.reveal.in-view{opacity:1;transform:translateY(0) scale(1);}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:2.96vh var(--gutter) 1.5vh calc(var(--gutter) - 52px);background:rgba(255,255,255,.55);backdrop-filter:blur(22px) saturate(190%) brightness(1.05);-webkit-backdrop-filter:blur(22px) saturate(190%) brightness(1.05);overflow:hidden;}
+@media (max-width:700px){
+  nav{padding-left:var(--gutter);}
+}
+nav::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.09;mix-blend-mode:overlay;pointer-events:none;}
+.nav-logo,.nav-links{position:relative;z-index:1;}
+.nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;}
+.nav-logo-icon{width:44px;height:44px;border-radius:50%;object-fit:cover;display:block;}
+.nav-links{display:flex;gap:2.19vw;}
 nav a{font-family:var(--f);font-size:16px;font-weight:600;line-height:120%;letter-spacing:-0.32px;color:#000;text-decoration:none;}
 nav a:hover{opacity:.5;}
 .footer-link:hover{opacity:.5;}
 
-.header{
-  padding:calc(2.96vh + clamp(18px,1.25vw,24px) + 48px) calc(var(--pad)*2) 40px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:clamp(24px,4vw,80px);
-}
+.header{padding:var(--nav-h) var(--gutter) 0;}
+.title-zone{min-height:clamp(220px,26vw,380px);display:flex;align-items:center;justify-content:space-between;gap:24px;}
 .header-title{
-  font-size:24px;
-  font-weight:450;
+  font-size:clamp(22px,1.85vw,32px);
+  font-weight:500;
   line-height:1.3;
   letter-spacing:0;
   color:#000;
-  max-width:60%;
+  max-width:min(900px,70%);
 }
-.header-meta{
-  font-size:clamp(13px,1vw,16px);
-  font-weight:450;
-  line-height:1.6;
-  color:rgba(0,0,0,0.4);
-  text-align:right;
-  flex-shrink:0;
-}
-.hero-img{width:calc(100% - var(--pad)*4);max-width:1774px;margin:0 calc(var(--pad)*2) 80px;display:block;border-radius:8px;}
+.tags{display:flex;gap:4px;flex-shrink:0;}
+.context-row{display:flex;gap:clamp(24px,2.78vw,48px);}
+.context-col{flex:0 0 auto;display:flex;flex-direction:column;gap:12px;}
+.context-col:last-child{max-width:280px;}
+.context-label{font-size:16px;font-weight:500;color:#000;line-height:1.2;}
+.context-value{font-size:16px;font-weight:500;color:#000;opacity:.5;line-height:1.2;}
+.hero-img{width:calc(100% - var(--gutter)*2);max-width:1774px;margin:80px var(--gutter) 96px;display:block;border-radius:8px;}
 
-.content{padding:80px calc(var(--pad)*2) 0;max-width:1400px;margin:0 auto;}
-.section{margin-bottom:96px;}
-.section-row{display:grid;grid-template-columns:1fr 1fr;align-items:start;margin-bottom:8px;}
-.section-title{padding-right:clamp(24px,3vw,60px);color:#2E4689;font-size:clamp(20px,1.5vw,24px);font-weight:400;letter-spacing:0;line-height:1.7;}
-.section-body{font-size:clamp(20px,1.5vw,24px);font-weight:400;line-height:1.7;color:#000;letter-spacing:0;}
+.content{padding:0 calc(var(--pad)*2) 0;max-width:1400px;margin:0 auto;}
 
 body{cursor:none;}
 *{cursor:none!important;}
-#cur{position:fixed;top:0;left:0;width:14px;height:14px;border-radius:50%;background:#2E4689;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width 0.2s,height 0.2s;}
+#cur{position:fixed;top:0;left:0;width:14px;height:14px;border-radius:50%;background:#000;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width 0.2s,height 0.2s;}
 #cur.large{width:36px;height:36px;}
-#cur-label{position:fixed;top:0;left:0;pointer-events:none;z-index:99999;font-family:var(--f);font-size:15px;font-weight:500;color:#fff;opacity:0;transform:translate(-50%,-50%);white-space:nowrap;background:#2E4689;border-radius:100px;padding:6px 14px;line-height:1;}
+#cur-label{position:fixed;top:0;left:0;pointer-events:none;z-index:99999;font-family:var(--f);font-size:15px;font-weight:500;color:#fff;opacity:0;transform:translate(-50%,-50%);white-space:nowrap;background:#000;border-radius:100px;padding:6px 14px;line-height:1;}
 #cur.pill ~ #cur-label,#cur.copied ~ #cur-label{opacity:1;}
 #cur.pill,#cur.copied{opacity:0;}
 
-/* --- content-area styles for this page, adapted from jasonspielman.com/gemini proportions ---
-   row-label repurposed as the section-title role ("Overview" etc): fixed 24px/500 to match reference.
-   row-body font-size flattened toward the reference's static 16px body copy; ceiling trimmed
-   from 24px to 17px and the vw coefficient from 1.25vw to 0.3vw so it barely scales on large screens. */
-.row{display:grid;grid-template-columns:1fr 1fr;align-items:start;column-gap:clamp(24px,3vw,60px);}
-.row-label{color:#727272;padding-right:clamp(24px,3vw,60px);font-size:clamp(16px,0.3vw,17px);font-weight:500;letter-spacing:0;line-height:1.7;}
-.row-subtitle{color:#000;font-size:clamp(16px,1.25vw,24px);font-weight:600;letter-spacing:0;line-height:1.7;margin-bottom:0;}
-.row-label-major{color:#000;font-size:clamp(16px,1.25vw,24px);font-weight:600;}
-.row-body{color:#000;font-size:clamp(16px,0.3vw,17px);font-weight:400;letter-spacing:0;line-height:1.7;}
-.lead .row-body{font-weight:450;}
-.content-block{margin:0;}
-.content-divider{border:none;border-top:1px solid rgba(46,70,137,0.4);margin:160px 0;}
+.row-subtitle{color:#000;font-size:18px;font-weight:600;letter-spacing:0;line-height:1.7;margin-bottom:16px;}
+.hover-preview{position:relative;display:inline-block;cursor:default;}
+.hover-preview-img{position:absolute;top:0;left:calc(100% + 16px);width:320px;border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,.18);opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:20;}
+.hover-preview:hover .hover-preview-img{opacity:1;}
+.row-body{color:rgba(48,48,48,.7);font-size:16px;font-weight:400;letter-spacing:0;line-height:1.7;}
+.problem-cards{display:flex;gap:16px;margin-top:35px;}
+.problem-col{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;}
+.problem-card{width:100%;background:#FAFAFA;border-radius:12px;padding:24px;box-sizing:border-box;}
+.problem-card-title{font-size:16px;font-weight:600;color:#000;line-height:1.5;margin-bottom:6px;}
+.problem-card-example{font-size:14px;font-weight:400;color:rgba(48,48,48,.6);line-height:1.5;}
+.problem-arrow{width:16px;height:32px;margin:0 0 12px;}
+.contextual-row{display:flex;gap:32px;align-items:flex-start;margin-top:35px;}
+.contextual-row .contextual-text{flex:1 1 0;min-width:0;}
+.qa-toggles{margin-top:6px;}
+.qa-toggle-check{display:none;}
+.qa-toggle-summary{cursor:pointer;display:flex;align-items:center;gap:10px;padding:16px 0;font-size:16px;font-weight:500;color:#000;line-height:1.6;}
+.qa-toggle-summary::before{content:"+";flex:0 0 auto;font-size:18px;font-weight:400;color:#000;line-height:1;transition:transform .3s cubic-bezier(.4,0,.2,1);}
+.qa-toggle:hover .qa-toggle-summary::before{transform:rotate(45deg);}
+.qa-toggle-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.4,0,.2,1);}
+.qa-toggle:hover .qa-toggle-body{grid-template-rows:1fr;}
+.qa-toggle-body-in{overflow:hidden;min-height:0;}
+.qa-toggle-body-in .row-body{color:rgba(48,48,48,.7);padding-left:15px;}
+.qa-toggle-body-in .row-body:last-child{padding-bottom:20px;}
+.qa-toggle-body-in .row-body.qa-conclusion{color:#000;font-weight:500;margin-top:6px;}
+.stat-cards{display:flex;gap:12px;margin-bottom:32px;}
+.stat-card{background:#D4F0FF;border-radius:2px;padding:6px 20px;}
+.stat-card-text{font-size:16px;font-weight:600;color:#000;line-height:1.5;}
+.contextual-row .content-img{flex:1 1 0;width:100%;min-width:0;margin-top:0;border-radius:4px;}
+@media (max-width:700px){.contextual-row{flex-direction:column;}.contextual-row .content-img{width:100%;}}
+.problem-outcome{font-size:14px;font-weight:500;color:#000;line-height:1.5;}
+@media (max-width:700px){.problem-cards{flex-direction:column;}}
+.row-list{color:rgba(48,48,48,.7);font-size:16px;font-weight:400;letter-spacing:0;line-height:1.7;list-style:disc;padding-left:20px;margin:0;}
+.row-list li{margin-bottom:4px;}
+.row-list li:last-child{margin-bottom:0;}
 .content-img{width:100%;display:block;border-radius:8px;}
-.content-video{width:100%;display:block;border-radius:8px;aspect-ratio:16/9;object-fit:cover;}
-.footer-row{align-items:center;}
-.row-overview-field{width:240px;}
+
+/* research/design blocks — matched to adobe.html's research-section */
+.research-block{display:grid;grid-template-columns:1fr 66.666%;column-gap:clamp(24px,3vw,60px);padding:140px 0;}
+.research-block-title{grid-column:1;align-self:start;}
+.research-block-content{grid-column:2;}
+@media (max-width:700px){
+  .research-block{grid-template-columns:1fr;padding:96px 0;}
+  .research-block-content{grid-column:1;}
+}
+/* jump nav — matched to adobe.html's toc-row */
+.toc-row{padding:64px 0 16px;background:#fff;}
+.toc-row .reveal{display:flex;align-items:center;flex-wrap:wrap;gap:16px;}
+.toc-label{flex:0 0 auto;white-space:nowrap;}
+.toc-tabs{display:flex;flex-wrap:wrap;gap:8px;}
+.toc-tab{text-decoration:none;transition:background-color .2s,color .2s;}
+.toc-tab:hover,.toc-tab.active{background:#000;color:#fff;}
+
+/* project overview — matched to adobe.html's overview-section */
+.overview-section{display:grid;grid-template-columns:1fr 66.666%;column-gap:clamp(24px,3vw,60px);}
+.overview-title{grid-column:1;align-self:start;padding-top:24px;font-size:clamp(16px,1.2vw,20px);font-weight:400;color:rgba(0,0,0,.65);}
+.overview-row{grid-column:2;display:flex;justify-content:space-between;align-items:flex-start;gap:24px;padding:24px 0;border-bottom:1px solid rgba(0,0,0,.12);}
+.overview-label{flex:0 0 auto;font-size:clamp(20px,1.5vw,26px);font-weight:500;color:#000;}
+.overview-body{flex:0 1 35em;font-size:16px;font-weight:400;color:rgba(48,48,48,.7);}
+.num-marker{color:#000;}
+@media (max-width:700px){
+  .overview-section{grid-template-columns:1fr;}
+  .overview-row{grid-column:1;flex-direction:column;align-items:flex-start;gap:8px;}
+}
+
+.metrics-row{display:grid;grid-template-columns:1fr 66.666%;column-gap:clamp(24px,3vw,60px);padding:36px 0 0;}
+.metrics-inner{grid-column:2;display:flex;justify-content:flex-end;}
+.metrics-content{flex:0 1 35em;display:flex;gap:clamp(32px,4vw,64px);text-align:center;}
+.metric-num{display:inline-block;font-size:clamp(28px,3vw,40px);font-weight:500;color:#000;letter-spacing:-0.02em;line-height:1.1;margin-bottom:8px;}
+.metric-desc{font-size:16px;font-weight:400;color:rgba(48,48,48,.7);}
+@media (max-width:700px){
+  .metrics-row{grid-template-columns:1fr;}
+  .metrics-inner{grid-column:1;}
+  .metrics-content{flex-direction:column;gap:32px;}
+}
+
+/* next project + footer — matched to adobe.html */
+.tag{border:1.5px solid #000;border-radius:99px;padding:0 12px;font-family:var(--f);font-size:15px;font-weight:500;line-height:22.5px;color:#000;white-space:nowrap;}
+.tags{display:flex;gap:4px;flex-shrink:0;}
+.title-pill{display:inline-block;width:fit-content;border:1.5px solid #000;border-radius:99px;padding:0 12px;font-size:15px;font-weight:500;line-height:22.5px;color:#000;white-space:nowrap;}
+.overview-title.title-pill{padding-top:0;margin-top:24px;}
+.next-project-link{text-decoration:none;color:inherit;padding:180px 0;}
+.np-card{display:flex;align-items:stretch;gap:32px;background:#FAFAFA;border-radius:12px;overflow:hidden;min-height:280px;}
+.np-card-left{flex:1 1 auto;display:flex;flex-direction:column;justify-content:space-between;padding:40px;}
+.np-tags{display:flex;gap:4px;margin-top:16px;}
+.np-readmore{display:flex;align-items:center;gap:12px;font-family:var(--f);font-size:15px;font-weight:600;color:#000;margin-top:32px;}
+.np-readmore-btn{width:40px;height:40px;border-radius:50%;background:#97BDCF;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .15s ease-out;}
+.np-card:hover .np-readmore-btn{transform:scale(1.12);}
+.np-readmore-btn svg{width:14px;height:14px;}
+.footer-contact{display:flex;flex-direction:column;align-items:flex-start;gap:6px;font-family:var(--f);font-size:14px;font-weight:500;color:#000;}
+.footer-contact .footer-link{display:inline-flex;align-items:center;gap:4px;color:#000;text-decoration:underline;text-underline-offset:2px;}
+.footer-contact .footer-link svg{width:12px;height:12px;flex-shrink:0;}
+.footer-contact #footer-email{cursor:none;}
+.ff-divider{height:1px;background:#1e1e1e;margin-top:36px;}
+.ff-copyright{font-family:var(--f);font-size:11px;font-weight:400;line-height:1.4;color:rgba(0,0,0,.4);margin-top:24px;}
+@media (max-width:700px){
+  .next-project-link{padding:96px 0;}
+  .np-card{flex-direction:column;}
+  .np-card-left{padding:24px;}
+}
 @media (max-width:768px){
-  .footer-row{flex-direction:column;align-items:flex-start;gap:12px;}
-  .footer-links{flex-direction:column;align-items:flex-start;gap:12px;}
-  .row-overview{grid-template-columns:1fr;row-gap:24px;}
-  .row-overview-meta{flex-direction:column;gap:16px;}
-  .row-overview-field{width:auto;}
-  .header{flex-direction:column;align-items:flex-start;gap:16px;}
+  .title-zone{flex-direction:column;align-items:flex-start;gap:16px;min-height:0;}
   .header-title{max-width:100%;}
-  .header-meta{text-align:left;}
-  .row{grid-template-columns:1fr;row-gap:8px;}
+  .context-row{flex-direction:column;gap:16px;}
+  .context-col:last-child{max-width:100%;}
 }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 </head>
 <body>
 <nav>
-  <a class="nav-logo" href="index.html">Sixian Chen</a>
+  <a class="nav-logo" href="index.html"><img src="favicon_goose.png" alt="" class="nav-logo-icon">Sixian Chen</a>
   <div class="nav-links">
-    <a href="https://drive.google.com/file/d/1cgW7ovfP7m9MkWgwG5d24OVGbs0Zml-Y/view?usp=sharing" target="_blank">Resume</a>
-    <a href="about.html">About</a>
+    <a href="https://drive.google.com/file/d/1cgW7ovfP7m9MkWgwG5d24OVGbs0Zml-Y/view?usp=sharing" target="_blank" rel="noopener noreferrer" onclick="gtag('event','resume_click');">Resume</a>
+    <a href="about.html" id="about-link">About</a>
   </div>
 </nav>
 <div id="pnav"><div id="pnav-fill"></div></div>
 <div id=cur></div><span id=cur-label></span>
 
 <div class="header">
-  <p class="header-title">Enable grocery associates to resolve customer issues on-site @ Kroger</p>
-  <p class="header-meta">B2B2C / Desktop / Mobile</p>
+  <div class="title-zone reveal">
+    <p class="header-title">Enable grocery associates to resolve customer issues on-site @Kroger</p>
+    <div class="tags"><span class="tag">Enterprise</span><span class="tag">Android</span><span class="tag">Dashboard</span></div>
+  </div>
+  <div class="context-row reveal">
+    <div class="context-col">
+      <p class="context-label">Timeline</p>
+      <p class="context-value">3 months</p>
+    </div>
+    <div class="context-col">
+      <p class="context-label">Role</p>
+      <p class="context-value">Product Designer</p>
+    </div>
+    <div class="context-col">
+      <p class="context-label">Team</p>
+      <p class="context-value">3 Designers, Kroger client team</p>
+    </div>
+  </div>
+  </div>
 </div>
 
-<img class="hero-img" src="kroger_hero_projectpage.png" alt="Kroger project hero">
+<img class="hero-img reveal" src="kroger_hero_projectpage.png" alt="Kroger project hero">
 
 <div class="content">
 
-  <div class="content-block lead">
-    <div class="row row-overview">
-      <div>
-        <p class="row-label">Overview</p>
-        <p class="row-body">I designed a cross-system, cross-device workflow that empowers store associates to resolve customer order issues on the spot. It led to a 15% drop in refund requests and 6% improvement in customer satisfaction.</p>
-      </div>
-      <div class="row-overview-meta" style="display:flex;gap:40px;">
-        <div class="row-overview-field">
-          <p class="row-label">Team</p>
-          <p class="row-body">3 Designers, Kroger client team</p>
+  <div class="overview-section" id="overview">
+    <p class="overview-title title-pill reveal">Project Overview</p>
+    <div class="overview-row reveal">
+      <p class="overview-label">Problem</p>
+      <p class="overview-body">Curbside pickup customers were not able to resolve order issues on-site, such as a leaking milk carton, because orders were delivered by Kroger associates but picked up by vendors.</p>
+    </div>
+    <div class="overview-row reveal">
+      <p class="overview-label">Solution</p>
+      <p class="overview-body">Learning that a real-time data connection between Kroger and vendor's systems wasn't business feasible, I designed an end-to-end workflow where associates can verify issues on the spot and approve refunds immediately, so customers can repurchase items right away.<br><br>The solution consists of <span class="num-marker">❶</span> <span style="text-decoration:underline;text-underline-offset:2px;">a mobile flow</span> considering one-handed, outdoor context, and <span class="num-marker">❷</span> a new view-switching tab on the <span style="text-decoration:underline;text-underline-offset:2px;">desktop dashboard</span>, allowing managers to monitor refunds and prevent misuse.</p>
+    </div>
+  </div>
+
+  <div class="metrics-row">
+    <div class="metrics-inner">
+      <div class="metrics-content">
+        <div class="metric reveal">
+          <p class="metric-num" data-value="15.3" data-decimals="1" data-prefix="-" data-suffix="%">-0.0%</p>
+          <p class="metric-desc">escalation requests</p>
         </div>
-        <div class="row-overview-field">
-          <p class="row-label">Duration</p>
-          <p class="row-body">3 months</p>
+        <div class="metric reveal">
+          <p class="metric-num" data-value="5.8" data-decimals="1" data-prefix="+" data-suffix="%">+0.0%</p>
+          <p class="metric-desc">customer satisfaction</p>
         </div>
       </div>
     </div>
   </div>
 
-  <hr class="content-divider">
+  <img class="content-img" style="margin-top:96px;border-radius:4px;" src="kroger_display_page.png" alt="Kroger display page">
 
-  <div class="content-block lead">
-    <div class="row"><p class="row-label">Problem</p><p class="row-body">Customer pickup issues cannot be solved on-site</p></div>
-    <div class="row" style="margin-top:60px;"><p class="row-label">Root Cause</p><p class="row-body">Communication gap between store associates and vendors</p></div>
-    <div class="row" style="margin-top:60px;"><div></div><img class="content-img" src="kroger_problem.png" alt="Kroger problem"></div>
-    <div class="row" style="margin-top:60px;"><p class="row-label">Constraints</p><p class="row-body">Balance the business partnership model with improved employee and customer experiences.</p></div>
-    <div class="row" style="margin-top:60px;"><p class="row-label">Solution</p><p class="row-body">Display Checkout Order Details<br>Employee Verification for Faster Refunds</p></div>
-
-    <video class="content-video" style="margin-top:200px;" src="kroger_desktop_video.mp4" poster="kroger_hero_projectpage.png" autoplay muted loop playsinline></video>
-    <video class="content-video" style="margin-top:40px;" src="kroger_mobile_video.mp4" autoplay muted loop playsinline></video>
-  </div>
-
-  <hr class="content-divider">
-
-  <div class="content-block">
-    <div class="row">
-      <p class="row-label row-label-major">Research</p>
-      <div>
-        <p class="row-subtitle">Contextual Inquiry</p>
-        <p class="row-body">Define how success of this project is for both customers and employees;<br>Identify design constraints such as limited store labor</p>
-      </div>
-    </div>
-    <div class="row" style="margin-top:35px;">
-      <div></div>
-      <img class="content-img" src="kroger_research.png" alt="Kroger research">
-    </div>
-
-    <div class="row" style="margin-top:80px;">
-      <div></div>
-      <div>
-        <p class="row-subtitle">Competitive Analysis</p>
-        <p class="row-body">Learn about what service competitors are providing; Set industrious benchmark for this project</p>
-      </div>
-    </div>
-    <img class="content-img" style="margin-top:35px;" src="kroger_competitor.png" alt="Kroger competitive analysis">
-  </div>
-
-  <hr class="content-divider">
-
-  <div class="content-block">
-    <div class="row">
-      <p class="row-label row-label-major">Design</p>
-      <div>
-        <p class="row-subtitle">Display Checkout Order Details</p>
-        <p class="row-body">Inform associates substitutes, out of stock items and misplacements</p>
-      </div>
-    </div>
-    <img class="content-img" style="margin-top:35px;" src="kroger_design_desktop.png" alt="Kroger desktop design">
-
-    <div class="row" style="margin-top:80px;">
-      <div></div>
-      <div>
-        <p class="row-subtitle">Employee verification for faster refunds</p>
-        <p class="row-body">Confirm on-site issues, allow customers to get refunded and re-purchase</p>
-      </div>
-    </div>
-    <img class="content-img" style="margin-top:35px;" src="kroger_design_mobile.png" alt="Kroger mobile design">
-
-    <div class="row" style="margin-top:100px;">
-      <div></div>
-      <div>
-        <p class="row-subtitle">Mobile UI Refresh</p>
-        <p class="row-body">Re-organized information architecture and visual hierarchy, designed for outdoor environment and single-handed operation</p>
-      </div>
-    </div>
-    <img class="content-img" style="margin-top:35px;" src="kroger_design_mobilecomparison.png" alt="Kroger mobile before/after comparison">
-
-    <div class="row" style="margin-top:100px;">
-      <div></div>
-      <div>
-        <p class="row-subtitle">Responsive design for desktop vs. mobile</p>
-        <p class="row-body">Design for different users, needs, environment</p>
-      </div>
-    </div>
-    <img class="content-img" style="margin-top:35px;" src="kroger_design_desktopmobilecomparision.png" alt="Kroger desktop vs mobile comparison">
-  </div>
-
-  <div class="content-block" style="margin-top:36px;">
-    <div class="section-row" style="margin-bottom:24px;">
-      <p class="row-label row-label-major">Impact</p>
-      <div></div>
-    </div>
-    <div style="display:flex;gap:24px;">
-      <div style="flex:1;padding:32px;background:#F5F7FC;border-radius:8px;">
-        <p style="font-size:clamp(32px,3vw,48px);font-weight:700;color:#2E4689;letter-spacing:-0.03em;line-height:1.1;margin-bottom:8px;">15.3%</p>
-        <p class="row-body">reduction in escalation requests</p>
-      </div>
-      <div style="flex:1;padding:32px;background:#F5F7FC;border-radius:8px;">
-        <p style="font-size:clamp(32px,3vw,48px);font-weight:700;color:#2E4689;letter-spacing:-0.03em;line-height:1.1;margin-bottom:8px;">5.8%</p>
-        <p class="row-body">improvement in customer satisfaction</p>
+  <div class="toc-row">
+    <div class="reveal">
+      <p class="context-label toc-label">Jump to where you're interested in most -&gt;</p>
+      <div class="toc-tabs">
+        <a href="#context" class="tag toc-tab">Context</a>
+        <a href="#research" class="tag toc-tab">Research</a>
+        <a href="#design-strategy" class="tag toc-tab">Design Strategy</a>
+        <a href="#design-solution" class="tag toc-tab">Design Solution</a>
       </div>
     </div>
   </div>
 
-  <div class="footer-row" style="display:flex;justify-content:space-between;margin-top:96px;padding-bottom:2.96vh;">
-    <span style="font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:-0.48px;color:rgba(0,0,0,0.2);">@2026 Vibe coded with Claude</span>
-    <div class="footer-links" style="display:flex;gap:2.19vw;">
-      <a href="https://www.linkedin.com/in/sixian-chen-51029125a/" target="_blank" class="footer-link" style="font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:-0.48px;color:#000;text-decoration:none;">LinkedIn</a>
-      <span id="footer-email" style="font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:-0.48px;color:#000;cursor:none;">chen_sixian@outlook.com</span>
+  <div class="research-block" id="context">
+    <p class="title-pill research-block-title">Context</p>
+    <div class="research-block-content">
+      <p class="row-subtitle">Kroger partners with vendors to prepare pickup orders in 2 hours, but customer cannot resolve issues on-site</p>
+      <p class="row-body">Kroger has one of the biggest pickup service in the U.S., and this new business model boosted order growth by providing faster service.<br><br>However, because one order is handled by two different companies, customers cannot resolve issues on-site.</p>
+      <img class="content-img" style="width:80%;margin:35px auto 0;" src="kroger_problem.png" alt="Kroger problem">
     </div>
   </div>
+
+  <div class="research-block" id="research">
+    <p class="title-pill research-block-title">Research</p>
+    <div class="research-block-content">
+      <p class="row-subtitle">Navigating through ambiguity</p>
+      <p class="row-body">This project didn't start with a neat PRD file telling me what to do.<br><br>I mapped out the blueprint with pieced information to understand the problem space, by interviewing Kroger team, digging through Reddit channels and ordering groceries by myself.</p>
+      <img class="content-img" style="margin-top:35px;" src="kroger_blueprint.png" alt="Kroger blueprint">
+      <p class="row-body" style="margin-top:35px;">I learnt that "customers cannot resolve issues on-site" turned out to be a set of problems that should be categorized and dealt with differently.</p>
+      <div class="problem-cards">
+        <div class="problem-col">
+          <div class="problem-card">
+            <p class="problem-card-title">Product Issue</p>
+            <p class="problem-card-example">e.g. leaking milk</p>
+          </div>
+          <svg class="problem-arrow" viewBox="0 0 12 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 1V20M6 20L2 16M6 20L10 16" stroke="#000" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <p class="problem-outcome">Some items cannot be returned due to store policy</p>
+        </div>
+        <div class="problem-col">
+          <div class="problem-card">
+            <p class="problem-card-title">Vendor Issue</p>
+            <p class="problem-card-example">e.g. wrong item</p>
+          </div>
+          <svg class="problem-arrow" viewBox="0 0 12 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 1V20M6 20L2 16M6 20L10 16" stroke="#000" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <p class="problem-outcome">Out of scope due to business constraints</p>
+        </div>
+        <div class="problem-col">
+          <div class="problem-card">
+            <p class="problem-card-title">Handoff Issue</p>
+            <p class="problem-card-example">e.g. wrong bag label</p>
+          </div>
+          <svg class="problem-arrow" viewBox="0 0 12 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 1V20M6 20L2 16M6 20L10 16" stroke="#000" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <p class="problem-outcome">Technically feasible</p>
+        </div>
+      </div>
+
+      <p class="row-subtitle" style="margin-top:120px;">Contextual inquiry in Kroger stores</p>
+      <div class="contextual-row">
+        <div class="contextual-text">
+          <div class="stat-cards">
+            <div class="stat-card">
+              <p class="stat-card-text">2 stores</p>
+            </div>
+            <div class="stat-card">
+              <p class="stat-card-text">6 employees</p>
+            </div>
+          </div>
+          <p class="row-body">I decided to conduct contextual inquiries in field at this point, to answer the following questions</p>
+          <div class="qa-toggles">
+            <div class="qa-toggle">
+              <input type="checkbox" id="qa-workflow" class="qa-toggle-check">
+              <label for="qa-workflow" class="qa-toggle-summary">How should any new workflow integrate into store associates' day-to-day work? What are their needs and concerns?</label>
+              <div class="qa-toggle-body">
+                <div class="qa-toggle-body-in">
+                  <p class="row-body">Store associates work under time pressure. This screen hanging in the operation room reminds them how long a customer has been waiting in the parking lot.</p>
+                  <p class="row-body qa-conclusion">📝 This means any new workflow should be completed in a few minutes.</p>
+                </div>
+              </div>
+            </div>
+            <div class="qa-toggle">
+              <input type="checkbox" id="qa-environment" class="qa-toggle-check">
+              <label for="qa-environment" class="qa-toggle-summary">How does the store environment affect their workflow, and interaction with the device?</label>
+              <div class="qa-toggle-body">
+                <div class="qa-toggle-body-in">
+                  <p class="row-body">Store associates deliver orders with a flatbed cart from the storage room to the outdoor parking lot.</p>
+                  <p class="row-body qa-conclusion">📝 This means my design should consider high contrast and single-hand operation.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <img class="content-img" src="kroger_research.png" alt="Kroger research">
+      </div>
+    </div>
+  </div>
+
+  <div class="research-block" id="design-strategy" style="padding-top:40px;">
+    <p class="title-pill research-block-title">Design Strategy</p>
+    <div class="research-block-content">
+      <p class="row-subtitle">Instead of overloading employees with all customer needs, I prioritized high ROI cases</p>
+      <p class="row-body">As a designer, I make data-driven decisions.<br><br>Learning about the constraints in research, I realized that before diving into design solutions, I had to define the scope of the problem I solve.</p>
+      <img class="content-img" style="margin-top:35px;" src="kroger_decision_tree.png" alt="Kroger decision tree">
+      <div class="problem-card" style="margin-top:20px;border-radius:4px;">
+        <p class="row-body" style="color:#000;">👉 Although handoff issues are feasible to solve (e.g., vendor put one customer's item into another customer's bag when checking out), this happens rarely according to employees, and going back to the operation room rummaging through bags is very time consuming. As a result, I decided not to include this scenario in the final solution.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="research-block" id="design-solution">
+    <p class="title-pill research-block-title">Design Solution</p>
+    <div class="research-block-content">
+      <p class="row-subtitle">End-to-end verification workflow</p>
+      <p class="row-body">My final design solution is an end-to-end workflow that allows employees to initiate a refund on behalf of customers, so that customers can get the verified refund immediately and repurchase.</p>
+
+      <p class="row-subtitle" style="margin-top:80px;">Not just screens, I designed policies as well</p>
+      <p class="row-body">To make it feasible, I also considered the following questions:<br><br><span class="num-marker">❶</span> What refund reasons are accepted?<br><span class="num-marker">❷</span> How does the company prevent abuse of this feature?</p>
+    </div>
+  </div>
+
+  <div class="research-block" id="mobile">
+    <p class="title-pill research-block-title">Mobile</p>
+    <div class="research-block-content">
+      <p class="row-subtitle hover-preview">Kroger associates use a <span style="color:#1E6FFF;font-weight:700;">Zebra device</span> for delivery<img class="hover-preview-img" src="kroger_zebra.jpg" alt="Zebra device"></p>
+      <p class="row-body">It is an Android mobile device that has enterprise software installed. Employees rely on this device to take orders from the queue and mark any order as completed.</p>
+
+      <p class="row-subtitle" style="margin-top:80px;">Defining user flow</p>
+      <p class="row-body">I mapped out <span style="text-decoration:underline;text-underline-offset:2px;">not just the happy path</span>, but also edge cases and error paths that could happen.<br><br>The challenge at this step was that this is a completely new workflow with no user data for reference, so I designed the sequence based on reasoning about the usage context: associates work outdoors, hold a physical item, and need to move quickly.</p>
+      <div class="problem-card" style="margin-top:20px;border-radius:4px;">
+        <p class="row-body" style="color:#000;">👉 For example, evidence capture (taking a photo) immediately follows item identification, because this way associates only need to lift the damaged item once before they can focus on filling out the form. I validated this assumption in later user testing.</p>
+      </div>
+    </div>
+    <img class="content-img" src="kroger_mobile_journey_map.png" alt="Kroger mobile journey map" style="grid-column:1/-1;margin-top:48px;">
+    <div class="research-block-content" style="margin-top:80px;">
+      <p class="row-subtitle">Primary workflow</p>
+      <p class="row-body">Employees first scan the item barcode, then take a picture to document the issue, fill out the refund reason, and submit. This refund request will be automatically approved as it is initiated by an employee, and customers will also receive a push notification for confirmation.</p>
+    </div>
+    <img class="content-img" src="kroger_primary_workflow.png" alt="Kroger primary workflow" style="grid-column:1/-1;margin-top:35px;">
+    <div class="research-block-content" style="margin-top:100px;">
+      <p class="row-subtitle">Error path: when barcode not working</p>
+      <p class="row-body">When the barcode is broken, users can search for the item in the order as an alternative way to proceed.<br><br>Since produce items without a barcode are a <span style="text-decoration:underline;text-underline-offset:2px;">high-frequency</span> case in the pickup scenario, I also designed a quick bottom overlay that lets employees choose between the two paths upfront.</p>
+    </div>
+    <img class="content-img" src="kroger_error_path.png" alt="Kroger error path" style="grid-column:1/-1;margin-top:35px;">
+    <div class="research-block-content" style="margin-top:100px;">
+      <p class="row-subtitle">Key decision 1: what if a customer has issues with multiple items?</p>
+      <p class="row-body">I left a secondary button on the completion page for employees to start another refund faster, but I decided not to allow multiple items in one submission.<br><br>This is because<br><span class="num-marker">❶</span> it's a <span style="text-decoration:underline;text-underline-offset:2px;">low-frequency action</span>, and my priority is to keep the workflow simple since employees value efficiency,<br><span class="num-marker">❷</span> <span style="text-decoration:underline;text-underline-offset:2px;">adding friction</span> nudges employees to treat each refund case more carefully, as each submission leads to a <span style="text-decoration:underline;text-underline-offset:2px;">financial result</span>.</p>
+    </div>
+    <img class="content-img" src="kroger_multiple_refund.png" alt="Kroger multiple refund" style="grid-column:1/-1;margin-top:35px;">
+    <div class="research-block-content" style="margin-top:100px;">
+      <p class="row-subtitle">Key decision 2: how do I design for outdoor environment while preserving brand identity?</p>
+      <p class="row-body">The on-site refund workflow happens in the parking lot, which requires the UI to <span class="num-marker">❶</span> be sunlight-readable, and <span class="num-marker">❷</span> optimize for single-handed operation.<br><br>This means I had to make product-level customizations to the design system's components. While keeping Kroger's brand colors and design style wherever possible, I designed for <span style="text-decoration:underline;text-underline-offset:2px;">clear component boundaries, larger typography, higher contrast, full-width buttons, and the most concise information possible</span>.</p>
+    </div>
+    <img class="content-img" src="kroger_ui_brand.png" alt="Kroger UI brand customization" style="grid-column:1/-1;margin-top:35px;">
+  </div>
+
+  <div class="research-block" id="desktop">
+    <p class="title-pill research-block-title">Desktop</p>
+    <div class="research-block-content">
+      <p class="row-subtitle">Kroger managers use the desktop system to monitor orders 🖥️</p>
+      <p class="row-body">After designing the mobile experience for associates, I zoomed out to see Kroger's enterprise systems as one <span style="text-decoration:underline;text-underline-offset:2px;">connected ecosystem</span>, since introducing a new workflow meant every part of that system had to account for it, not just the associate-facing side.</p>
+
+      <p class="row-subtitle" style="margin-top:80px;">Introducing a separate view for completed orders</p>
+      <p class="row-body">User needs<br>Store managers want to quickly review refunded orders to make sure no employee is abusing this process for improper profit.</p>
+      <p class="row-body" style="margin-top:24px;">Key design</p>
+      <ul class="row-list" style="margin-top:8px;">
+        <li>Move completed orders from the folded table section to another tab</li>
+        <li>Allow managers to filter out refunded orders and sort by employees</li>
+        <li>Cut off redundant information in the table for less cognitive load</li>
+      </ul>
+      <p class="row-body" style="margin-top:24px;">Outcome: Managers can answer "is there any abnormal refund activity happening today" at a glance.</p>
+    </div>
+    <img class="content-img" src="kroger_desktop.png" alt="Kroger desktop" style="grid-column:1/-1;margin-top:35px;">
+  </div>
+
+  <a class="research-block next-project-link" href="aes_v2.html" onclick="gtag('event','project_click',{project_name:'aes'});">
+    <p class="header-title research-block-title">Next Project</p>
+    <div class="research-block-content">
+      <div class="np-card">
+        <div class="np-card-left">
+          <div>
+            <p class="row-subtitle">Redesigning outage map to provide more clarity in reporting workflows @AES</p>
+            <div class="np-tags"><span class="tag">Customer Portal</span><span class="tag">Utilities</span></div>
+          </div>
+          <div class="np-readmore">
+            <span>Read More</span>
+            <span class="np-readmore-btn"><svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 6H10M10 6L6.5 2.5M10 6L6.5 9.5" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+        </div>
+        <div class="np-card-right"><!-- image TBD --></div>
+      </div>
+    </div>
+  </a>
+
 </div>
 
+<div style="padding:0 var(--gutter) 2.96vh;margin-top:80px;">
+  <div class="footer-contact">
+    <span id="footer-email">chen_sixian@outlook.com</span>
+    <a class="footer-link" href="https://www.linkedin.com/in/sixian-chen-51029125a/" target="_blank" rel="noopener noreferrer">LinkedIn<svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 10L10 2M10 2H3M10 2V9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  </div>
+  <div class="ff-divider"></div>
+  <p class="ff-copyright">@2026 This website is vibe coded with Claude and hosted on Github.</p>
+</div>
+
+<script>
+document.querySelectorAll('.header-title').forEach(el=>{
+  el.textContent = el.textContent.replace(/-/g, '‑');
+  const words = el.textContent.trim().split(/\s+/);
+  if(words.length > 3){
+    const head = words.slice(0, -3).join(' ');
+    const tail = words.slice(-3).join(' ');
+    el.textContent = head + ' ' + tail;
+  }
+});
+</script>
+<script>
+(function(){
+  function animateCount(el){
+    const target = parseFloat(el.dataset.value);
+    const decimals = el.dataset.decimals ? parseInt(el.dataset.decimals) : 0;
+    const suffix = el.dataset.suffix || '';
+    const prefix = el.dataset.prefix || '';
+    const duration = 1400;
+    const start = performance.now();
+    function tick(now){
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = prefix + (target * eased).toFixed(decimals) + suffix;
+      if(p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  const revealObserver = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        if(entry.target.classList.contains('metric')){
+          const num = entry.target.querySelector('.metric-num');
+          if(num) animateCount(num);
+        }
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.15});
+  document.querySelectorAll('.header, .overview-section, .metrics-row, .toc-row').forEach(section=>{
+    section.querySelectorAll('.reveal').forEach((el,i)=>{
+      el.style.transitionDelay = (i*120)+'ms';
+      revealObserver.observe(el);
+    });
+  });
+  document.querySelectorAll('.hero-img.reveal').forEach(el=>{
+    el.style.transitionDelay = '0ms';
+    revealObserver.observe(el);
+  });
+})();
+</script>
 <script>
 const lenis = new Lenis({duration:1.2,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),overscroll:false});
 function raf(time){lenis.raf(time);requestAnimationFrame(raf);}
@@ -249,6 +502,29 @@ requestAnimationFrame(raf);
 lenis.on('scroll',({scroll,limit})=>{
   document.getElementById('pnav-fill').style.height=(scroll/limit*100)+'%';
 });
+
+(function(){
+  const navH = document.querySelector('nav').offsetHeight;
+  const tocMap = {};
+  document.querySelectorAll('.toc-tab').forEach(tab=>{
+    tocMap[tab.getAttribute('href').slice(1)] = tab;
+    tab.addEventListener('click', e=>{
+      e.preventDefault();
+      const target = document.getElementById(tab.getAttribute('href').slice(1));
+      if(target) lenis.scrollTo(target, {offset:-(navH+24)});
+    });
+  });
+  const sectionEls = Object.keys(tocMap).map(id=>document.getElementById(id)).filter(Boolean);
+  const tocObserver = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        Object.values(tocMap).forEach(t=>t.classList.remove('active'));
+        tocMap[entry.target.id].classList.add('active');
+      }
+    });
+  }, {rootMargin:`-${navH+1}px 0px -70% 0px`, threshold:0});
+  sectionEls.forEach(el=>tocObserver.observe(el));
+})();
 </script>
 <script>
 const cur = document.getElementById('cur');
@@ -260,7 +536,7 @@ document.addEventListener('mousemove', e=>{
   curLabel.style.top=e.clientY+'px';
 });
 
-document.querySelectorAll('.footer-link').forEach(el=>{
+document.querySelectorAll('.footer-link, nav a').forEach(el=>{
   el.addEventListener('mouseenter',()=>cur.classList.add('large'));
   el.addEventListener('mouseleave',()=>cur.classList.remove('large'));
 });
